@@ -1,0 +1,85 @@
+<html><head><title>Bill Mill</title>
+<link rel="stylesheet" href="css/960css/reset.css" />
+<link rel="stylesheet" href="css/960css/960.css" />
+<link rel="stylesheet" href="css/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body>
+<div class="container_16">
+    <div class="grid_3">
+        <a href="http://billmill.org"><img src="images/logo.png" width="136" height="94"></a>
+    </div>
+    <div class="clear"></div>
+
+    <div class="grid_13 prefix_3 content">
+        <h1>New For Cherry Blossom: Syntax Highlighting</h1>
+
+        <p>This morning's project was to write a <a 
+href="http://billmill.org:9561/cherry_blossom">cherry blossom</a> plugin that 
+would use <a href="http://pygments.org">pygments</a> to highlight inline source 
+code in entries. If you load this plugin, just put code in a block like: 
+&lt;code lang="language_name"&gt; ...code... &lt;/code&gt;<p>
+
+I think it's a nice illustration of the simplicity of cherry blossom; see how 
+little it gets in your way. The source is 42 lines long, and only five of them 
+are devoted to making Cherry Blossom happy.<p>
+To test it out, here's its own source code. Note that you can't have the token 
+&lt;/code&gt; in your source; I avoided it with an empty comment in the 
+regex:<p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #4070a0; font-style: italic">&quot;&quot;&quot;Prerequisites: pygments (http://pygments.org)</span>
+
+<span style="color: #4070a0; font-style: italic">Configuration for SyntaxHighlight module should be in a [SyntaxHighlight] </span>
+<span style="color: #4070a0; font-style: italic">    secion of your cherryblossom.conf file.</span>
+
+<span style="color: #4070a0; font-style: italic">options:</span>
+<span style="color: #4070a0; font-style: italic">syntax_style (string): Style to use for highlighting text. Check out the style </span>
+<span style="color: #4070a0; font-style: italic">    documentation at http://pygments.org/docs/styles/ and take the styles out </span>
+<span style="color: #4070a0; font-style: italic">    for a test drive at http://pygments.org/demo/&quot;&quot;&quot;</span>
+
+<span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">re</span>
+<span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">pygments</span>
+<span style="color: #007020; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">pygments.lexers</span> <span style="color: #007020; font-weight: bold">import</span> get_lexer_by_name
+<span style="color: #007020; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">pygments.formatters</span> <span style="color: #007020; font-weight: bold">import</span> HtmlFormatter
+<span style="color: #007020; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">utils</span> <span style="color: #007020; font-weight: bold">import</span> config
+
+CODE_RE <span style="color: #666666">=</span> re<span style="color: #666666">.</span>compile(<span style="color: #4070a0">&quot;&lt;code (?:\s*lang=(.*?))*&gt;(.*?)&lt;(?#)/code&gt;&quot;</span>, re<span style="color: #666666">.</span>S)
+
+<span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">SyntaxHighlight</span>(<span style="color: #007020">object</span>):
+    <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__init__</span>(<span style="color: #007020">self</span>, parent): <span style="color: #007020; font-weight: bold">pass</span>
+
+    <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">cb_story_start</span>(<span style="color: #007020">self</span>, entries):
+        <span style="color: #007020">self</span><span style="color: #666666">.</span>render_css <span style="color: #666666">=</span> <span style="color: #007020">True</span>
+
+    <span style="color: #60a0b0; font-style: italic">#story is an Entry object</span>
+    <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">cb_story</span>(<span style="color: #007020">self</span>, story):
+        <span style="color: #007020; font-weight: bold">for</span> lang, code <span style="color: #007020; font-weight: bold">in</span> CODE_RE<span style="color: #666666">.</span>findall(story<span style="color: #666666">.</span>_text):
+            <span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020; font-weight: bold">not</span> lang: lang <span style="color: #666666">=</span> <span style="color: #4070a0">&quot;python&quot;</span>
+
+            <span style="color: #007020; font-weight: bold">try</span>:
+                lexer <span style="color: #666666">=</span> get_lexer_by_name(lang<span style="color: #666666">.</span>strip(<span style="color: #4070a0">&#39;&quot;&#39;</span>))
+            <span style="color: #007020; font-weight: bold">except</span> ClassNotFound:
+                <span style="color: #007020; font-weight: bold">return</span>
+            formatter <span style="color: #666666">=</span> HtmlFormatter(style<span style="color: #666666">=</span>config(<span style="color: #4070a0">&quot;syntax_style&quot;</span>, <span style="color: #4070a0">&quot;default&quot;</span>, 
+                <span style="color: #4070a0">&quot;SyntaxHighlight&quot;</span>))
+            code <span style="color: #666666">=</span> pygments<span style="color: #666666">.</span>highlight(code, lexer, formatter)
+
+            <span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>render_css:
+                code <span style="color: #666666">=</span> <span style="color: #4070a0">&#39;&lt;style type=&quot;text/css&quot;&gt;</span><span style="color: #70a0d0; font-style: italic">%s</span><span style="color: #4070a0">&lt;/style&gt;</span><span style="color: #4070a0; font-weight: bold">\</span><span style="color: #4070a0">n</span><span style="color: #70a0d0; font-style: italic">%s</span><span style="color: #4070a0">&#39;</span> <span style="color: #666666">%</span> \
+                    (formatter<span style="color: #666666">.</span>get_style_defs(), code)
+                <span style="color: #007020">self</span><span style="color: #666666">.</span>render_css <span style="color: #666666">=</span> <span style="color: #007020">False</span>
+            story<span style="color: #666666">.</span>_text <span style="color: #666666">=</span> CODE_RE<span style="color: #666666">.</span>sub(code, story<span style="color: #666666">.</span>_text, <span style="color: #40a070">1</span>)
+</pre></div>
+
+<p>I should also mention, kudos to the pygments guys, your module rocks.
+<p><b>UPDATE</b>: clearly there's some kinks with the RSS, I'm working on those.
+<p><b>UPDATE 2</b>: Rss should be fixed. I hadn't noticed that you were allowed
+to simply enclose encoded data in the description field.
+
+
+        <h4><a href="http://billmill.org/syntax.html">May 26, 2007</a></h4>
+    </div>
+
+    <div class="grid_16 footer">
+        Bill Mill • <a href="mailto:bill.mill@gmail.com">bill.mill@gmail.com</a>
+    </div>
+</div>
+</body></html>

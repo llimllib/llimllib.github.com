@@ -1,0 +1,158 @@
+<html><head><title>Bill Mill</title>
+<link rel="stylesheet" href="css/960css/reset.css" />
+<link rel="stylesheet" href="css/960css/960.css" />
+<link rel="stylesheet" href="css/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body>
+<div class="container_16">
+    <div class="grid_3">
+        <a href="http://billmill.org"><img src="images/logo.png" width="136" height="94"></a>
+    </div>
+    <div class="clear"></div>
+
+    <div class="grid_13 prefix_3 content">
+        <h1>Iterating Over Database Results in C#</h1>
+
+        <p>At my job, we use what is essentially a custom C# ORM. Soon after I arrived, 
+we adopted this idiom to pull a DB connection from the pool and run a query:
+
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"> <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Something</span>
+{
+    <span style="color: #007020; font-weight: bold">public</span> <span style="color: #902000">int</span> <span style="color: #06287e">ourIdiom</span>(<span style="color: #902000">long</span> identifier)
+    {
+        <span style="color: #007020; font-weight: bold">using</span> (DBConnection db = <span style="color: #007020; font-weight: bold">new</span> DBConnection())
+        {
+            <span style="color: #007020; font-weight: bold">using</span> (IDataReader rec = db.execQuery(<span style="color: #4070a0">@&quot;</span>
+<span style="color: #4070a0">                SELECT some, rows</span>
+<span style="color: #4070a0">                FROM  Table1 t1, Table2 t2</span>
+<span style="color: #4070a0">                WHERE t1.t2id = t2.id</span>
+<span style="color: #4070a0">                AND   t1.id = ?&quot;</span>,
+                identifier))
+            {
+                <span style="color: #007020; font-weight: bold">while</span> (rec.Read())
+                    doSomething();
+                <span style="color: #007020; font-weight: bold">return</span> <span style="color: #40a070">1</span>;
+            }
+        }
+    }
+}
+</pre></div>
+
+<p>Which is nice because it disposes of both the connection and the dataReader 
+properly on failure, but ugly because it uses a whole bunch of boilerplate.  
+Unfortunately, because doSomething() needs to execute inside both 
+<code>using</code> statements, and we weren't using C# 2.0 until a few months 
+ago, the only way to avoid the boilerplate would have been to pass in 
+delegates.
+<p>This would have been just as ugly as keeping the boilerplate in the code, so 
+we stuck with the using<sup>2</sup> idiom.
+<p>Since our switchover to 2.0 a few months ago, I've had an idea that I could 
+make this idiom more concise and remove some boilerplate that I didn't get a 
+chance to try until this week. Using 2.0's iterators, which seem awfully 
+familiar from my python work, that can be reduced to:
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Something</span>
+{
+    <span style="color: #007020; font-weight: bold">public</span> <span style="color: #902000">int</span> <span style="color: #06287e">ourIdiom</span>(<span style="color: #902000">long</span> identifier)
+    {
+        <span style="color: #007020; font-weight: bold">foreach</span> (IDataReader rec <span style="color: #007020; font-weight: bold">in</span> <span style="color: #007020; font-weight: bold">new</span> SQL().Query(<span style="color: #4070a0">@&quot;</span>
+<span style="color: #4070a0">            SELECT some, rows</span>
+<span style="color: #4070a0">            FROM  Table1 t1, Table2 t2</span>
+<span style="color: #4070a0">            WHERE t1.t2id = t2.id</span>
+<span style="color: #4070a0">            AND   t1.id = ?&quot;</span>,
+            identifier))
+        {
+            doSomething();
+        }
+        <span style="color: #007020; font-weight: bold">return</span> <span style="color: #40a070">1</span>;
+    }
+}
+</pre></div>
+
+<p>With some fairly simple code:
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">public</span> <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">SQL</span> : 
+    System.Collections.Generic.IEnumerable&lt;IDataReader&gt;
+    {
+        <span style="color: #902000">string</span> m_sql;
+        ArrayList m_sqlparams;
+
+        <span style="color: #007020; font-weight: bold">public</span> <span style="color: #06287e">SQL</span>()
+        {
+        }
+
+        <span style="color: #007020; font-weight: bold">public</span> SQL <span style="color: #06287e">query</span>(<span style="color: #902000">string</span> sql, <span style="color: #007020; font-weight: bold">params</span> <span style="color: #902000">object</span>[] sqlparams)
+        {
+            m_sql = sql;
+            m_sqlparams = <span style="color: #007020; font-weight: bold">new</span> ArrayList(sqlparams);
+            <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020; font-weight: bold">this</span>;
+        }
+
+        IEnumerator&lt;IDataReader&gt; IEnumerable&lt;IDataReader&gt;.GetEnumerator()
+        {
+            <span style="color: #007020; font-weight: bold">using</span> (clsDBConnection db = <span style="color: #007020; font-weight: bold">new</span> clsDBConnection(m_dbname))
+            {
+                <span style="color: #007020; font-weight: bold">using</span> (IDataReader rec = db.execQuery(m_sql, m_sqlparams))
+                {
+                    <span style="color: #007020; font-weight: bold">while</span> (rec.Read())
+                        <span style="color: #007020; font-weight: bold">yield</span> <span style="color: #007020; font-weight: bold">return</span> rec;
+                }
+            }
+        }
+
+        <span style="color: #60a0b0; font-style: italic">//this is required because IEnumerable&lt;&gt; inherits IEnumerable. bleh.</span>
+        IEnumerator IEnumerable.GetEnumerator() { <span style="color: #007020; font-weight: bold">return</span> GetEnumerator() }
+    }
+}
+</pre></div>
+
+<p>This code should come in handy for more reasons than just its cleanliness.  
+First off, if you ever need to change the idiom for accessing the DB, it's 
+stored conveniently in one place.
+<p>Second, It makes a prepared SQL call into something like a <a 
+href="http://en.wikipedia.org/wiki/Thunk">thunk</a>: a bit of code representing 
+a future computation that can then be passed around to be performed later. An 
+example:
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">void</span> <span style="color: #06287e">setUpQueries</span>(nameId, addressId, custId)
+{
+    List&lt;SQL&gt; stringsWeNeed = <span style="color: #007020; font-weight: bold">new</span> List(<span style="color: #007020; font-weight: bold">new</span> <span style="color: #902000">object</span>[]{
+        <span style="color: #007020; font-weight: bold">new</span> <span style="color: #06287e">SQL</span>().query(<span style="color: #4070a0">&quot;SELECT name FROM names WHERE id=?&quot;</span>, nameId),
+        <span style="color: #007020; font-weight: bold">new</span> <span style="color: #06287e">SQL</span>().query(<span style="color: #4070a0">&quot;SELECT addy FROM addresses WHERE id=?&quot;</span>, addressId),
+        <span style="color: #007020; font-weight: bold">new</span> <span style="color: #06287e">SQL</span>().query(<span style="color: #4070a0">&quot;SELECT zip FROM customers WHERE id=?&quot;</span>, custId)});
+
+    List&lt;<span style="color: #902000">string</span>&gt; strings = getOurStrings(stringsWeNeed);
+
+    mangleStrings(strings);
+}
+
+List&lt;<span style="color: #902000">string</span>&gt; getOurStrings(List&lt;SQL&gt; queries)
+{
+    List&lt;<span style="color: #902000">string</span>&gt; strings = <span style="color: #007020; font-weight: bold">new</span> List&lt;<span style="color: #902000">string</span>&gt;();
+    <span style="color: #007020; font-weight: bold">foreach</span> (SQL query <span style="color: #007020; font-weight: bold">in</span> queries)
+    {
+        <span style="color: #007020; font-weight: bold">foreach</span> (IDataReader rec <span style="color: #007020; font-weight: bold">in</span> query)
+            strings.Add(rec.GetString(<span style="color: #40a070">0</span>));
+    }
+    <span style="color: #007020; font-weight: bold">return</span> strings;
+}
+</pre></div>
+
+<p>While the example is silly, this property can be exploited to seperate 
+declaration from execution, which I often find to be a useful pattern.
+<p>Though I am far from the <a 
+href="http://www.base4.net/blog.aspx?ID=409">first person</a> to discover this 
+simplification, I did figure it out on my own and I thought it was neat enough 
+to share.
+<p>A quick disclaimer: the code here is modified from the original to remove 
+some details, and is completely untested, and probably doesn't compile.  You 
+may, however, use it or distribute it as you see fit; it's licensed under the 
+<a href="http://sam.zoy.org/wtfpl/">wtfpl</a>.
+<p>UPDATE: added the while(rec.Read()), which I'd forgotten
+
+
+        <h4><a href="http://billmill.org/iterate_over_database.html">Dec 17, 2007</a></h4>
+    </div>
+
+    <div class="grid_16 footer">
+        Bill Mill • <a href="mailto:bill.mill@gmail.com">bill.mill@gmail.com</a>
+    </div>
+</div>
+</body></html>

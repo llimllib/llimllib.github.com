@@ -1,0 +1,81 @@
+<html><head><title>Bill Mill</title>
+<link rel="stylesheet" href="css/960css/reset.css" />
+<link rel="stylesheet" href="css/960css/960.css" />
+<link rel="stylesheet" href="css/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body>
+<div class="container_16">
+    <div class="grid_3">
+        <a href="http://billmill.org"><img src="images/logo.png" width="136" height="94"></a>
+    </div>
+    <div class="clear"></div>
+
+    <div class="grid_13 prefix_3 content">
+        <h1>Pong in 30 Lines</h1>
+
+        <a href="http://nodebox.net">NodeBox</a> rocks. Copy this code into the 
+nodebox window and hit apple-R to play pong.
+
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%">size(<span style="color: #40a070">400</span>,<span style="color: #40a070">400</span>)
+speed(<span style="color: #40a070">40</span>)
+
+ball_diameter <span style="color: #666666">=</span> <span style="color: #40a070">20</span>
+paddle_size <span style="color: #666666">=</span> <span style="color: #40a070">75</span>
+v_x, v_y <span style="color: #666666">=</span> (<span style="color: #40a070">3</span>, <span style="color: #40a070">4</span>)
+p_x, p_y <span style="color: #666666">=</span> (<span style="color: #40a070">10</span>, <span style="color: #40a070">10</span>)
+bounce <span style="color: #666666">=</span> <span style="color: #40a070">1.2</span>
+points <span style="color: #666666">=</span> []
+computer <span style="color: #666666">=</span> WIDTH <span style="color: #666666">/</span> <span style="color: #40a070">2</span>
+compuspeed <span style="color: #666666">=</span> <span style="color: #40a070">10</span>
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">draw</span>():
+    <span style="color: #007020; font-weight: bold">global</span> v_x, v_y, p_x, p_y, points, bounce, computer, compuspeed
+    
+    <span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020; font-weight: bold">not</span> <span style="color: #666666">-</span>ball_diameter <span style="color: #666666">&lt;</span> p_y <span style="color: #666666">&lt;</span> HEIGHT <span style="color: #666666">+</span> ball_diameter:
+        text(<span style="color: #4070a0">&quot;Game Over&quot;</span>, WIDTH<span style="color: #666666">/</span><span style="color: #40a070">2</span>, HEIGHT<span style="color: #666666">/</span><span style="color: #40a070">2</span>)
+        <span style="color: #007020; font-weight: bold">if</span> p_y <span style="color: #666666">&lt;</span> <span style="color: #40a070">0</span>: text(<span style="color: #4070a0">&quot;You win!&quot;</span>, WIDTH<span style="color: #666666">/</span><span style="color: #40a070">2</span>, HEIGHT<span style="color: #666666">/</span><span style="color: #40a070">2</span><span style="color: #666666">+</span><span style="color: #40a070">20</span>)
+        <span style="color: #007020; font-weight: bold">else</span>:       text(<span style="color: #4070a0">&quot;Computer wins&quot;</span>, WIDTH<span style="color: #666666">/</span><span style="color: #40a070">2</span>, HEIGHT<span style="color: #666666">/</span><span style="color: #40a070">2</span><span style="color: #666666">-</span><span style="color: #40a070">20</span>)
+        <span style="color: #007020; font-weight: bold">return</span>
+
+    paddle_left <span style="color: #666666">=</span> <span style="color: #007020">min</span>(<span style="color: #007020">max</span>(MOUSEX, <span style="color: #40a070">0</span>), WIDTH<span style="color: #666666">-</span>paddle_size)
+    ny <span style="color: #666666">=</span> p_y <span style="color: #666666">+</span> v_y
+    nx <span style="color: #666666">=</span> p_x <span style="color: #666666">+</span> v_x
+    
+    <span style="color: #007020; font-weight: bold">if</span> nx <span style="color: #666666">+</span> (ball_diameter<span style="color: #666666">/</span><span style="color: #40a070">2</span>) <span style="color: #666666">&gt;</span> computer <span style="color: #666666">+</span> paddle_size: computer <span style="color: #666666">+=</span> compuspeed
+    <span style="color: #007020; font-weight: bold">elif</span> p_x <span style="color: #666666">+</span> v_x <span style="color: #666666">&lt;</span> computer:                          computer <span style="color: #666666">-=</span> compuspeed
+    rect(computer, <span style="color: #40a070">0</span>, paddle_size, <span style="color: #40a070">4</span>, roundness<span style="color: #666666">=</span><span style="color: #40a070">2</span>)
+
+    <span style="color: #007020; font-weight: bold">if</span> ny <span style="color: #666666">+</span> ball_diameter <span style="color: #666666">&gt;</span> HEIGHT <span style="color: #007020; font-weight: bold">and</span> v_y <span style="color: #666666">&gt;</span> <span style="color: #40a070">0</span> \
+    <span style="color: #007020; font-weight: bold">and</span> paddle_left <span style="color: #666666">&lt;</span> nx <span style="color: #666666">+</span> (ball_diameter <span style="color: #666666">/</span> <span style="color: #40a070">2</span>) <span style="color: #666666">&lt;</span> paddle_left <span style="color: #666666">+</span> paddle_size:
+        v_y <span style="color: #666666">=</span> <span style="color: #666666">-</span>v_y <span style="color: #666666">*</span> bounce
+        v_x <span style="color: #666666">=</span> (nx <span style="color: #666666">-</span> paddle_left <span style="color: #666666">-</span> (paddle_size <span style="color: #666666">/</span> <span style="color: #40a070">2</span>)) <span style="color: #666666">*</span> <span style="color: #666666">.</span><span style="color: #40a070">25</span>
+        ny <span style="color: #666666">=</span> HEIGHT <span style="color: #666666">-</span> ball_diameter
+    <span style="color: #007020; font-weight: bold">if</span> ny <span style="color: #666666">&lt;</span> <span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">and</span> v_y <span style="color: #666666">&lt;</span> <span style="color: #40a070">0</span> \
+    <span style="color: #007020; font-weight: bold">and</span> computer <span style="color: #666666">&lt;</span> nx <span style="color: #666666">+</span> (ball_diameter <span style="color: #666666">/</span> <span style="color: #40a070">2</span>) <span style="color: #666666">&lt;</span> computer <span style="color: #666666">+</span> paddle_size:
+        v_y <span style="color: #666666">=</span> <span style="color: #666666">-</span>v_y <span style="color: #666666">*</span> bounce
+        v_x <span style="color: #666666">=</span> (nx <span style="color: #666666">-</span> computer <span style="color: #666666">-</span> (paddle_size <span style="color: #666666">/</span> <span style="color: #40a070">2</span>)) <span style="color: #666666">*</span> <span style="color: #666666">.</span><span style="color: #40a070">25</span>
+        ny <span style="color: #666666">=</span> <span style="color: #40a070">0</span>
+    <span style="color: #007020; font-weight: bold">elif</span> nx <span style="color: #666666">+</span> ball_diameter <span style="color: #666666">&gt;</span> WIDTH <span style="color: #007020; font-weight: bold">or</span> nx <span style="color: #666666">&lt;</span> <span style="color: #40a070">0</span>:
+        v_x <span style="color: #666666">=</span> <span style="color: #666666">-</span>v_x
+        
+    mx <span style="color: #666666">=</span> <span style="color: #007020">max</span>(<span style="color: #40a070">0</span>, <span style="color: #007020">min</span>(MOUSEX, WIDTH <span style="color: #666666">-</span> paddle_size))
+    rect(mx, HEIGHT<span style="color: #666666">-</span><span style="color: #40a070">4</span>, paddle_size, <span style="color: #40a070">4</span>, roundness<span style="color: #666666">=</span><span style="color: #40a070">2</span>)
+
+    p_x <span style="color: #666666">=</span> nx
+    p_y <span style="color: #666666">=</span> ny
+    oval(p_x, p_y, ball_diameter, ball_diameter)
+</pre></div>
+<p>
+<p>I'd never written a game before, and they say you aren't allowed if you 
+don't start with pong, so here it is. I was actually just playing around with 
+motion in NodeBox for a seperate project, and did this for fun.
+
+
+        <h4><a href="http://billmill.org/pong.html">Mar 19, 2008</a></h4>
+    </div>
+
+    <div class="grid_16 footer">
+        Bill Mill • <a href="mailto:bill.mill@gmail.com">bill.mill@gmail.com</a>
+    </div>
+</div>
+</body></html>

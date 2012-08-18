@@ -1,0 +1,130 @@
+<html><head><title>Bill Mill</title>
+<link rel="stylesheet" href="css/960css/reset.css" />
+<link rel="stylesheet" href="css/960css/960.css" />
+<link rel="stylesheet" href="css/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body>
+<div class="container_16">
+    <div class="grid_3">
+        <a href="http://billmill.org"><img src="images/logo.png" width="136" height="94"></a>
+    </div>
+    <div class="clear"></div>
+
+    <div class="grid_13 prefix_3 content">
+        <h1>Functional Roman Numerals in Python</h1>
+
+        <p>Just as a quck note, I thought I'd post the cleanest python I could come up 
+with to solve the <a href="http://billmill.org/roman.html">roman numerals</a> 
+problem I discussed earlier. It tries to use a functional style while actually 
+avoiding recursion. To do so, I wrote an iterative python unfold:
+
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">unfold</span>(f, x):
+    res <span style="color: #666666">=</span> []                       
+    <span style="color: #007020; font-weight: bold">while</span> <span style="color: #40a070">1</span>:
+        <span style="color: #007020; font-weight: bold">try</span>:
+            w, x <span style="color: #666666">=</span> f(x)
+            res<span style="color: #666666">.</span>append(w)
+        <span style="color: #007020; font-weight: bold">except</span> <span style="color: #007020">TypeError</span>:
+            <span style="color: #007020; font-weight: bold">return</span> res
+</pre></div>
+
+<p>And then the answer becomes:
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%">numerals <span style="color: #666666">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
+    (<span style="color: #4070a0">&quot;C&quot;</span>, <span style="color: #40a070">100</span>),  (<span style="color: #4070a0">&quot;XC&quot;</span>, <span style="color: #40a070">90</span>),  (<span style="color: #4070a0">&quot;L&quot;</span>, <span style="color: #40a070">50</span>),  (<span style="color: #4070a0">&quot;XL&quot;</span>, <span style="color: #40a070">40</span>),
+    (<span style="color: #4070a0">&quot;X&quot;</span>, <span style="color: #40a070">10</span>),   (<span style="color: #4070a0">&quot;IX&quot;</span>, <span style="color: #40a070">9</span>),   (<span style="color: #4070a0">&quot;V&quot;</span>, <span style="color: #40a070">5</span>),   (<span style="color: #4070a0">&quot;IV&quot;</span>, <span style="color: #40a070">4</span>),
+    (<span style="color: #4070a0">&quot;I&quot;</span>, <span style="color: #40a070">1</span>)]
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">next</span>(x):
+    <span style="color: #007020; font-weight: bold">for</span> n <span style="color: #007020; font-weight: bold">in</span> numerals:
+        <span style="color: #007020; font-weight: bold">if</span> n[<span style="color: #40a070">1</span>] <span style="color: #666666">&lt;=</span> x: <span style="color: #007020; font-weight: bold">return</span> (n[<span style="color: #40a070">0</span>], x<span style="color: #666666">-</span>n[<span style="color: #40a070">1</span>])
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">romanize</span>(n):
+    <span style="color: #007020; font-weight: bold">return</span> <span style="color: #4070a0">&quot;&quot;</span><span style="color: #666666">.</span>join(unfold(<span style="color: #007020">next</span>, n))
+</pre></div>
+
+<p>Compare to the haskell I posted before:
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #06287e">romanize</span> <span style="color: #007020; font-weight: bold">=</span> concat <span style="color: #666666">.</span> unfoldr next
+    <span style="color: #007020; font-weight: bold">where</span> next <span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Nothing</span>
+          next x <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Just</span> <span style="color: #666666">$</span> second (x<span style="color: #666666">-</span>) <span style="color: #666666">$</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span>x) <span style="color: #666666">.</span> snd) numerals
+          numerals <span style="color: #007020; font-weight: bold">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
+                      (<span style="color: #4070a0">&quot;C&quot;</span>, <span style="color: #40a070">100</span>),  (<span style="color: #4070a0">&quot;XC&quot;</span>, <span style="color: #40a070">90</span>),  (<span style="color: #4070a0">&quot;L&quot;</span>, <span style="color: #40a070">50</span>),  (<span style="color: #4070a0">&quot;XL&quot;</span>, <span style="color: #40a070">40</span>),
+                      (<span style="color: #4070a0">&quot;X&quot;</span>, <span style="color: #40a070">10</span>),   (<span style="color: #4070a0">&quot;IX&quot;</span>, <span style="color: #40a070">9</span>),   (<span style="color: #4070a0">&quot;V&quot;</span>, <span style="color: #40a070">5</span>),   (<span style="color: #4070a0">&quot;IV&quot;</span>, <span style="color: #40a070">4</span>),
+                      (<span style="color: #4070a0">&quot;I&quot;</span>, <span style="color: #40a070">1</span>)]
+</pre></div>
+
+<p>The "where" idiom allows you to group helper functions and constants 
+underneath the main function, and the unimportance of function order means you 
+can highlight the high-level logic. The haskell code is much shorter and 
+tighter than the python.
+<p>Having powerful iterative functions like unfoldr in the standard library is 
+another clear win for Haskell; it took me more lines to define unfold than it 
+did to define both next() and romanize(). (By the by, some googling failed to 
+turn up a previous python implementation of unfold(); I think this code gets a 
+lot uglier without it. I also don't see any obvious way to do it with 
+itertools.)
+<p>On the other hand, I find the simplicity of the python next() appealing, 
+with its constructive instead of declarative approach. It's a less generic 
+solution that's intuitively simpler (for me, still an imperative thinker).  
+<p>You could match the haskell more exactly:
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">itertools</span> <span style="color: #007020; font-weight: bold">import</span> ifilter
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">second</span>(f, (a, b)): <span style="color: #007020; font-weight: bold">return</span> (a, f(b))
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">next</span>(x):
+    <span style="color: #007020; font-weight: bold">return</span> second(<span style="color: #007020; font-weight: bold">lambda</span> a: x<span style="color: #666666">-</span>a, ifilter(<span style="color: #007020; font-weight: bold">lambda</span> (y, z): z <span style="color: #666666">&lt;=</span> x, numerals)<span style="color: #666666">.</span>next()
+</pre></div>
+
+<p>but the result is pretty ugly. The inability to compose functions compactly
+results in a lot of boilerplate, and in having to pick a lot of meaningless 
+variable names that obscure what's going on. We could move the lambdas out of
+the call and give them names:
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">next</span>(x):
+    subx <span style="color: #666666">=</span> <span style="color: #007020; font-weight: bold">lambda</span> a: x<span style="color: #666666">-</span>a
+    ltx <span style="color: #666666">=</span> <span style="color: #007020; font-weight: bold">lambda</span> (y, z): z <span style="color: #666666">&lt;=</span> x
+
+    <span style="color: #007020; font-weight: bold">return</span> second(subx, ifilter(ltx, numerals)<span style="color: #666666">.</span>next())
+</pre></div>
+
+<p>And it's a little better, but I think we're now pretty far from idiomatic 
+python.
+<p><h2>Conclusion</h2>
+<p>The python translation of the haskell isn't bad, but I do think it loses
+something. The unfold() trick works really well, and translates easily into
+an imperative, pythonic implementation; I'll look for ways to use it in the 
+future. And, finally, I'm pretty jealous of Haskell's function combination
+abilities.
+<p><h2>Updates</h2>
+<p>In the <a href="http://programming.reddit.com/info/65bpf/comments/">comments</a>
+at reddit, nostrademons posts a nicer unfold function:
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">unfold</span>(f, x):
+    <span style="color: #007020; font-weight: bold">while</span> <span style="color: #007020">True</span>:
+        w, x <span style="color: #666666">=</span> f(x)
+        <span style="color: #007020; font-weight: bold">yield</span> w
+</pre></div>
+
+<p>And Kay Schluehr prefers the iterative solution:
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"> numerals <span style="color: #666666">=</span> ((<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
+(<span style="color: #4070a0">&quot;C&quot;</span>, <span style="color: #40a070">100</span>),(<span style="color: #4070a0">&quot;XC&quot;</span>, <span style="color: #40a070">90</span>),(<span style="color: #4070a0">&quot;L&quot;</span>, <span style="color: #40a070">50</span>),(<span style="color: #4070a0">&quot;XL&quot;</span>, <span style="color: #40a070">40</span>), (<span style="color: #4070a0">&quot;X&quot;</span>, <span style="color: #40a070">10</span>), (<span style="color: #4070a0">&quot;IX&quot;</span>, <span style="color: #40a070">9</span>), (<span style="color: #4070a0">&quot;V&quot;</span>, <span style="color: #40a070">5</span>), 
+(<span style="color: #4070a0">&quot;IV&quot;</span>, <span style="color: #40a070">4</span>), (<span style="color: #4070a0">&quot;I&quot;</span>, <span style="color: #40a070">1</span>))
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">romanize</span>(n):
+    roman <span style="color: #666666">=</span> []
+    <span style="color: #007020; font-weight: bold">for</span> ltr, num <span style="color: #007020; font-weight: bold">in</span> numerals:
+        (k,n) <span style="color: #666666">=</span> <span style="color: #007020">divmod</span>(n, num)
+        roman<span style="color: #666666">.</span>append(ltr<span style="color: #666666">*</span>k)
+    <span style="color: #007020; font-weight: bold">return</span> <span style="color: #4070a0">&quot;&quot;</span><span style="color: #666666">.</span>join(roman)
+</pre></div>
+
+<p>David Pollak contributes a Scala unfold and romanize <a
+href="http://scala-blogs.org/2008/01/roman-numerals-in-scala.html">at
+his blog</a>.
+
+
+        <h4><a href="http://billmill.org/python_roman.html">Jan 12, 2008</a></h4>
+    </div>
+
+    <div class="grid_16 footer">
+        Bill Mill • <a href="mailto:bill.mill@gmail.com">bill.mill@gmail.com</a>
+    </div>
+</div>
+</body></html>
