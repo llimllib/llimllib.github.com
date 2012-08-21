@@ -1,0 +1,242 @@
+<html>
+ <head>
+  <style type="text/css">
+body, html {
+    margin:0;
+    padding:0;
+    background:white;
+    color:#000;
+}
+body {
+    min-width: 750px; 
+    font-size: 62.5%;
+}
+#wrap { margin:0 auto; width:100%; }
+#canvascontainer {
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 320px;
+    float: left;
+    position: fixed;
+    font-size: 1.8em;
+}
+#explain { font-size: 1.4em; }
+
+#codebox {
+    height:260px;
+    border: 1px solid LightGray;
+    margin-top: 10px;
+}
+#libraryBox {
+    height:584px;
+}
+#libraryContainer {
+    border: 1px solid LightGray;
+    margin-top: 10px;
+    font-size: 1.4em;
+}
+#textcontainer {
+    font-size: 1.4em;
+    margin-left: 320px;
+    margin-right: 10px;
+    margin-top:   10px;
+}
+
+#footer {clear:both;}
+
+#canvas { border: 1px solid DarkGray; }
+#libraryBox { border: 1px solid DarkGray; }
+a:link { color: #333; }
+a:visited { color: #999; }
+h1 { font: Strong 18px Cambria, Georgia, Times New Roman, Calibri, serif;
+     margin-left: 10px;
+}
+#nextLink { float:right;
+    margin-right:30px
+}
+
+    </style>
+    <!-- jquery -->
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+
+    <!-- jquery UI -->
+    <link type="text/css" href="js/jquery-ui/css/smoothness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />	
+    <script type="text/javascript" src="js/jquery-ui/js/jquery-ui-1.8.17.custom.min.js"></script>
+
+    <!-- CodeMirror -->
+    <script type="text/javascript" src="js/CodeMirror-2.11/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="js/CodeMirror-2.11/lib/codemirror.css">
+    <link rel="stylesheet" href="js/CodeMirror-2.11/theme/default.css">
+    <script src="js/CodeMirror-2.11/mode/javascript/javascript.js"></script>
+
+    <title>Canvas Tutorial - Bounce</title>
+<script type="text/javascript">
+var editor = undefined;
+var libEditor = undefined;
+var intervalID = undefined;
+
+function runCode() {
+    if (intervalID != undefined)
+        clearInterval(intervalID);
+    //TODO: handle exceptions somehow
+    $("#canvas")[0].getContext("2d").clearRect(0,0,
+      $("#canvas")[0].width,
+      $("#canvas")[0].height);
+
+    //if there's a library defined, eval it
+    if (libEditor != undefined) eval(libEditor.getValue());
+
+        intervalID = eval(editor.getValue());
+}
+
+$(document).ready(function(){
+        editor = CodeMirror.fromTextArea($("#code").get(0), {
+          mode: "javascript",
+          lineNumbers: true,
+        });
+    
+        libEditor = CodeMirror.fromTextArea($("#library").get(0), {
+          mode: "javascript",
+          lineNumbers: true,
+        });
+
+    $("#tabs").tabs();
+
+    $("#tabs").bind("tabsselect", function(evt, ui) {
+        if (libEditor) {
+            libEditor.refresh();
+        }
+        console.log("here");
+    });
+
+    $("#runButton").click(runCode).removeAttr("disabled");
+});
+  </script>
+ </head>
+ <body>
+ <div id="wrap">
+   <!-- <div id="header">
+   <h2>Breakout Tutorial</h2>
+    </div>-->
+
+    <div id="canvascontainer">
+         <canvas id="canvas" width="300" height="300"></canvas>
+         <div style="text-align:center">
+             <input type="submit" value="run code" id="runButton" disabled/>
+         </div>
+
+         <ol id="toc">
+                 <li><a href="index.html">Introduction</a></li>
+                 <li><a href="ball.html">Draw a Circle</a></li>
+                 <li><a href="color.html">Add Some Color</a></li>
+                 <li><a href="move.html">Action</a></li>
+                 <li><a href="library.html">Library: an Interlude</a></li>
+                 <li><a href="bounce.html">Bounce</a></li>
+                 <li><a href="paddle.html">Add a Paddle</a></li>
+                 <li><a href="keyboard.html">The Keyboard</a></li>
+                 <li><a href="mouse.html">The Mouse</a></li>
+                 <li><a href="bricks.html">The Bricks</a></li>
+                 <li><a href="finish.html">Finishing Touches</a></li>
+                 <li><a href="coda.html">Coda</a></li>
+         </ol>
+    </div>
+
+    <div id="textcontainer">
+        <h1>Bounce</h1>
+        <div id="tabs">
+            <ul>
+            <li><a href="#explain"><span>Code</span></a></li>
+            <li><a href="#libraryContainer"><span>Library</span></a></li>
+            <li><a href="#comments"><span>Comments</span></a></li>
+            </ul>
+            <div id="explain">Our ball can fly, but it runs away too quickly; let's
+  contain it in our box by rebounding off the walls.
+                     <div id="codebox">
+                     <textarea id="code">function draw() {
+  clear();
+  circle(x, y, 10);
+ 
+  if (x + dx &gt; WIDTH || x + dx &lt; 0)
+    dx = -dx;
+  if (y + dy &gt; HEIGHT || y + dy &lt; 0)
+    dy = -dy;
+ 
+  x += dx;
+  y += dy;
+}
+
+init();</textarea>
+                     </div>
+                     <p>Try to change the draw() function so that the ball accelerates or decelerates
+        every time it hits a wall.
+                <p>
+                    <a href="paddle.html" id="nextLink">next</a>
+                    <a href="library.html" id="prevLink">prev</a><br>
+            </div>
+
+            <div id="libraryContainer">
+                    <div id="libraryBox">
+                        <textarea id="library" rows=32
+                                  cols=100>var x = 150;
+var y = 150;
+var dx = 2;
+var dy = 4;
+var ctx;
+var WIDTH; 
+var HEIGHT;
+
+function circle(x,y,r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2, true);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function rect(x,y,w,h) {
+  ctx.beginPath();
+  ctx.rect(x,y,w,h);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function clear() {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+function init() {
+  ctx = $('#canvas')[0].getContext("2d");
+  WIDTH = $("#canvas").width()
+  HEIGHT = $("#canvas").height()
+  return setInterval(draw, 10);
+}</textarea>
+                    </div>
+            </div>
+
+            <div id="comments">
+    <!-- begin disqus block -->
+    <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/canvastutorial/embed.js"></script><noscript><a href="http://canvastutorial.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    <!-- end disqus block -->
+
+            </div>
+        </div>
+    </div>
+
+<!-- begin disqus block -->
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+        var links = document.getElementsByTagName('a');
+        var query = '?';
+        for(var i = 0; i < links.length; i++) {
+            if(links[i].href.indexOf('#disqus_thread') >= 0) {
+                query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+            }
+        }
+        document.write('<script type="text/javascript" src="http://disqus.com/forums/canvastutorial/get_num_replies.js' + query + '"></' + 'script>');
+    })();
+<!-- end disqus block -->
+//]]>
+</script>
+
+ </body>
+</html>
