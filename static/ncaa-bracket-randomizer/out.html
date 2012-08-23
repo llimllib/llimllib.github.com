@@ -1,0 +1,1120 @@
+<html><head><title>The 2012 Bill Mill NCAA Bracket Randomizer</title>
+<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.10.custom.css" rel="stylesheet" />
+<script src="js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.10.custom.min.js"></script>
+<!-- <script src="js/jquery.ezpz_tooltip.js" type="text/javascript"></script> -->
+<style>
+table { border-collapse:collapse; table-layout:fixed; }
+tr { overflow:hidden; }
+td { overflow:hidden; white-space:nowrap; }
+tr[spacer=''] {height: 3px;}
+td[round='2'] {min-width: 60px; max-width: 60px; }
+td[round='3'] {min-width: 60px; max-width: 60px; }
+td[round='4'] {min-width: 60px; max-width: 60px; }
+td[round='5'] {min-width: 60px; max-width: 60px; }
+td[round='6'] {min-width: 60px; max-width: 60px; }
+td[round='7'] {min-width: 60px; max-width: 60px; }
+
+td[game][round='1'] { width: 120px; }
+td[game][side='left'] { border-right: 1px solid #ccc; }
+td[game][side='right'] { border-left: 1px solid #ccc; }
+
+/* must go after [game] so border-right: None takes effect */
+td[upper][side="left"] { border-bottom: 1px solid #ccc; border-right: None; }
+td[upper][side="right"] { border-bottom: 1px solid #ccc; border-left: None; }
+td[lower][side='left'] { border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; }
+td[lower][side='right'] { border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; border-right: None; }
+td[upper][round='0'][side='left'] { border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: None; }
+td[upper][round='0'][side='right'] { border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: None; }
+td[upper][round='1'][side='left'] { border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: None; }
+td[upper][round='1'][side='right'] { border-top: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: None; }
+td[game][round='6'][side='right'] { border-left: None; }
+td[game][round='7'] { border-right: None; }
+td[bottom] {border-bottom: 1px solid #ccc; width:5px;}
+
+td { font-size: 12px; }
+td a { text-decoration: None; color: black; font-size: 12px; }
+td a:visited { color: black; }
+td a:hover   { color: black; }
+
+/* fixes blue outline problem on slider */
+.ui-slider a {outline:none;}
+
+</style>
+
+<script>
+//a dummy console function so console.log doesn't kill shitty browsers
+if(typeof console === "undefined") { console = { log: function() { } }; }
+
+//the amount of randomness
+var amount_of_randomness = 2;
+
+var kenpom = {1: [65.6475, 193.0, 121.74798, 2.0, 86.70683, 5.0, 0.970086, 1.0, 'Kentucky'], 2: [69.7711, 29.0, 95.37725, 267.0, 105.01334, 243.0, 0.271597, 258.0, 'Mississippi Valley St.'], 3: [68.708, 53.0, 97.298, 233.0, 100.08385, 151.0, 0.428162, 190.0, 'Western Kentucky'], 4: [67.3013, 110.0, 111.83174, 29.0, 93.87198, 49.0, 0.857466, 30.0, 'Iowa St.'], 5: [63.9377, 273.0, 110.12923, 39.0, 94.2067, 56.0, 0.832112, 36.0, 'Connecticut'], 6: [67.0094, 122.0, 116.80947, 9.0, 90.42635, 18.0, 0.932396, 10.0, 'Wichita St.'], 7: [66.3591, 147.0, 105.87405, 88.0, 92.26, 26.0, 0.803893, 46.0, 'VCU'], 8: [67.4879, 104.0, 120.25698, 4.0, 94.45495, 58.0, 0.922403, 11.0, 'Indiana'], 9: [70.8537, 19.0, 107.61761, 67.0, 95.47409, 67.0, 0.773333, 62.0, 'New Mexico St.'], 10: [69.7237, 30.0, 108.89471, 56.0, 92.35369, 29.0, 0.844059, 33.0, 'UNLV'], 11: [65.5749, 197.0, 103.16461, 132.0, 93.54769, 42.0, 0.73165, 76.0, 'Colorado'], 12: [66.4678, 145.0, 116.03838, 13.0, 92.76338, 33.0, 0.908434, 14.0, 'Baylor'], 13: [65.6813, 191.0, 112.02357, 26.0, 98.83694, 127.0, 0.783077, 55.0, 'South Dakota St.'], 14: [61.33, 327.0, 109.40273, 52.0, 94.47599, 59.0, 0.818107, 41.0, 'Notre Dame'], 15: [67.7902, 90.0, 107.92405, 63.0, 94.57652, 61.0, 0.79465, 51.0, 'Xavier'], 16: [67.5452, 102.0, 117.21067, 7.0, 94.93022, 63.0, 0.896694, 16.0, 'Duke'], 17: [68.6001, 56.0, 106.55731, 80.0, 97.35884, 102.0, 0.716134, 83.0, 'Lehigh'], 18: [65.8636, 182.0, 115.72955, 14.0, 84.75041, 3.0, 0.960583, 3.0, 'Michigan St.'], 19: [74.4435, 2.0, 106.80554, 77.0, 107.16301, 271.0, 0.491439, 165.0, 'Long Island'], 20: [68.313, 68.0, 114.44221, 19.0, 88.44603, 13.0, 0.933466, 9.0, 'Memphis'], 21: [62.8123, 303.0, 110.55157, 36.0, 88.40032, 12.0, 0.908209, 15.0, 'St. Louis'], 22: [66.7085, 136.0, 111.00721, 33.0, 88.55759, 14.0, 0.910186, 13.0, 'New Mexico'], 23: [67.3088, 109.0, 109.03672, 53.0, 93.26002, 37.0, 0.832299, 35.0, 'Long Beach St.'], 24: [67.6466, 98.0, 103.6746, 122.0, 84.72749, 2.0, 0.887816, 20.0, 'Louisville'], 25: [68.1372, 80.0, 110.4601, 37.0, 98.65098, 124.0, 0.761138, 68.0, 'Davidson'], 26: [66.084, 164.0, 107.79829, 65.0, 93.71153, 46.0, 0.807744, 45.0, 'Murray St.'], 27: [64.774, 241.0, 111.90246, 28.0, 101.46844, 175.0, 0.731701, 75.0, 'Colorado St.'], 28: [71.3827, 15.0, 112.26038, 25.0, 91.02961, 19.0, 0.895554, 18.0, 'Marquette'], 29: [73.228, 5.0, 105.26649, 101.0, 92.07971, 25.0, 0.797681, 50.0, 'BYU'], 30: [70.5497, 22.0, 115.61133, 15.0, 102.06462, 189.0, 0.782013, 56.0, 'Iona'], 31: [64.8637, 234.0, 120.98635, 3.0, 98.31856, 119.0, 0.893454, 19.0, 'Florida'], 32: [60.4116, 339.0, 104.92585, 104.0, 87.15134, 6.0, 0.870172, 26.0, 'Virginia'], 33: [66.3021, 150.0, 125.50607, 1.0, 96.13475, 75.0, 0.938928, 8.0, 'Missouri'], 34: [67.736, 94.0, 96.77699, 238.0, 101.51461, 176.0, 0.379921, 213.0, 'Norfolk St.'], 35: [65.8922, 179.0, 116.09439, 12.0, 88.9244, 15.0, 0.938936, 7.0, 'Syracuse'], 36: [69.4648, 35.0, 107.6423, 66.0, 102.70202, 199.0, 0.618117, 121.0, 'NC Asheville'], 37: [67.2191, 113.0, 109.77288, 44.0, 90.27199, 17.0, 0.881296, 21.0, 'Kansas St.'], 38: [64.9352, 225.0, 109.74136, 45.0, 98.88363, 128.0, 0.744192, 70.0, 'Southern Mississippi'], 39: [65.5586, 199.0, 114.64193, 18.0, 92.89157, 35.0, 0.896266, 17.0, 'Vanderbilt'], 40: [61.1603, 329.0, 107.31118, 69.0, 92.40086, 30.0, 0.822498, 39.0, 'Harvard'], 41: [58.9208, 344.0, 112.44032, 23.0, 85.92097, 4.0, 0.940318, 6.0, 'Wisconsin'], 42: [65.6295, 194.0, 101.74258, 156.0, 93.53486, 41.0, 0.703109, 94.0, 'Montana'], 43: [63.7329, 281.0, 109.54299, 51.0, 92.31155, 27.0, 0.85249, 31.0, 'Cincinnati'], 44: [65.9927, 171.0, 112.37059, 24.0, 93.81229, 48.0, 0.864149, 27.0, 'Texas'], 45: [67.819, 87.0, 106.42079, 81.0, 87.99365, 11.0, 0.875326, 23.0, 'Florida St.'], 46: [64.3757, 254.0, 110.09222, 40.0, 97.32912, 101.0, 0.779543, 59.0, 'St. Bonaventure'], 47: [65.911, 178.0, 110.00095, 42.0, 92.78029, 34.0, 0.851335, 32.0, 'Gonzaga'], 48: [64.9136, 228.0, 110.65706, 35.0, 95.65314, 70.0, 0.816603, 43.0, 'West Virginia'], 49: [68.2166, 71.0, 116.69202, 10.0, 83.75588, 1.0, 0.96768, 2.0, 'Ohio St.'], 50: [64.1448, 262.0, 102.69477, 140.0, 98.63278, 123.0, 0.601966, 128.0, 'Loyola MD'], 51: [72.4045, 8.0, 115.5731, 16.0, 87.34226, 8.0, 0.946379, 5.0, 'North Carolina'], 52: [67.0203, 121.0, 106.22286, 83.0, 98.8062, 126.0, 0.677408, 102.0, 'Lamar'], 53: [63.6413, 282.0, 102.42484, 145.0, 97.627, 106.0, 0.620518, 119.0, 'Vermont'], 54: [67.04, 120.0, 119.47706, 5.0, 101.78662, 183.0, 0.837877, 34.0, 'Creighton'], 55: [63.4176, 289.0, 104.69183, 109.0, 87.84116, 10.0, 0.858001, 29.0, 'Alabama'], 56: [66.9455, 126.0, 113.47066, 20.0, 97.08229, 97.0, 0.831858, 37.0, 'Temple'], 57: [67.2125, 114.0, 109.59005, 50.0, 91.64997, 21.0, 0.862046, 28.0, 'California'], 58: [59.8504, 342.0, 100.2663, 178.0, 89.26712, 16.0, 0.766922, 66.0, 'USF'], 59: [61.3432, 326.0, 113.44329, 21.0, 94.09555, 53.0, 0.871767, 25.0, 'Michigan'], 60: [67.1762, 115.0, 104.19078, 114.0, 93.91383, 50.0, 0.743535, 72.0, 'Ohio'], 61: [66.7063, 137.0, 106.18454, 84.0, 93.40166, 40.0, 0.788309, 52.0, 'San Diego St.'], 62: [68.0869, 81.0, 111.03594, 32.0, 96.18555, 78.0, 0.813307, 44.0, 'NC State'], 63: [63.2554, 293.0, 109.70393, 48.0, 87.291, 7.0, 0.912337, 12.0, 'Georgetown'], 64: [68.4563, 64.0, 116.46354, 11.0, 96.15107, 77.0, 0.877018, 22.0, 'Belmont'], 65: [64.029, 270.0, 112.68894, 22.0, 97.39987, 103.0, 0.816755, 42.0, "St. Mary's"], 66: [65.4116, 203.0, 117.40984, 6.0, 97.28208, 100.0, 0.872981, 24.0, 'Purdue'], 67: [67.7134, 95.0, 117.04263, 8.0, 87.62776, 9.0, 0.95105, 4.0, 'Kansas'], 68: [68.2094, 74.0, 107.17195, 73.0, 101.57875, 178.0, 0.633997, 115.0, 'Detroit']}
+
+function color(favorite, dog, log5) {
+    var pct = (log5 - .5) * 2;
+    var strength = parseInt(255*pct).toString();
+    var red   = "rgb(" + strength + ", 0, 0)";
+    var green = "rgb(0, " + strength + ", 0)";
+    favorite.css("color", green);
+    dog.css("color", red);
+}
+
+function calc_fav(teama, teamb) {
+    var teams = [teama, teamb];
+    var tids = [$(teams[0]).attr("team"), $(teams[1]).attr("team")];
+    var stats = [kenpom[tids[0]], kenpom[tids[1]]];
+
+    var fav = stats[0][6] > stats[1][6] ? 0 : 1;
+    var dog = stats[0][6] < stats[1][6] ? 0 : 1;
+
+    //get the kenpom ratings. a is the fav, b the dog
+    var a = stats[fav][6];
+    var b = stats[dog][6];
+
+    //calculate the likelihood of victory for the fav
+    var log5 = (a - a * b) / (a + b - 2 * a * b);
+
+    //color the teams appropriately
+    color(teams[fav], teams[dog], log5);
+
+    return [teams[fav], teams[dog], log5];
+}
+
+function randomize() {
+    //for each round
+    for (i=0; i<7; i++) {
+        //sort each rounds games by game #, then pick a random team
+        $("[game][round='"+i+"'][upper='']").each(function() {
+            var upper = $(this);
+            var lower = $("[round='"+i+"'][game='"+upper.attr("game")+"'][lower='']");
+
+            var teams = [upper.children(0), lower.children(0)];
+
+            var favdoglog = calc_fav(teams[0], teams[1]);
+            var fav  = favdoglog[0];
+            var dog  = favdoglog[1];
+            var log5 = favdoglog[2];
+
+            //if the dog wins n times in a row, advance him
+            var a_wins = true;
+            var n = 2;
+            for (j=0; j < amount_of_randomness; j++) {
+                if (Math.random() < log5) {
+                    a_wins = true;
+                    break;
+                }
+                a_wins = false;
+            }
+
+            //click on the winner
+            a_wins ? $(fav).click() : $(dog).click();
+        });
+    }
+}
+
+function selector(name, value) { return "[" + name + "='" + value + "']" } 
+
+/* given ints for round and game, return an array
+[next round int, next game int, "u" or "l"] */
+function nextGame(round, game) {
+    return [round+1,
+            Math.floor((game/2)+.6),
+            game%2 == 1 ? "u"  : "l"];
+}
+
+/* clear the forward path for a team.
+
+i.e. if I click team A, but I had previously picked team B to go all the way to
+the finals, I should remove B from all games up to the finals */
+function clearForwardInvalid(opp, round) {
+    $("[game] > [team="+opp+"]").each(function(_, elt) {
+        game = $(elt).parent();
+        if (parseInt(game.attr("round")) > round) {
+            game.html("&nbsp;");
+        }
+    });
+}
+
+function teamClick(evt) {
+    var link = $(evt.target);
+    
+    var dest = evt.target.attributes.href.value.substr(1).split("-");
+
+    var roundsel    = selector("round", dest[0]);
+    var gamesel     = selector("game", dest[1]);
+    var ulsel       = selector(dest[2] == "u" ? "upper" : "lower", "");
+    var opponent_ul = selector(dest[2] == "u" ? "lower" : "upper", "");
+
+    var next = nextGame(parseInt(dest[0]), parseInt(dest[1]))
+
+    //copy the link that's been clicked
+    var copytgt = $(link.parent().html());
+
+    //if it's a zero round game, add the seed text
+    if (dest[0] == "1") {
+        if (dest[1] == "1" || dest[1] == "25") {
+            copytgt.text("16. " + kenpom[copytgt.attr("team")][8]);
+        } else if (dest[1] == "14") {
+            copytgt.text("14. " + kenpom[copytgt.attr("team")][8]);
+        } else if (dest[1] == "27") {
+            copytgt.text("12. " + kenpom[copytgt.attr("team")][8]);
+        }
+    } else {
+        //set the text to be the team name and omit seed number
+        copytgt.text(kenpom[copytgt.attr("team")][8]);
+    }
+
+    //set the new link, and bind this function to click
+    var nextlink = copytgt.attr("href",  '#' + next.join("-"));
+    nextlink.click(teamClick);
+
+    //select the cell to which we'll paste the copied link
+    var nextcell = $(roundsel+gamesel+ulsel);
+
+    var team = link.attr("team")
+    var team_to_replace = nextcell.children().attr("team")
+    if (nextcell.children().length && team_to_replace != team) {
+        clearForwardInvalid(team_to_replace, parseInt(dest[0]));
+    }
+
+    //remove color from the link before advancing it
+    nextlink.css("color", "")
+    nextcell.html(nextlink);
+
+    var opp = $(roundsel+gamesel+opponent_ul);
+    //if there's an opponent in the next game
+    if (opp.children().length) {
+        calc_fav(nextcell.children(), opp.children());
+    }
+}
+
+$(document).ready(function() {
+    $("a[team]").click(teamClick);
+    $("#randomize").click(randomize);
+
+    $('#slider').slider({
+      min: 0,
+      max: 3,
+      step: 1,
+      value: amount_of_randomness,
+      slide: function(event, ui) {
+        var val = parseInt(ui.value);
+        amount_of_randomness = val == 0 ? 0 : 4-val;
+        var labels = ["None", "Almost None", "Some", "Lots"];
+        $("#desc").html(labels[val])
+      }
+    });
+    
+});
+</script>
+</head>
+<body>
+<p>Click randomize to generate a pretty good NCAA bracket. Slide the randomness slider around, then hit randomize again to see what happens. <a href="http://billmill.org/ncaa_randomizer.html">What is this?</a>
+
+<p><table><tr>
+<td><input type="button" id="randomize" value="randomize"></td>
+<td id="text">Randomness:</td><td><div id="slider" style="width: 50px; margin-right: 10px; margin-left: 10px;"></div></td><td id="text"><span id="desc">Some</span></td>
+</tr></table>
+
+<p>
+<table>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=1 upper="" side="left"><a team=1 href="#2-1-u">1. Kentucky</a></td>
+        <td round=2 game=1 upper="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=9 upper="" side="right"></td>
+        <td round=1 game=17 upper="" side="right"><a team=35 href="#2-9-u">1. Syracuse</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td round=0 game=2 upper="" side="left"><a team=2 href="#1-1-l">Mississippi Valley St.</a></td>
+        <td bottom=""></td>
+        <td round=1 game=1 lower="" side="left">16. &nbsp;</td>
+        <td round=2 game=1 side="left"></td>
+        <td round=3 game=1 upper="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=5 upper="" side="right"></td>
+        <td round=2 game=9 side="right"></td>
+        <td round=1 game=17 lower="" side="right"><a team=36 href="#2-9-u">16. NC Asheville</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td round=0 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=1 side="left"></td>
+        <td round=3 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=5 side="right"></td>
+        <td round=2 game=9 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td round=0 game=2 lower="" side="left"><a team=3 href="#1-1-l">Western Kentucky</a></td>
+        <td></td>
+        <td round=1 game=2 upper="" side="left"><a team=4 href="#2-1-l">8. Iowa St.</a></td>
+        <td round=2 game=1 lower="" side="left"></td>
+        <td round=3 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=5 side="right"></td>
+        <td round=2 game=9 lower="" side="right"></td>
+        <td round=1 game=18 upper="" side="right"><a team=37 href="#2-9-l">8. Kansas St.</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=2 lower="" side="left"><a team=5 href="#2-1-l">9. Connecticut</a></td>
+        <td></td>
+        <td round=3 game=1 side="left"></td>
+        <td round=4 game=1 upper="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=3 upper="" side="right"></td>
+        <td round=3 game=5 side="right"></td>
+        <td></td>
+        <td round=1 game=18 lower="" side="right"><a team=38 href="#2-9-l">9. Southern Mississippi</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=1 side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=5 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=3 upper="" side="left"><a team=6 href="#2-2-u">5. Wichita St.</a></td>
+        <td round=2 game=2 upper="" side="left"></td>
+        <td round=3 game=1 side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=5 side="right"></td>
+        <td round=2 game=10 upper="" side="right"></td>
+        <td round=1 game=19 upper="" side="right"><a team=39 href="#2-10-u">5. Vanderbilt</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=3 lower="" side="left"><a team=7 href="#2-2-u">12. VCU</a></td>
+        <td round=2 game=2 side="left"></td>
+        <td round=3 game=1 lower="" side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=5 lower="" side="right"></td>
+        <td round=2 game=10 side="right"></td>
+        <td round=1 game=19 lower="" side="right"><a team=40 href="#2-10-u">12. Harvard</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=2 side="left"></td>
+        <td></td>
+        <td round=4 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=3 side="right"></td>
+        <td></td>
+        <td round=2 game=10 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=4 upper="" side="left"><a team=8 href="#2-2-l">4. Indiana</a></td>
+        <td round=2 game=2 lower="" side="left"></td>
+        <td></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 upper="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 upper="" side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td></td>
+        <td round=2 game=10 lower="" side="right"></td>
+        <td round=1 game=20 upper="" side="right"><a team=41 href="#2-10-l">4. Wisconsin</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=4 lower="" side="left"><a team=9 href="#2-2-l">13. New Mexico St.</a></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=1 game=20 lower="" side="right"><a team=42 href="#2-10-l">13. Montana</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=5 upper="" side="left"><a team=10 href="#2-3-u">6. UNLV</a></td>
+        <td round=2 game=3 upper="" side="left"></td>
+        <td></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td></td>
+        <td round=2 game=11 upper="" side="right"></td>
+        <td round=1 game=21 upper="" side="right"><a team=43 href="#2-11-u">6. Cincinnati</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=5 lower="" side="left"><a team=11 href="#2-3-u">11. Colorado</a></td>
+        <td round=2 game=3 side="left"></td>
+        <td round=3 game=2 upper="" side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=6 upper="" side="right"></td>
+        <td round=2 game=11 side="right"></td>
+        <td round=1 game=21 lower="" side="right"><a team=44 href="#2-11-u">11. Texas</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=3 side="left"></td>
+        <td round=3 game=2 side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=6 side="right"></td>
+        <td round=2 game=11 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=6 upper="" side="left"><a team=12 href="#2-3-l">3. Baylor</a></td>
+        <td round=2 game=3 lower="" side="left"></td>
+        <td round=3 game=2 side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=6 side="right"></td>
+        <td round=2 game=11 lower="" side="right"></td>
+        <td round=1 game=22 upper="" side="right"><a team=45 href="#2-11-l">3. Florida St.</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=6 lower="" side="left"><a team=13 href="#2-3-l">14. South Dakota St.</a></td>
+        <td></td>
+        <td round=3 game=2 side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td round=6 game=1 upper="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=6 side="right"></td>
+        <td></td>
+        <td round=1 game=22 lower="" side="right"><a team=46 href="#2-11-l">14. St. Bonaventure</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=2 side="left"></td>
+        <td round=4 game=1 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 side="right"></td>
+        <td round=3 game=6 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=7 upper="" side="left"><a team=14 href="#2-4-u">7. Notre Dame</a></td>
+        <td round=2 game=4 upper="" side="left"></td>
+        <td round=3 game=2 side="left"></td>
+        <td round=4 game=1 lower="" side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=3 lower="" side="right"></td>
+        <td round=3 game=6 side="right"></td>
+        <td round=2 game=12 upper="" side="right"></td>
+        <td round=1 game=23 upper="" side="right"><a team=47 href="#2-12-u">7. Gonzaga</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=7 lower="" side="left"><a team=15 href="#2-4-u">10. Xavier</a></td>
+        <td round=2 game=4 side="left"></td>
+        <td round=3 game=2 lower="" side="left"></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td round=3 game=6 lower="" side="right"></td>
+        <td round=2 game=12 side="right"></td>
+        <td round=1 game=23 lower="" side="right"><a team=48 href="#2-12-u">10. West Virginia</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=4 side="left"></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=12 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=8 upper="" side="left"><a team=16 href="#2-4-l">2. Duke</a></td>
+        <td round=2 game=4 lower="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=12 lower="" side="right"></td>
+        <td round=1 game=24 upper="" side="right"><a team=49 href="#2-12-l">2. Ohio St.</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=8 lower="" side="left"><a team=17 href="#2-4-l">15. Lehigh</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td round=7 game=1 upper="" lower="" side="left"></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=1 game=24 lower="" side="right"><a team=50 href="#2-12-l">15. Loyola MD</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=9 upper="" side="left"><a team=18 href="#2-5-u">1. Michigan St.</a></td>
+        <td round=2 game=5 upper="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=13 upper="" side="right"></td>
+        <td round=1 game=25 upper="" side="right"><a team=51 href="#2-13-u">1. North Carolina</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=9 lower="" side="left"><a team=19 href="#2-5-u">16. Long Island</a></td>
+        <td round=2 game=5 side="left"></td>
+        <td round=3 game=3 upper="" side="left"></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td round=3 game=7 upper="" side="right"></td>
+        <td round=2 game=13 side="right"></td>
+        <td round=1 game=25 lower="" side="right">16. &nbsp;</td>
+        <td bottom=""></td>
+        <td round=0 game=4 upper="" side="right"><a team=52 href="#1-25-l">Lamar</a></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=5 side="left"></td>
+        <td round=3 game=3 side="left"></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td round=3 game=7 side="right"></td>
+        <td round=2 game=13 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=0 game=4 side="right"></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=10 upper="" side="left"><a team=20 href="#2-5-l">8. Memphis</a></td>
+        <td round=2 game=5 lower="" side="left"></td>
+        <td round=3 game=3 side="left"></td>
+        <td></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td round=6 game=1 lower="" side="right"></td>
+        <td round=5 game=2 side="right"></td>
+        <td></td>
+        <td round=3 game=7 side="right"></td>
+        <td round=2 game=13 lower="" side="right"></td>
+        <td round=1 game=26 upper="" side="right"><a team=54 href="#2-13-l">8. Creighton</a></td>
+        <td></td>
+        <td round=0 game=4 lower="" side="right"><a team=53 href="#1-25-l">Vermont</a></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=10 lower="" side="left"><a team=21 href="#2-5-l">9. St. Louis</a></td>
+        <td></td>
+        <td round=3 game=3 side="left"></td>
+        <td round=4 game=2 upper="" side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=4 upper="" side="right"></td>
+        <td round=3 game=7 side="right"></td>
+        <td></td>
+        <td round=1 game=26 lower="" side="right"><a team=55 href="#2-13-l">9. Alabama</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=3 side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=7 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=11 upper="" side="left"><a team=22 href="#2-6-u">5. New Mexico</a></td>
+        <td round=2 game=6 upper="" side="left"></td>
+        <td round=3 game=3 side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=7 side="right"></td>
+        <td round=2 game=14 upper="" side="right"></td>
+        <td round=1 game=27 upper="" side="right"><a team=56 href="#2-14-u">5. Temple</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=11 lower="" side="left"><a team=23 href="#2-6-u">12. Long Beach St.</a></td>
+        <td round=2 game=6 side="left"></td>
+        <td round=3 game=3 lower="" side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=7 lower="" side="right"></td>
+        <td round=2 game=14 side="right"></td>
+        <td round=1 game=27 lower="" side="right">12. &nbsp;</td>
+        <td bottom=""></td>
+        <td round=0 game=3 upper="" side="right"><a team=57 href="#1-27-l">California</a></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=6 side="left"></td>
+        <td></td>
+        <td round=4 game=2 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=4 side="right"></td>
+        <td></td>
+        <td round=2 game=14 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=0 game=3 side="right"></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=12 upper="" side="left"><a team=24 href="#2-6-l">4. Louisville</a></td>
+        <td round=2 game=6 lower="" side="left"></td>
+        <td></td>
+        <td round=4 game=2 side="left"></td>
+        <td round=5 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 side="right"></td>
+        <td round=4 game=4 side="right"></td>
+        <td></td>
+        <td round=2 game=14 lower="" side="right"></td>
+        <td round=1 game=28 upper="" side="right"><a team=59 href="#2-14-l">4. Michigan</a></td>
+        <td></td>
+        <td round=0 game=3 lower="" side="right"><a team=58 href="#1-27-l">USF</a></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=12 lower="" side="left"><a team=25 href="#2-6-l">13. Davidson</a></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=2 side="left"></td>
+        <td round=5 game=1 lower="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=5 game=2 lower="" side="right"></td>
+        <td round=4 game=4 side="right"></td>
+        <td></td>
+        <td></td>
+        <td round=1 game=28 lower="" side="right"><a team=60 href="#2-14-l">13. Ohio</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=13 upper="" side="left"><a team=26 href="#2-7-u">6. Murray St.</a></td>
+        <td round=2 game=7 upper="" side="left"></td>
+        <td></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td></td>
+        <td round=2 game=15 upper="" side="right"></td>
+        <td round=1 game=29 upper="" side="right"><a team=61 href="#2-15-u">6. San Diego St.</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=13 lower="" side="left"><a team=27 href="#2-7-u">11. Colorado St.</a></td>
+        <td round=2 game=7 side="left"></td>
+        <td round=3 game=4 upper="" side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=8 upper="" side="right"></td>
+        <td round=2 game=15 side="right"></td>
+        <td round=1 game=29 lower="" side="right"><a team=62 href="#2-15-u">11. NC State</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=7 side="left"></td>
+        <td round=3 game=4 side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=8 side="right"></td>
+        <td round=2 game=15 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=14 upper="" side="left"><a team=28 href="#2-7-l">3. Marquette</a></td>
+        <td round=2 game=7 lower="" side="left"></td>
+        <td round=3 game=4 side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=8 side="right"></td>
+        <td round=2 game=15 lower="" side="right"></td>
+        <td round=1 game=30 upper="" side="right"><a team=63 href="#2-15-l">3. Georgetown</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td round=0 game=1 upper="" side="left"><a team=29 href="#1-14-l">BYU</a></td>
+        <td bottom=""></td>
+        <td round=1 game=14 lower="" side="left">14. &nbsp;</td>
+        <td></td>
+        <td round=3 game=4 side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=8 side="right"></td>
+        <td></td>
+        <td round=1 game=30 lower="" side="right"><a team=64 href="#2-15-l">14. Belmont</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td round=0 game=1 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=4 side="left"></td>
+        <td round=4 game=2 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 side="right"></td>
+        <td round=3 game=8 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td round=0 game=1 lower="" side="left"><a team=30 href="#1-14-l">Iona</a></td>
+        <td></td>
+        <td round=1 game=15 upper="" side="left"><a team=31 href="#2-8-u">7. Florida</a></td>
+        <td round=2 game=8 upper="" side="left"></td>
+        <td round=3 game=4 side="left"></td>
+        <td round=4 game=2 lower="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=4 game=4 lower="" side="right"></td>
+        <td round=3 game=8 side="right"></td>
+        <td round=2 game=16 upper="" side="right"></td>
+        <td round=1 game=31 upper="" side="right"><a team=65 href="#2-16-u">7. St. Mary's</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=15 lower="" side="left"><a team=32 href="#2-8-u">10. Virginia</a></td>
+        <td round=2 game=8 side="left"></td>
+        <td round=3 game=4 lower="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=3 game=8 lower="" side="right"></td>
+        <td round=2 game=16 side="right"></td>
+        <td round=1 game=31 lower="" side="right"><a team=66 href="#2-16-u">10. Purdue</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr spacer="">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=8 side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=16 side="right"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=16 upper="" side="left"><a team=33 href="#2-8-l">2. Missouri</a></td>
+        <td round=2 game=8 lower="" side="left"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=2 game=16 lower="" side="right"></td>
+        <td round=1 game=32 upper="" side="right"><a team=67 href="#2-16-l">2. Kansas</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td></td>
+        <td round=1 game=16 lower="" side="left"><a team=34 href="#2-8-l">15. Norfolk St.</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td round=1 game=32 lower="" side="right"><a team=68 href="#2-16-l">15. Detroit</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<p style="margin-top:60px; font-size: 12px;">This page doesn't work on IE because IE sucks. Get a <a href="https://www.mozilla.org/en-US/firefox/new/">better</a> <a href="https://www.google.com/chrome/">browser</a>.
+
+</body>
+</html>
