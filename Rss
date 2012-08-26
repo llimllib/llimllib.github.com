@@ -1,19 +1,115 @@
-<html><head><title>Bill Mill</title>
-<link rel="stylesheet" href="css/960css/reset.css" />
-<link rel="stylesheet" href="css/960css/960.css" />
-<link rel="stylesheet" href="css/style.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head><body>
-<div class="container_16">
-    <div class="grid_3">
-        <a href="http://billmill.org"><img src="images/logo.png" width="136" height="94"></a>
-    </div>
-    <div class="clear"></div>
+<?xml version="1.0" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>My Name Rhymes</title>
+        <link>http://billmill.org/</link>
+        <description></description>
+        <language>en-us</language>
+        <atom:link href="http://billmill.org/Rss" rel="self" type="application/rss+xml" />
+        <item>
+            <title>Visualizing Permutations</title>
+            <guid isPermaLink="true">http://billmill.org/permvis.html</guid>
+            <link>http://billmill.org/permvis.html</link>
+            <description><![CDATA[<p>At some point a few years ago, I got interested in permutation algorithms and
+implemented a few that were in Knuth as well as gathered some that were
+floating around the internet. I never did anything with them, until I saw Aldo
+Cortesi's excellent <a
+href="http://corte.si/posts/code/visualisingsorting/index.html">sorting
+visualizations</a> which reminded me of <a
+href="http://img.skitch.com/20100429-muthj97xmh8a34dnwnqkc64d6e.jpg">a figure
+from Knuth</a>, and inspired me to create some visualizations of my own using
+Aldo's code.
 
-    <div class="grid_13 prefix_3 content">
-        <h1>Multi-Line Lambdas in Python Using the With Statement</h1>
+<p><h2>Lexicographic Permutations</h2>
 
-        <p>Python <a 
+<p>Informally, the permutations of a set are all possible orderings of its
+members. The permutations of the set <i>{1,2,3}</i>, are: 
+
+<p><code>[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]</code>
+
+<p>This particular ordering of permutations is in <i>lexicographic order</i>;
+it's listed in the same order as it would be in the dictionary. There are many
+well-known algorithms for generating permutations in lexicographic order. <a
+href="http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L5">Here</a>
+is my version of one such algorithm; <a
+href="http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz">go read Knuth</a>
+if you're at all interested in learning more.
+
+<p>Here's what a lexicographic permutation of four elements looks like:
+
+<p><img src="http://billmill.org/static/perm1.png">
+
+<p>It's easy to see that each element gets its turn at the top of the list, and
+that each time a new element goes to the top the remainder of the list is
+sorted.
+
+<p><h2>Single-transposition Permutations</h2>
+
+<p>It is an interesting and non-obvious fact that there's a way to permute any
+given set by only switching the positions of one pair of elements per iteration.
+This permutation is deeply related to the <a
+href="http://en.wikipedia.org/wiki/Gray_code">Gray code</a>, which if you
+haven't heard of, I highly recommend you go read about. The Knuth <a
+href="http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz">paper</a> I
+mentioned aleady has a superb bit on the Gray code.
+
+<p><img src="http://billmill.org/static/perm4.png">
+
+<p>This image demonstrates clearly that at each step, there is exactly one
+crossing. My implementation of this algorithm is <a
+href="http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L201">also
+on github.</a>
+
+<p><h2>CLP Permutation</h2>
+
+<p>I know very little about this algorithm, except that I got it from <a
+href="http://mail.python.org/pipermail/python-list/2002-November/170393.html">a message
+to comp.lang.python</a> where it's attributed to Alex Martelli, Duncan Smith,
+and somebody named Anton (Anton Vredegoor?). Despite the crazy number of
+switches, and the fact that it reorders the list it's passed, it's actually
+crazy fast.
+
+<p><img src="http://billmill.org/static/clp_perm.png">
+
+<p>I'd love to hear from anyone with more info on this algorithm; my slightly
+modified version is <a
+href="http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L233">here</a>.
+
+<p><h2>Odds and Ends</h2>
+
+<p>Well, that's it, just wanted to post some fun pictures of permutations, I
+hope you enjoyed it. The code I used to generate the pictures is derived from
+Aldo Cortesi's wonderful <a
+href="http://github.com/cortesi/sortvis">sortvis</a>, and all my modifications to
+it are <a
+href="http://github.com/llimllib/personal_code/tree/master/python/permvis">available
+on github</a> as well.
+
+<p>If you want bonus points, I never got around to implementing Knuth's
+algorithm E (it's given towards the end of <a
+href="http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz">this</a>), and
+I'd love for somebody else to do my work for me. If you're tough enough, that
+is.
+]]></description>
+            <pubDate>Thu, 29 Apr 2010 21:10:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>The Bill Mill NCAA Bracket Randomizer, 2010 edition</title>
+            <guid isPermaLink="true">http://billmill.org/ncaa_randomizer_2010.html</guid>
+            <link>http://billmill.org/ncaa_randomizer_2010.html</link>
+            <description><![CDATA[<p>I've updated my <a href="http://billmill.org/ncaa_randomizer.html">NCAA bracket
+randomizer</a> for the 2010 field; check it out
+<a href="http://billmill.org/static/ncaa-bracket-randomizer/out.html">here</a>.
+As of now, there are no improvements, but those may
+come in the next few days; feel free to suggest ideas.
+]]></description>
+            <pubDate>Sun, 14 Mar 2010 20:15:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>Multi-Line Lambdas in Python Using the With Statement</title>
+            <guid isPermaLink="true">http://billmill.org/multi_line_lambdas.html</guid>
+            <link>http://billmill.org/multi_line_lambdas.html</link>
+            <description><![CDATA[<p>Python <a 
 href="http://www.artima.com/weblogs/viewpost.jsp?thread=147358">does not have 
 multi-line lambdas</a> because Guido dislikes them aesthetically. However, with 
 just a bit of introspection, code like this is possible:
@@ -345,13 +441,155 @@ look at the code</a> on github.
 <p><h2>Update:</h2> Someone <a
 href="http://code.google.com/p/ouspg/wiki/AnonymousBlocksInPython?ts=1253546882&updated=AnonymousBlocksInPython">has</a> taken this technique a bit farther,
 using some bytecode hackery.
+]]></description>
+            <pubDate>Thu, 20 Aug 2009 22:55:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>What Gladwell is Missing: Institutional Memory</title>
+            <guid isPermaLink="true">http://billmill.org/institutional_memory.html</guid>
+            <link>http://billmill.org/institutional_memory.html</link>
+            <description><![CDATA[<p>Malcolm Gladwell's recent <a
+href="http://www.newyorker.com/reporting/2009/05/11/090511fa_fact_gladwell?yrail">article</a>,
+ostensibly about how Davids can beat Goliaths, featured great praise for the
+full-court press as a method for less-skilled teams to beat more-skilled ones.
+He writes:
 
+<blockquote>In the world of basketball, there is one story after another like
+this about legendary games where David used the full-court press to beat
+Goliath. Yet the puzzle of the press is that it has never become popular.
+People look at upsets like Fordham over UMass and call them flukes. Basketball
+sages point out that the press can be beaten by a well-coached team with adept
+ball handlers and astute passers&mdash;and that is true... Playing insurgent
+basketball did not guarantee victory. It was simply the best chance an underdog
+had of beating Goliath.</blockquote>
 
-        <h4><a href="http://billmill.org/multi_line_lambdas.html">Aug 20, 2009</a></h4>
-    </div>
+<p>After his piece was <a
+href="http://galleyslaves.blogspot.com/2009/05/more-on-gladwell-press-etc.html">rightly</a>
+<a
+href="http://deadspin.com/5239721/malcolm-gladwell-wants-to-know-why-your-team-doesnt-press-more">criticized</a> 
+<a
+href="http://rivals.yahoo.com/ncaa/basketball/blog/the_dagger/post/Malcolm-Gladwell-still-talking-about-the-full-co?urn=ncaab,163209">all</a>
+<a
+href="http://rushthecourt.net/2009/05/05/gladwells-theory-on-full-court-pressure-is-the-only-outlier-here/">over</a>
+<a
+href="http://www.nbcnewyork.com/sports/basketball/Why-Dont-More-Basketball-Teams-Run-the-Press.html">the</a> 
+<a
+href="http://nymag.com/daily/intel/2009/05/malcolm_gladwell_isnt_a_basket.html">web</a>,
+ESPN <a
+href="http://sports.espn.go.com/espn/page2/story?page=simmons/090513">published</a>
+a long and interesting email conversation between him and Bill Simmons that
+addressed the criticism. In it, Gladwell defended his column:
 
-    <div class="grid_16 footer">
-        Bill Mill • <a href="mailto:bill.mill@gmail.com">bill.mill@gmail.com</a>
-    </div>
-</div>
-</body></html>
+<blockquote>After my piece ran in <em>The New Yorker</em>, one of the most common
+responses I got was people saying, well, the reason more people don't use the
+press is that it can be beaten with a well-coached team and a good point guard.
+That is (A) absolutely true and (B) beside the point. The press doesn't
+guarantee victory. It simply represents the underdog's best  chance of
+victory&hellip; I went to see a Lakers-Warriors game earlier this season, and
+it was abundantly clear after five minutes that the Warriors' chances of
+winning were, oh, no better than 10 percent. Why wouldn't you have a special
+squad of trained pressers come in for five minutes a half and press Kobe and
+Fisher?&hellip;  Best case is that you rattle the Lakers and force
+a half-dozen extra turnovers that turn out to be crucial. And if you lose, so
+what? You were going to lose anyway.</blockquote>
+
+<p>Although lots of people have responded to this rebuttal, I haven't seen
+anyone mention what I consider to be an important reason that many teams have
+chosen not to implement full-court presses: <strong>Institutional
+Memory</strong>.
+
+<p>Let's imagine that the Warriors had in fact, put on the press, and that it
+had worked. The Warriors won against the vaunted Lakers! How would the team
+respond? They would press more. When that worked to win some more games, they would
+probably trade some of their players who were less well suited to the press to
+make room for some younger, faster, fitter players. They would win a few more
+games than they had been before. Everything's going good, right?
+
+<p>Then they hit a snag; <strong>No team has won the NBA Championship by pressing
+</strong>. The Warriors could optimize like crazy for the press, but
+they'd be training and working and trading and drafting to be, at best, a
+pretty good team. But no NBA team wants to be a pretty good team&mdash;they all
+want to win championships.
+
+<p>The mental exercise reveals what Gladwell has missed: the Warriors aren't
+playing to win that game, or even the most games that season. They're playing
+to try and win an NBA championship,
+and to do so, they need to spend years trying to build up the institutional
+memory of how to win games in the traditional way so that they can eventually beat
+every team, not just to win more games than they did playing traditionally.
+
+<p>All of this leads to a simple admonishment when analyzing organizations:
+don't expect that the organization is optimizing for what you think they're
+optimizing for. And when an organization seems to be acting in ways that are surprising to
+you, look for metrics that may be more important to them than the ones you
+expect.
+]]></description>
+            <pubDate>Sun, 31 May 2009 16:50:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>The Bill Mill NCAA Bracket Randomizer</title>
+            <guid isPermaLink="true">http://billmill.org/ncaa_randomizer.html</guid>
+            <link>http://billmill.org/ncaa_randomizer.html</link>
+            <description><![CDATA[<p>Each year, when the NCAA basketball tournament comes around, I end up in
+four or five pools, with a separate bracket filled out for each. I love the
+games, and I love having teams to root for, but I really hate the process of
+guessing to fill out my brackets. I inevitably pick too many upsets, just
+because I want to have fun rooting for underdogs; instead I end up bored after
+the first two rounds.
+
+<p>This year, I thought I could write some software to help me pick out my
+brackets. If I let the computer pick reasonably but randomly for each pool, I figure that I
+stand a better chance of having <em>one</em> decent bracket instead of the
+assortment of crappy ones I normally end up with.
+
+<p>So the last two nights, I <a
+href="http://billmill.org/static/ncaa-bracket-randomizer/out.html">wrote
+myself a bracket randomizer</a>; just push the "randomize" button at the top and
+watch it go.
+
+<p>In order to pick what team will win a given game, it first calculates the
+chance each team will win by plugging <a
+href="http://kenpom.com/rate.php">Ken Pomeroy's</a> ratings
+into the <a
+href="http://www.diamond-mind.com/articles/playoff2002.htm">log5</a> formula.
+Then it picks a random number and compares it to the probability of the
+favorite winning; if the number is lower than that, it advances the favorite.
+Otherwise, it advances the underdog. Rinse and repeat, and you should have a
+reasonable random bracket for the whole tournament.
+
+<h2>The Output</h2>
+
+<p>Next to each team in the bracket, you'll see three numbers in parentheses.
+These numbers represent, respectively, the team's Pythagorean rating, adjusted
+offensive efficiency, and adjusted defensive efficiency.
+
+<p>If that's Greek to you (<em>groan</em>), go check out <a
+href="http://www.kenpom.com/blog/index.php/weblog/ratings_explanation/">Ken's
+explanation</a> of what that means.
+
+<p>The color of each team, once you've randomized, represents their odds of
+winning. Brighter green is more of a favorite, deeper red more of an underdog.
+It should update the colors if you manually change the teams, but it won't; I
+just didn't have time to get everything done that I wanted to. Similarly, it
+won't update future games if you change the winner of an early one.
+
+<h2>The Code</h2>
+
+<p>The surprisingly difficult part of this project was creating a simple HTML bracket that
+looked reasonable and allowed you to click to advance a team. I didn't get
+everything into the page that I wanted to, simply because I spent so much time
+just getting that done. (Keep in mind we're talking about a 2-night hack here).
+
+<p>The code to generate the bracket is contained in one super-ugly <a
+href="http://github.com/llimllib/ncaa-bracket-randomizer/blob/1db753ce4f91fc84265efa6a27fa7ee00e84eaa2/bracket.py">python
+file</a>.
+
+<p>If you've got ideas for stuff to add, or want to generate a cooler looking
+bracket, or just check out the code, you can <a
+href="http://github.com/llimllib/ncaa-bracket-randomizer/tree/master">go get
+it</a> at github. Feel free to fork and enjoy!
+]]></description>
+            <pubDate>Wed, 18 Mar 2009 16:00:00 +0000</pubDate>
+        </item>
+</channel>
+</rss>

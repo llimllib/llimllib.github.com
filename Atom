@@ -1,0 +1,1154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<link rel="self" href="http://billmill.org/Atom/" />
+	<id>http://billmill.org/</id>
+	<title>My Name Rhymes</title>
+	<subtitle></subtitle>
+	<updated>2010-04-29T21:10:00Z</updated>
+	<author>
+		<name>Bill Mill</name>
+		<email>bill.mill@gmail.com</email>
+		<uri>http://billmill.org/</uri>
+	</author>
+	<link href="http://billmill.org/" />
+	<entry>
+		<title>Visualizing Permutations</title>
+		<link href="" />	
+		<id>http://billmill.org/permvis.html</id>
+		<updated>2010-04-29T21:10:00Z</updated>
+		<summary type="html">&lt;p&gt;At some point a few years ago, I got interested in permutation algorithms and
+implemented a few that were in Knuth as well as gathered some that were
+floating around the internet. I never did anything with them, until I saw Aldo
+Cortesi's excellent &lt;a
+href=&quot;http://corte.si/posts/code/visualisingsorting/index.html&quot;&gt;sorting
+visualizations&lt;/a&gt; which reminded me of &lt;a
+href=&quot;http://img.skitch.com/20100429-muthj97xmh8a34dnwnqkc64d6e.jpg&quot;&gt;a figure
+from Knuth&lt;/a&gt;, and inspired me to create some visualizations of my own using
+Aldo's code.
+
+&lt;p&gt;&lt;h2&gt;Lexicographic Permutations&lt;/h2&gt;
+
+&lt;p&gt;Informally, the permutations of a set are all possible orderings of its
+members. The permutations of the set &lt;i&gt;{1,2,3}&lt;/i&gt;, are: 
+
+&lt;p&gt;&lt;code&gt;[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]&lt;/code&gt;
+
+&lt;p&gt;This particular ordering of permutations is in &lt;i&gt;lexicographic order&lt;/i&gt;;
+it's listed in the same order as it would be in the dictionary. There are many
+well-known algorithms for generating permutations in lexicographic order. &lt;a
+href=&quot;http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L5&quot;&gt;Here&lt;/a&gt;
+is my version of one such algorithm; &lt;a
+href=&quot;http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz&quot;&gt;go read Knuth&lt;/a&gt;
+if you're at all interested in learning more.
+
+&lt;p&gt;Here's what a lexicographic permutation of four elements looks like:
+
+&lt;p&gt;&lt;img src=&quot;http://billmill.org/static/perm1.png&quot;&gt;
+
+&lt;p&gt;It's easy to see that each element gets its turn at the top of the list, and
+that each time a new element goes to the top the remainder of the list is
+sorted.
+
+&lt;p&gt;&lt;h2&gt;Single-transposition Permutations&lt;/h2&gt;
+
+&lt;p&gt;It is an interesting and non-obvious fact that there's a way to permute any
+given set by only switching the positions of one pair of elements per iteration.
+This permutation is deeply related to the &lt;a
+href=&quot;http://en.wikipedia.org/wiki/Gray_code&quot;&gt;Gray code&lt;/a&gt;, which if you
+haven't heard of, I highly recommend you go read about. The Knuth &lt;a
+href=&quot;http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz&quot;&gt;paper&lt;/a&gt; I
+mentioned aleady has a superb bit on the Gray code.
+
+&lt;p&gt;&lt;img src=&quot;http://billmill.org/static/perm4.png&quot;&gt;
+
+&lt;p&gt;This image demonstrates clearly that at each step, there is exactly one
+crossing. My implementation of this algorithm is &lt;a
+href=&quot;http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L201&quot;&gt;also
+on github.&lt;/a&gt;
+
+&lt;p&gt;&lt;h2&gt;CLP Permutation&lt;/h2&gt;
+
+&lt;p&gt;I know very little about this algorithm, except that I got it from &lt;a
+href=&quot;http://mail.python.org/pipermail/python-list/2002-November/170393.html&quot;&gt;a message
+to comp.lang.python&lt;/a&gt; where it's attributed to Alex Martelli, Duncan Smith,
+and somebody named Anton (Anton Vredegoor?). Despite the crazy number of
+switches, and the fact that it reorders the list it's passed, it's actually
+crazy fast.
+
+&lt;p&gt;&lt;img src=&quot;http://billmill.org/static/clp_perm.png&quot;&gt;
+
+&lt;p&gt;I'd love to hear from anyone with more info on this algorithm; my slightly
+modified version is &lt;a
+href=&quot;http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L233&quot;&gt;here&lt;/a&gt;.
+
+&lt;p&gt;&lt;h2&gt;Odds and Ends&lt;/h2&gt;
+
+&lt;p&gt;Well, that's it, just wanted to post some fun pictures of permutations, I
+hope you enjoyed it. The code I used to generate the pictures is derived from
+Aldo Cortesi's wonderful &lt;a
+href=&quot;http://github.com/cortesi/sortvis&quot;&gt;sortvis&lt;/a&gt;, and all my modifications to
+it are &lt;a
+href=&quot;http://github.com/llimllib/personal_code/tree/master/python/permvis&quot;&gt;available
+on github&lt;/a&gt; as well.
+
+&lt;p&gt;If you want bonus points, I never got around to implementing Knuth's
+algorithm E (it's given towards the end of &lt;a
+href=&quot;http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz&quot;&gt;this&lt;/a&gt;), and
+I'd love for somebody else to do my work for me. If you're tough enough, that
+is.
+</summary>
+		<content type="html">&lt;p&gt;At some point a few years ago, I got interested in permutation algorithms and
+implemented a few that were in Knuth as well as gathered some that were
+floating around the internet. I never did anything with them, until I saw Aldo
+Cortesi's excellent &lt;a
+href=&quot;http://corte.si/posts/code/visualisingsorting/index.html&quot;&gt;sorting
+visualizations&lt;/a&gt; which reminded me of &lt;a
+href=&quot;http://img.skitch.com/20100429-muthj97xmh8a34dnwnqkc64d6e.jpg&quot;&gt;a figure
+from Knuth&lt;/a&gt;, and inspired me to create some visualizations of my own using
+Aldo's code.
+
+&lt;p&gt;&lt;h2&gt;Lexicographic Permutations&lt;/h2&gt;
+
+&lt;p&gt;Informally, the permutations of a set are all possible orderings of its
+members. The permutations of the set &lt;i&gt;{1,2,3}&lt;/i&gt;, are: 
+
+&lt;p&gt;&lt;code&gt;[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]&lt;/code&gt;
+
+&lt;p&gt;This particular ordering of permutations is in &lt;i&gt;lexicographic order&lt;/i&gt;;
+it's listed in the same order as it would be in the dictionary. There are many
+well-known algorithms for generating permutations in lexicographic order. &lt;a
+href=&quot;http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L5&quot;&gt;Here&lt;/a&gt;
+is my version of one such algorithm; &lt;a
+href=&quot;http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz&quot;&gt;go read Knuth&lt;/a&gt;
+if you're at all interested in learning more.
+
+&lt;p&gt;Here's what a lexicographic permutation of four elements looks like:
+
+&lt;p&gt;&lt;img src=&quot;http://billmill.org/static/perm1.png&quot;&gt;
+
+&lt;p&gt;It's easy to see that each element gets its turn at the top of the list, and
+that each time a new element goes to the top the remainder of the list is
+sorted.
+
+&lt;p&gt;&lt;h2&gt;Single-transposition Permutations&lt;/h2&gt;
+
+&lt;p&gt;It is an interesting and non-obvious fact that there's a way to permute any
+given set by only switching the positions of one pair of elements per iteration.
+This permutation is deeply related to the &lt;a
+href=&quot;http://en.wikipedia.org/wiki/Gray_code&quot;&gt;Gray code&lt;/a&gt;, which if you
+haven't heard of, I highly recommend you go read about. The Knuth &lt;a
+href=&quot;http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz&quot;&gt;paper&lt;/a&gt; I
+mentioned aleady has a superb bit on the Gray code.
+
+&lt;p&gt;&lt;img src=&quot;http://billmill.org/static/perm4.png&quot;&gt;
+
+&lt;p&gt;This image demonstrates clearly that at each step, there is exactly one
+crossing. My implementation of this algorithm is &lt;a
+href=&quot;http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L201&quot;&gt;also
+on github.&lt;/a&gt;
+
+&lt;p&gt;&lt;h2&gt;CLP Permutation&lt;/h2&gt;
+
+&lt;p&gt;I know very little about this algorithm, except that I got it from &lt;a
+href=&quot;http://mail.python.org/pipermail/python-list/2002-November/170393.html&quot;&gt;a message
+to comp.lang.python&lt;/a&gt; where it's attributed to Alex Martelli, Duncan Smith,
+and somebody named Anton (Anton Vredegoor?). Despite the crazy number of
+switches, and the fact that it reorders the list it's passed, it's actually
+crazy fast.
+
+&lt;p&gt;&lt;img src=&quot;http://billmill.org/static/clp_perm.png&quot;&gt;
+
+&lt;p&gt;I'd love to hear from anyone with more info on this algorithm; my slightly
+modified version is &lt;a
+href=&quot;http://github.com/llimllib/personal_code/blob/master/python/permutation/permute.py#L233&quot;&gt;here&lt;/a&gt;.
+
+&lt;p&gt;&lt;h2&gt;Odds and Ends&lt;/h2&gt;
+
+&lt;p&gt;Well, that's it, just wanted to post some fun pictures of permutations, I
+hope you enjoyed it. The code I used to generate the pictures is derived from
+Aldo Cortesi's wonderful &lt;a
+href=&quot;http://github.com/cortesi/sortvis&quot;&gt;sortvis&lt;/a&gt;, and all my modifications to
+it are &lt;a
+href=&quot;http://github.com/llimllib/personal_code/tree/master/python/permvis&quot;&gt;available
+on github&lt;/a&gt; as well.
+
+&lt;p&gt;If you want bonus points, I never got around to implementing Knuth's
+algorithm E (it's given towards the end of &lt;a
+href=&quot;http://www-cs-faculty.stanford.edu/~knuth/fasc2b.ps.gz&quot;&gt;this&lt;/a&gt;), and
+I'd love for somebody else to do my work for me. If you're tough enough, that
+is.
+</content>
+	</entry>
+	<entry>
+		<title>The Bill Mill NCAA Bracket Randomizer, 2010 edition</title>
+		<link href="" />	
+		<id>http://billmill.org/ncaa_randomizer_2010.html</id>
+		<updated>2010-03-14T20:15:00Z</updated>
+		<summary type="html">&lt;p&gt;I've updated my &lt;a href=&quot;http://billmill.org/ncaa_randomizer.html&quot;&gt;NCAA bracket
+randomizer&lt;/a&gt; for the 2010 field; check it out
+&lt;a href=&quot;http://billmill.org/static/ncaa-bracket-randomizer/out.html&quot;&gt;here&lt;/a&gt;.
+As of now, there are no improvements, but those may
+come in the next few days; feel free to suggest ideas.
+</summary>
+		<content type="html">&lt;p&gt;I've updated my &lt;a href=&quot;http://billmill.org/ncaa_randomizer.html&quot;&gt;NCAA bracket
+randomizer&lt;/a&gt; for the 2010 field; check it out
+&lt;a href=&quot;http://billmill.org/static/ncaa-bracket-randomizer/out.html&quot;&gt;here&lt;/a&gt;.
+As of now, there are no improvements, but those may
+come in the next few days; feel free to suggest ideas.
+</content>
+	</entry>
+	<entry>
+		<title>Multi-Line Lambdas in Python Using the With Statement</title>
+		<link href="" />	
+		<id>http://billmill.org/multi_line_lambdas.html</id>
+		<updated>2009-08-20T22:55:00Z</updated>
+		<summary type="html">&lt;p&gt;Python &lt;a 
+href=&quot;http://www.artima.com/weblogs/viewpost.jsp?thread=147358&quot;&gt;does not have 
+multi-line lambdas&lt;/a&gt; because Guido dislikes them aesthetically. However, with 
+just a bit of introspection, code like this is possible:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #666666&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; each([&lt;span style=&quot;color: #40a070&quot;&gt;12&lt;/span&gt;, &lt;span style=&quot;color: #40a070&quot;&gt;14&lt;/span&gt;, &lt;span style=&quot;color: #40a070&quot;&gt;16&lt;/span&gt;]):
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;   &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;     &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; x
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;     &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; x&lt;span style=&quot;color: #666666&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;  
+&lt;span style=&quot;color: #40a070&quot;&gt;12&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;13&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;14&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;15&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;16&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;17&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I'll say a bit about my motivation for creating code like this, show how 
+easy it is to write, and then I'll argue that code like this is both pythonic 
+and aesthetically appealing in some circumstances.
+
+&lt;p&gt;&lt;h2&gt;A Mystery Solved (By Holmes Himself!)&lt;/h2&gt;
+
+&lt;p&gt;When I first saw code using the &lt;code&gt;with&lt;/code&gt; statement, my hope was 
+that it would be able to be used somewhat like Haskell's &lt;a 
+href=&quot;http://en.wikipedia.org/wiki/Haskell_%28programming_language%29#More_complex_examples&quot;&gt;Where 
+clause&lt;/a&gt; or Ruby's &lt;a 
+href=&quot;http://allaboutruby.wordpress.com/2006/01/20/ruby-blocks-101/&quot;&gt;blocks&lt;/a&gt;.  
+When I dug into the &lt;a 
+href=&quot;http://www.python.org/dev/peps/pep-0343/&quot;&gt;spec&lt;/a&gt;, I was disappointed to 
+discover that if it was possible, it wasn't easy, and I pushed the thought 
+aside.
+
+&lt;p&gt;That was a couple years ago, and I didn't give it a moment's thought until I 
+saw &lt;a 
+href=&quot;http://www.mechanicalcat.net/richard/log/Python/Something_I_m_working_on.3&quot;&gt;a 
+blog post&lt;/a&gt; by Richard Jones that uses a &lt;code&gt;with&lt;/code&gt; statement in exactly 
+the way I had considered impossible up to now. I spent a few hours trying to 
+figure it out, but I was stumped, so I put up &lt;a 
+href=&quot;http://stackoverflow.com/questions/1255914/finding-functions-defined-in-a-with-block&quot;&gt;a 
+question&lt;/a&gt; on Stack Overflow to see if somebody could show me how he did it.
+
+&lt;p&gt;Within a few hours, &lt;a 
+href=&quot;http://en.wikipedia.org/wiki/Alex_Martelli&quot;&gt;Alex Martelli&lt;/a&gt; himself 
+chimed in with a wonderful solution. The gist of the answer is that you can use 
+the &lt;code&gt;inspect&lt;/code&gt; module to access the &lt;a 
+href=&quot;http://www.python.org/doc/2.5.2/lib/typecontextmanager.html&quot;&gt;context 
+manager&lt;/a&gt;'s calling scope, and figure out what variables have been defined 
+between its &lt;code&gt;__enter__&lt;/code&gt; and &lt;code&gt;__exit__&lt;/code&gt; functions. I'm 
+glad I asked aloud, because even if I had stumbled close to the solution, I 
+surely wouldn't have come up with one as complete as his.
+
+&lt;p&gt;&lt;h2&gt;The How&lt;/h2&gt;
+
+&lt;p&gt;Once I had Alex's proof of concept code in hand, I went to work making it do 
+what I'd had in my head so long ago. In about an hour, I was able to write code 
+that looks like this:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;each&lt;/span&gt;(iterable, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; i &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; iterable:
+      block(i)
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; each([&lt;span style=&quot;color: #4070a0&quot;&gt;&amp;quot;twelve&amp;quot;&lt;/span&gt;, &lt;span style=&quot;color: #4070a0&quot;&gt;&amp;quot;fourteen&amp;quot;&lt;/span&gt;, &lt;span style=&quot;color: #4070a0&quot;&gt;&amp;quot;sixteen&amp;quot;&lt;/span&gt;]):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; x
+
+&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;bmap&lt;/span&gt;(arr, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;map&lt;/span&gt;(block, arr)
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; bmap([&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;3&lt;/span&gt;]) &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;as&lt;/span&gt; foo:
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; (&lt;span style=&quot;color: #007020&quot;&gt;float&lt;/span&gt;(x) &lt;span style=&quot;color: #666666&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;) &lt;span style=&quot;color: #666666&quot;&gt;/&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; foo &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;# [1.0, 1.5, 2.0]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What you see above are two functions which use a decorator giving them 
+access to the function defined within the &lt;code&gt;with&lt;/code&gt; block. The 
+decorator passes the block to the function as its last argument just &lt;a 
+href=&quot;http://eli.thegreenplace.net/2006/04/18/understanding-ruby-blocks-procs-and-methods/&quot;&gt;like 
+in Ruby&lt;/a&gt;.
+
+&lt;p&gt;To understand how this happens, you need to know how context managers work.  
+Context managers consist of a class with &lt;code&gt;__enter__&lt;/code&gt; and 
+&lt;code&gt;__exit__&lt;/code&gt; methods which are called upon entering the with block and 
+upon exiting, just as you'd expect.
+
+&lt;p&gt;Alex's solution involves scanning the scope of the calling function from the 
+&lt;code&gt;__enter__&lt;/code&gt; and &lt;code&gt;__exit__&lt;/code&gt; methods, and pulling out the 
+differences between them. These differences will be all the variables that were 
+defined in the &lt;code&gt;with&lt;/code&gt; block. A sketch:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #0e84b5; font-weight: bold&quot;&gt;FindInteresting&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;object&lt;/span&gt;):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__enter__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+    f &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; inspect&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;currentframe(&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;)
+    &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;already_defined &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;dict&lt;/span&gt;(f&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals)
+
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+    f &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; inspect&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;currentframe(&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;)
+    &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#pick out the differences between f.f_locals and self.already_defined&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When we pick out the differences between the two, we need to be careful to 
+check for names that have been redefined so that we don't miss out on new 
+functions that reuse old names.
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+  f &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; inspect&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;currentframe(&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;)
+  interesting &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; {}
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; n &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; f&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals:
+    newf &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; f&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals[n]
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; n &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;not&lt;/span&gt; &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;already_defined:
+      interesting[n] &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; newf
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;continue&lt;/span&gt;
+    anf &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;already_defined[n]
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;id&lt;/span&gt;(newf) &lt;span style=&quot;color: #666666&quot;&gt;!=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;id&lt;/span&gt;(anf):
+      interesting[n] &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; newf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After this function has run, &lt;code&gt;interesting&lt;/code&gt; is a dictionary which 
+(probably) contains all the names and values of the variables that have been 
+redefined in the &lt;code&gt;with&lt;/code&gt; block.
+
+&lt;p&gt;Because we have to use the &lt;code&gt;id&lt;/code&gt; check to determine if a name has 
+been redefined, and Python sometimes caches objects in memory, our function can 
+be fooled. In this case, &lt;code&gt;interesting&lt;/code&gt; will not detect 
+&lt;code&gt;x&lt;/code&gt; because it's being redefined and cpython caches the low 
+integers, so &lt;code&gt;id(x)&lt;/code&gt; will be the same for both &lt;code&gt;x&lt;/code&gt;s.
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;x &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; FindInteresting:
+  x &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In general, the cpython runtime is not aggressive about caching, but you 
+should know that this possibility exists. If you use this technique, I 
+recommend being strict about checking only newly defined functions, since 
+there's no way to be sure if you missed any redefined names.
+
+&lt;p&gt;To make the teaser code at the top of the article work, I just wrapped 
+Alex's code into a decorator that returned a context manager, then called the 
+function being decorated with the definitions that we found in the 
+&lt;code&gt;interesting&lt;/code&gt; dictionary. The context manager's 
+&lt;code&gt;__call__&lt;/code&gt; function gets overridden to allow you to pass in 
+arguments for the function being decorated.
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;accepts_block&lt;/span&gt;(f):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #0e84b5; font-weight: bold&quot;&gt;BlockContextManager&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;object&lt;/span&gt;):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__call__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;, &lt;span style=&quot;color: #666666&quot;&gt;*&lt;/span&gt;args, &lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;kwargs):
+      &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;thefunction &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; functools&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;partial(f, &lt;span style=&quot;color: #666666&quot;&gt;*&lt;/span&gt;args, &lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;kwargs)
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;
+
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__enter__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+      &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#do Alex&amp;#39;s magic, just as above&lt;/span&gt;
+    
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+      &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#make the interesting dictionary, just as above&lt;/span&gt;
+
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;len&lt;/span&gt;(interesting) &lt;span style=&quot;color: #666666&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;:
+        block &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;list&lt;/span&gt;(interesting&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;itervalues())[&lt;span style=&quot;color: #40a070&quot;&gt;0&lt;/span&gt;]
+        &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;assert&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;isinstance&lt;/span&gt;(block, &lt;span style=&quot;color: #007020&quot;&gt;type&lt;/span&gt;(&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;lambda&lt;/span&gt;:&lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;))
+        &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;thefunction(block)
+
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; BlockContextManager()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It looks complicated and nested, but all it's doing is saving the function 
+and all its arguments, grabbing the definitions from the with block, making 
+sure there's only one definition and it's a function, then tacking it onto the 
+end of the arguments list for the function and calling it. Phew.
+
+&lt;p&gt;The code above handles the case where you don't need to store the result of
+the function being decorated:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;each&lt;/span&gt;(iterable, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; i &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; iterable:
+    block(i)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;But what if we want to store the result? Turns out, we can further abuse the 
+&lt;code&gt;with&lt;/code&gt; block by hijacking its &lt;code&gt;as&lt;/code&gt; clause. Because a 
+variable defined in the &lt;code&gt;as&lt;/code&gt; clause gets detected by Alex's code, we 
+can use the inspect module to change that variable so that after the with block 
+it reflects the result of our computation.
+
+&lt;p&gt;First we check to see if we probably have a block and a variable in the as 
+statement, then we reach in and store our result there if we are in that case:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+  &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#exactly as before; frame = inspect.currentframe(1)&lt;/span&gt;
+
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;len&lt;/span&gt;(interesting) &lt;span style=&quot;color: #666666&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;:
+    &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#exactly the same as before&lt;/span&gt;
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;elif&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;len&lt;/span&gt;(interesting) &lt;span style=&quot;color: #666666&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;:
+    block &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;
+    savename &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; n,v &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; interesting&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;iteritems():
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;isinstance&lt;/span&gt;(v, &lt;span style=&quot;color: #007020&quot;&gt;type&lt;/span&gt;(&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;lambda&lt;/span&gt;:&lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;)): block &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; v
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;else&lt;/span&gt;: savename &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; n
+
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;assert&lt;/span&gt; savename &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;and&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;isinstance&lt;/span&gt;(block, &lt;span style=&quot;color: #007020&quot;&gt;type&lt;/span&gt;(&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;lambda&lt;/span&gt;:&lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;))
+
+    frame&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals[savename] &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;thefunction(block)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which lets us do this:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;bmap&lt;/span&gt;(iterable, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;map&lt;/span&gt;(block, iterable)
+  
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; bmap([&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;3&lt;/span&gt;]) &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;as&lt;/span&gt; result:
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; x&lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; result &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#[1,4,9]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This time, we're really taking a leap by assuming that if we find a callable 
+and any other variable, that the variable is where we want to store our 
+results. This can lead to somewhat unexpected results:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; bmap([&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;3&lt;/span&gt;]):
+  not_a_result &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;12&lt;/span&gt;
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; x&lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; not_a_result &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;# [1,4,9] instead of 12&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's my extremely long-winded description of how to abuse the with 
+operator. If you want to see the full function and the super-lame test code I 
+wrote, you can &lt;a 
+href=&quot;http://github.com/llimllib/Python-Multiline-Lambdas/tree/master&quot;&gt;head on 
+over to github&lt;/a&gt; and check it out.
+
+&lt;p&gt;&lt;h2&gt;Aesthetics&lt;/h2&gt;
+
+&lt;p&gt;It should be clear from all of the disclaimers I've had to put into this 
+article that this technique is of limited use in Python as it stands today.  
+I'd like to make an argument that it suggests some nice syntactic sugar for 
+python to support someday, while remaining totally ignorant of the actual 
+difficulties of putting it into the language.
+
+&lt;p&gt;To do so, I'll start by posting the motivating example for decorators from 
+&lt;a href=&quot;http://www.python.org/dev/peps/pep-0318/&quot;&gt;the relevant PEP&lt;/a&gt;. It 
+argues that this code:
+
+&lt;p&gt;&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;foo&lt;/span&gt;(cls):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;pass&lt;/span&gt;
+foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; synchronized(lock)(foo)
+foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;classmethod&lt;/span&gt;(foo)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+is not nearly as readable as this code:
+
+&lt;p&gt;&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@classmethod&lt;/span&gt;
+&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@synchronized&lt;/span&gt;(lock)
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;foo&lt;/span&gt;(cls):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The main problem with the readability of the first snippet is not that it 
+requires 2 redefinitions and 4 repetitions of &lt;code&gt;foo&lt;/code&gt;. Rather, the 
+main problem is that it places the cart before the horse by putting the 
+function body ahead of the declarations that are required to understand it.
+
+&lt;p&gt;Similarly, when we define callback functions before we use them, we're 
+required to define the function body before the place where it will be actually 
+used. Often, we see:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;handle_click&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+  foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flim()
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; foo:
+    &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flam(foo)
+
+onClick(handle_click)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When it would be clearer to write:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; onClick():
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+    foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flim()
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; foo:
+      &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flam()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which I find much more appealing.
+
+&lt;p&gt;&lt;h2&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I expect that there's no way that syntax like this could be officially 
+supported by Python, both because of syntactic constraints and the 
+&lt;acronym title=&quot;Benevolent Dictator For Life&quot;&gt;BDFL&lt;/acronym&gt;'s aesthetic
+concerns. I do think it is a neat exercise in pushing the Python interpreter
+and syntax past where they want to go, and I hope that it gives some food for
+thought on an interesting Python syntax.
+
+&lt;p&gt;I'm excited to see where Richard Jones goes with his &lt;a 
+href=&quot;http://www.mechanicalcat.net/richard/log/Python/Something_I_m_working_on.7&quot;&gt;project&lt;/a&gt;, 
+and the design choices that he makes in it, since he's pushing the boundaries 
+of Python design. Many thanks to him and Alex Martelli for sending me down 
+quite an enjoyable path.
+
+&lt;p&gt;Finally, in case you missed it above, go ahead and &lt;a 
+href=&quot;http://github.com/llimllib/Python-Multiline-Lambdas/tree/master&quot;&gt;take a 
+look at the code&lt;/a&gt; on github.
+
+&lt;p&gt;If you want to leave a comment, I suggest leaving it on &lt;a href=&quot;http://www.reddit.com/r/Python/comments/9cnaw/multiline_lambdas_in_python_using_the_with/&quot;&gt;reddit&lt;/a&gt;.
+
+&lt;p&gt;&lt;h2&gt;Update:&lt;/h2&gt; Someone &lt;a
+href=&quot;http://code.google.com/p/ouspg/wiki/AnonymousBlocksInPython?ts=1253546882&amp;updated=AnonymousBlocksInPython&quot;&gt;has&lt;/a&gt; taken this technique a bit farther,
+using some bytecode hackery.
+</summary>
+		<content type="html">&lt;p&gt;Python &lt;a 
+href=&quot;http://www.artima.com/weblogs/viewpost.jsp?thread=147358&quot;&gt;does not have 
+multi-line lambdas&lt;/a&gt; because Guido dislikes them aesthetically. However, with 
+just a bit of introspection, code like this is possible:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #666666&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; each([&lt;span style=&quot;color: #40a070&quot;&gt;12&lt;/span&gt;, &lt;span style=&quot;color: #40a070&quot;&gt;14&lt;/span&gt;, &lt;span style=&quot;color: #40a070&quot;&gt;16&lt;/span&gt;]):
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;   &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;     &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; x
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;     &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; x&lt;span style=&quot;color: #666666&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;
+&lt;span style=&quot;color: #666666&quot;&gt;...&lt;/span&gt;  
+&lt;span style=&quot;color: #40a070&quot;&gt;12&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;13&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;14&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;15&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;16&lt;/span&gt;
+&lt;span style=&quot;color: #40a070&quot;&gt;17&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I'll say a bit about my motivation for creating code like this, show how 
+easy it is to write, and then I'll argue that code like this is both pythonic 
+and aesthetically appealing in some circumstances.
+
+&lt;p&gt;&lt;h2&gt;A Mystery Solved (By Holmes Himself!)&lt;/h2&gt;
+
+&lt;p&gt;When I first saw code using the &lt;code&gt;with&lt;/code&gt; statement, my hope was 
+that it would be able to be used somewhat like Haskell's &lt;a 
+href=&quot;http://en.wikipedia.org/wiki/Haskell_%28programming_language%29#More_complex_examples&quot;&gt;Where 
+clause&lt;/a&gt; or Ruby's &lt;a 
+href=&quot;http://allaboutruby.wordpress.com/2006/01/20/ruby-blocks-101/&quot;&gt;blocks&lt;/a&gt;.  
+When I dug into the &lt;a 
+href=&quot;http://www.python.org/dev/peps/pep-0343/&quot;&gt;spec&lt;/a&gt;, I was disappointed to 
+discover that if it was possible, it wasn't easy, and I pushed the thought 
+aside.
+
+&lt;p&gt;That was a couple years ago, and I didn't give it a moment's thought until I 
+saw &lt;a 
+href=&quot;http://www.mechanicalcat.net/richard/log/Python/Something_I_m_working_on.3&quot;&gt;a 
+blog post&lt;/a&gt; by Richard Jones that uses a &lt;code&gt;with&lt;/code&gt; statement in exactly 
+the way I had considered impossible up to now. I spent a few hours trying to 
+figure it out, but I was stumped, so I put up &lt;a 
+href=&quot;http://stackoverflow.com/questions/1255914/finding-functions-defined-in-a-with-block&quot;&gt;a 
+question&lt;/a&gt; on Stack Overflow to see if somebody could show me how he did it.
+
+&lt;p&gt;Within a few hours, &lt;a 
+href=&quot;http://en.wikipedia.org/wiki/Alex_Martelli&quot;&gt;Alex Martelli&lt;/a&gt; himself 
+chimed in with a wonderful solution. The gist of the answer is that you can use 
+the &lt;code&gt;inspect&lt;/code&gt; module to access the &lt;a 
+href=&quot;http://www.python.org/doc/2.5.2/lib/typecontextmanager.html&quot;&gt;context 
+manager&lt;/a&gt;'s calling scope, and figure out what variables have been defined 
+between its &lt;code&gt;__enter__&lt;/code&gt; and &lt;code&gt;__exit__&lt;/code&gt; functions. I'm 
+glad I asked aloud, because even if I had stumbled close to the solution, I 
+surely wouldn't have come up with one as complete as his.
+
+&lt;p&gt;&lt;h2&gt;The How&lt;/h2&gt;
+
+&lt;p&gt;Once I had Alex's proof of concept code in hand, I went to work making it do 
+what I'd had in my head so long ago. In about an hour, I was able to write code 
+that looks like this:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;each&lt;/span&gt;(iterable, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; i &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; iterable:
+      block(i)
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; each([&lt;span style=&quot;color: #4070a0&quot;&gt;&amp;quot;twelve&amp;quot;&lt;/span&gt;, &lt;span style=&quot;color: #4070a0&quot;&gt;&amp;quot;fourteen&amp;quot;&lt;/span&gt;, &lt;span style=&quot;color: #4070a0&quot;&gt;&amp;quot;sixteen&amp;quot;&lt;/span&gt;]):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; x
+
+&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;bmap&lt;/span&gt;(arr, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;map&lt;/span&gt;(block, arr)
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; bmap([&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;3&lt;/span&gt;]) &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;as&lt;/span&gt; foo:
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; (&lt;span style=&quot;color: #007020&quot;&gt;float&lt;/span&gt;(x) &lt;span style=&quot;color: #666666&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;) &lt;span style=&quot;color: #666666&quot;&gt;/&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; foo &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;# [1.0, 1.5, 2.0]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What you see above are two functions which use a decorator giving them 
+access to the function defined within the &lt;code&gt;with&lt;/code&gt; block. The 
+decorator passes the block to the function as its last argument just &lt;a 
+href=&quot;http://eli.thegreenplace.net/2006/04/18/understanding-ruby-blocks-procs-and-methods/&quot;&gt;like 
+in Ruby&lt;/a&gt;.
+
+&lt;p&gt;To understand how this happens, you need to know how context managers work.  
+Context managers consist of a class with &lt;code&gt;__enter__&lt;/code&gt; and 
+&lt;code&gt;__exit__&lt;/code&gt; methods which are called upon entering the with block and 
+upon exiting, just as you'd expect.
+
+&lt;p&gt;Alex's solution involves scanning the scope of the calling function from the 
+&lt;code&gt;__enter__&lt;/code&gt; and &lt;code&gt;__exit__&lt;/code&gt; methods, and pulling out the 
+differences between them. These differences will be all the variables that were 
+defined in the &lt;code&gt;with&lt;/code&gt; block. A sketch:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #0e84b5; font-weight: bold&quot;&gt;FindInteresting&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;object&lt;/span&gt;):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__enter__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+    f &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; inspect&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;currentframe(&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;)
+    &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;already_defined &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;dict&lt;/span&gt;(f&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals)
+
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+    f &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; inspect&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;currentframe(&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;)
+    &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#pick out the differences between f.f_locals and self.already_defined&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When we pick out the differences between the two, we need to be careful to 
+check for names that have been redefined so that we don't miss out on new 
+functions that reuse old names.
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+  f &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; inspect&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;currentframe(&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;)
+  interesting &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; {}
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; n &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; f&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals:
+    newf &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; f&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals[n]
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; n &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;not&lt;/span&gt; &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;already_defined:
+      interesting[n] &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; newf
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;continue&lt;/span&gt;
+    anf &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;already_defined[n]
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;id&lt;/span&gt;(newf) &lt;span style=&quot;color: #666666&quot;&gt;!=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;id&lt;/span&gt;(anf):
+      interesting[n] &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; newf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After this function has run, &lt;code&gt;interesting&lt;/code&gt; is a dictionary which 
+(probably) contains all the names and values of the variables that have been 
+redefined in the &lt;code&gt;with&lt;/code&gt; block.
+
+&lt;p&gt;Because we have to use the &lt;code&gt;id&lt;/code&gt; check to determine if a name has 
+been redefined, and Python sometimes caches objects in memory, our function can 
+be fooled. In this case, &lt;code&gt;interesting&lt;/code&gt; will not detect 
+&lt;code&gt;x&lt;/code&gt; because it's being redefined and cpython caches the low 
+integers, so &lt;code&gt;id(x)&lt;/code&gt; will be the same for both &lt;code&gt;x&lt;/code&gt;s.
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;x &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; FindInteresting:
+  x &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In general, the cpython runtime is not aggressive about caching, but you 
+should know that this possibility exists. If you use this technique, I 
+recommend being strict about checking only newly defined functions, since 
+there's no way to be sure if you missed any redefined names.
+
+&lt;p&gt;To make the teaser code at the top of the article work, I just wrapped 
+Alex's code into a decorator that returned a context manager, then called the 
+function being decorated with the definitions that we found in the 
+&lt;code&gt;interesting&lt;/code&gt; dictionary. The context manager's 
+&lt;code&gt;__call__&lt;/code&gt; function gets overridden to allow you to pass in 
+arguments for the function being decorated.
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;accepts_block&lt;/span&gt;(f):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #0e84b5; font-weight: bold&quot;&gt;BlockContextManager&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;object&lt;/span&gt;):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__call__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;, &lt;span style=&quot;color: #666666&quot;&gt;*&lt;/span&gt;args, &lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;kwargs):
+      &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;thefunction &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; functools&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;partial(f, &lt;span style=&quot;color: #666666&quot;&gt;*&lt;/span&gt;args, &lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;kwargs)
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;
+
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__enter__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+      &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#do Alex&amp;#39;s magic, just as above&lt;/span&gt;
+    
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+      &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#make the interesting dictionary, just as above&lt;/span&gt;
+
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;len&lt;/span&gt;(interesting) &lt;span style=&quot;color: #666666&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;:
+        block &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;list&lt;/span&gt;(interesting&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;itervalues())[&lt;span style=&quot;color: #40a070&quot;&gt;0&lt;/span&gt;]
+        &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;assert&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;isinstance&lt;/span&gt;(block, &lt;span style=&quot;color: #007020&quot;&gt;type&lt;/span&gt;(&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;lambda&lt;/span&gt;:&lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;))
+        &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;thefunction(block)
+
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; BlockContextManager()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It looks complicated and nested, but all it's doing is saving the function 
+and all its arguments, grabbing the definitions from the with block, making 
+sure there's only one definition and it's a function, then tacking it onto the 
+end of the arguments list for the function and calling it. Phew.
+
+&lt;p&gt;The code above handles the case where you don't need to store the result of
+the function being decorated:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;each&lt;/span&gt;(iterable, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; i &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; iterable:
+    block(i)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;But what if we want to store the result? Turns out, we can further abuse the 
+&lt;code&gt;with&lt;/code&gt; block by hijacking its &lt;code&gt;as&lt;/code&gt; clause. Because a 
+variable defined in the &lt;code&gt;as&lt;/code&gt; clause gets detected by Alex's code, we 
+can use the inspect module to change that variable so that after the with block 
+it reflects the result of our computation.
+
+&lt;p&gt;First we check to see if we probably have a block and a variable in the as 
+statement, then we reach in and store our result there if we are in that case:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;__exit__&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+  &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#exactly as before; frame = inspect.currentframe(1)&lt;/span&gt;
+
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;len&lt;/span&gt;(interesting) &lt;span style=&quot;color: #666666&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;:
+    &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#exactly the same as before&lt;/span&gt;
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;elif&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;len&lt;/span&gt;(interesting) &lt;span style=&quot;color: #666666&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;:
+    block &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;
+    savename &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;for&lt;/span&gt; n,v &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;in&lt;/span&gt; interesting&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;iteritems():
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;isinstance&lt;/span&gt;(v, &lt;span style=&quot;color: #007020&quot;&gt;type&lt;/span&gt;(&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;lambda&lt;/span&gt;:&lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;)): block &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; v
+      &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;else&lt;/span&gt;: savename &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; n
+
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;assert&lt;/span&gt; savename &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;and&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;isinstance&lt;/span&gt;(block, &lt;span style=&quot;color: #007020&quot;&gt;type&lt;/span&gt;(&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;lambda&lt;/span&gt;:&lt;span style=&quot;color: #007020&quot;&gt;None&lt;/span&gt;))
+
+    frame&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;f_locals[savename] &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;thefunction(block)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which lets us do this:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@accepts_block&lt;/span&gt;
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;bmap&lt;/span&gt;(iterable, block):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;map&lt;/span&gt;(block, iterable)
+  
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; bmap([&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;3&lt;/span&gt;]) &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;as&lt;/span&gt; result:
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; x&lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; result &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;#[1,4,9]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This time, we're really taking a leap by assuming that if we find a callable 
+and any other variable, that the variable is where we want to store our 
+results. This can lead to somewhat unexpected results:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; bmap([&lt;span style=&quot;color: #40a070&quot;&gt;1&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;,&lt;span style=&quot;color: #40a070&quot;&gt;3&lt;/span&gt;]):
+  not_a_result &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #40a070&quot;&gt;12&lt;/span&gt;
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(x):
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;return&lt;/span&gt; x&lt;span style=&quot;color: #666666&quot;&gt;**&lt;/span&gt;&lt;span style=&quot;color: #40a070&quot;&gt;2&lt;/span&gt;
+
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;print&lt;/span&gt; not_a_result &lt;span style=&quot;color: #60a0b0; font-style: italic&quot;&gt;# [1,4,9] instead of 12&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's my extremely long-winded description of how to abuse the with 
+operator. If you want to see the full function and the super-lame test code I 
+wrote, you can &lt;a 
+href=&quot;http://github.com/llimllib/Python-Multiline-Lambdas/tree/master&quot;&gt;head on 
+over to github&lt;/a&gt; and check it out.
+
+&lt;p&gt;&lt;h2&gt;Aesthetics&lt;/h2&gt;
+
+&lt;p&gt;It should be clear from all of the disclaimers I've had to put into this 
+article that this technique is of limited use in Python as it stands today.  
+I'd like to make an argument that it suggests some nice syntactic sugar for 
+python to support someday, while remaining totally ignorant of the actual 
+difficulties of putting it into the language.
+
+&lt;p&gt;To do so, I'll start by posting the motivating example for decorators from 
+&lt;a href=&quot;http://www.python.org/dev/peps/pep-0318/&quot;&gt;the relevant PEP&lt;/a&gt;. It 
+argues that this code:
+
+&lt;p&gt;&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;foo&lt;/span&gt;(cls):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;pass&lt;/span&gt;
+foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; synchronized(lock)(foo)
+foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;classmethod&lt;/span&gt;(foo)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+is not nearly as readable as this code:
+
+&lt;p&gt;&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@classmethod&lt;/span&gt;
+&lt;span style=&quot;color: #555555; font-weight: bold&quot;&gt;@synchronized&lt;/span&gt;(lock)
+&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;foo&lt;/span&gt;(cls):
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The main problem with the readability of the first snippet is not that it 
+requires 2 redefinitions and 4 repetitions of &lt;code&gt;foo&lt;/code&gt;. Rather, the 
+main problem is that it places the cart before the horse by putting the 
+function body ahead of the declarations that are required to understand it.
+
+&lt;p&gt;Similarly, when we define callback functions before we use them, we're 
+required to define the function body before the place where it will be actually 
+used. Often, we see:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;handle_click&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+  foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flim()
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; foo:
+    &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flam(foo)
+
+onClick(handle_click)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When it would be clearer to write:
+
+&lt;div class=&quot;highlight&quot; style=&quot;background: #f0f0f0&quot;&gt;&lt;pre style=&quot;line-height: 125%&quot;&gt;&lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;with&lt;/span&gt; onClick():
+  &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #06287e&quot;&gt;_&lt;/span&gt;(&lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;):
+    foo &lt;span style=&quot;color: #666666&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flim()
+    &lt;span style=&quot;color: #007020; font-weight: bold&quot;&gt;if&lt;/span&gt; foo:
+      &lt;span style=&quot;color: #007020&quot;&gt;self&lt;/span&gt;&lt;span style=&quot;color: #666666&quot;&gt;.&lt;/span&gt;flam()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which I find much more appealing.
+
+&lt;p&gt;&lt;h2&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I expect that there's no way that syntax like this could be officially 
+supported by Python, both because of syntactic constraints and the 
+&lt;acronym title=&quot;Benevolent Dictator For Life&quot;&gt;BDFL&lt;/acronym&gt;'s aesthetic
+concerns. I do think it is a neat exercise in pushing the Python interpreter
+and syntax past where they want to go, and I hope that it gives some food for
+thought on an interesting Python syntax.
+
+&lt;p&gt;I'm excited to see where Richard Jones goes with his &lt;a 
+href=&quot;http://www.mechanicalcat.net/richard/log/Python/Something_I_m_working_on.7&quot;&gt;project&lt;/a&gt;, 
+and the design choices that he makes in it, since he's pushing the boundaries 
+of Python design. Many thanks to him and Alex Martelli for sending me down 
+quite an enjoyable path.
+
+&lt;p&gt;Finally, in case you missed it above, go ahead and &lt;a 
+href=&quot;http://github.com/llimllib/Python-Multiline-Lambdas/tree/master&quot;&gt;take a 
+look at the code&lt;/a&gt; on github.
+
+&lt;p&gt;If you want to leave a comment, I suggest leaving it on &lt;a href=&quot;http://www.reddit.com/r/Python/comments/9cnaw/multiline_lambdas_in_python_using_the_with/&quot;&gt;reddit&lt;/a&gt;.
+
+&lt;p&gt;&lt;h2&gt;Update:&lt;/h2&gt; Someone &lt;a
+href=&quot;http://code.google.com/p/ouspg/wiki/AnonymousBlocksInPython?ts=1253546882&amp;updated=AnonymousBlocksInPython&quot;&gt;has&lt;/a&gt; taken this technique a bit farther,
+using some bytecode hackery.
+</content>
+	</entry>
+	<entry>
+		<title>What Gladwell is Missing: Institutional Memory</title>
+		<link href="" />	
+		<id>http://billmill.org/institutional_memory.html</id>
+		<updated>2009-05-31T16:50:00Z</updated>
+		<summary type="html">&lt;p&gt;Malcolm Gladwell's recent &lt;a
+href=&quot;http://www.newyorker.com/reporting/2009/05/11/090511fa_fact_gladwell?yrail&quot;&gt;article&lt;/a&gt;,
+ostensibly about how Davids can beat Goliaths, featured great praise for the
+full-court press as a method for less-skilled teams to beat more-skilled ones.
+He writes:
+
+&lt;blockquote&gt;In the world of basketball, there is one story after another like
+this about legendary games where David used the full-court press to beat
+Goliath. Yet the puzzle of the press is that it has never become popular.
+People look at upsets like Fordham over UMass and call them flukes. Basketball
+sages point out that the press can be beaten by a well-coached team with adept
+ball handlers and astute passers&amp;mdash;and that is true... Playing insurgent
+basketball did not guarantee victory. It was simply the best chance an underdog
+had of beating Goliath.&lt;/blockquote&gt;
+
+&lt;p&gt;After his piece was &lt;a
+href=&quot;http://galleyslaves.blogspot.com/2009/05/more-on-gladwell-press-etc.html&quot;&gt;rightly&lt;/a&gt;
+&lt;a
+href=&quot;http://deadspin.com/5239721/malcolm-gladwell-wants-to-know-why-your-team-doesnt-press-more&quot;&gt;criticized&lt;/a&gt; 
+&lt;a
+href=&quot;http://rivals.yahoo.com/ncaa/basketball/blog/the_dagger/post/Malcolm-Gladwell-still-talking-about-the-full-co?urn=ncaab,163209&quot;&gt;all&lt;/a&gt;
+&lt;a
+href=&quot;http://rushthecourt.net/2009/05/05/gladwells-theory-on-full-court-pressure-is-the-only-outlier-here/&quot;&gt;over&lt;/a&gt;
+&lt;a
+href=&quot;http://www.nbcnewyork.com/sports/basketball/Why-Dont-More-Basketball-Teams-Run-the-Press.html&quot;&gt;the&lt;/a&gt; 
+&lt;a
+href=&quot;http://nymag.com/daily/intel/2009/05/malcolm_gladwell_isnt_a_basket.html&quot;&gt;web&lt;/a&gt;,
+ESPN &lt;a
+href=&quot;http://sports.espn.go.com/espn/page2/story?page=simmons/090513&quot;&gt;published&lt;/a&gt;
+a long and interesting email conversation between him and Bill Simmons that
+addressed the criticism. In it, Gladwell defended his column:
+
+&lt;blockquote&gt;After my piece ran in &lt;em&gt;The New Yorker&lt;/em&gt;, one of the most common
+responses I got was people saying, well, the reason more people don't use the
+press is that it can be beaten with a well-coached team and a good point guard.
+That is (A) absolutely true and (B) beside the point. The press doesn't
+guarantee victory. It simply represents the underdog's best  chance of
+victory&amp;hellip; I went to see a Lakers-Warriors game earlier this season, and
+it was abundantly clear after five minutes that the Warriors' chances of
+winning were, oh, no better than 10 percent. Why wouldn't you have a special
+squad of trained pressers come in for five minutes a half and press Kobe and
+Fisher?&amp;hellip;  Best case is that you rattle the Lakers and force
+a half-dozen extra turnovers that turn out to be crucial. And if you lose, so
+what? You were going to lose anyway.&lt;/blockquote&gt;
+
+&lt;p&gt;Although lots of people have responded to this rebuttal, I haven't seen
+anyone mention what I consider to be an important reason that many teams have
+chosen not to implement full-court presses: &lt;strong&gt;Institutional
+Memory&lt;/strong&gt;.
+
+&lt;p&gt;Let's imagine that the Warriors had in fact, put on the press, and that it
+had worked. The Warriors won against the vaunted Lakers! How would the team
+respond? They would press more. When that worked to win some more games, they would
+probably trade some of their players who were less well suited to the press to
+make room for some younger, faster, fitter players. They would win a few more
+games than they had been before. Everything's going good, right?
+
+&lt;p&gt;Then they hit a snag; &lt;strong&gt;No team has won the NBA Championship by pressing
+&lt;/strong&gt;. The Warriors could optimize like crazy for the press, but
+they'd be training and working and trading and drafting to be, at best, a
+pretty good team. But no NBA team wants to be a pretty good team&amp;mdash;they all
+want to win championships.
+
+&lt;p&gt;The mental exercise reveals what Gladwell has missed: the Warriors aren't
+playing to win that game, or even the most games that season. They're playing
+to try and win an NBA championship,
+and to do so, they need to spend years trying to build up the institutional
+memory of how to win games in the traditional way so that they can eventually beat
+every team, not just to win more games than they did playing traditionally.
+
+&lt;p&gt;All of this leads to a simple admonishment when analyzing organizations:
+don't expect that the organization is optimizing for what you think they're
+optimizing for. And when an organization seems to be acting in ways that are surprising to
+you, look for metrics that may be more important to them than the ones you
+expect.
+</summary>
+		<content type="html">&lt;p&gt;Malcolm Gladwell's recent &lt;a
+href=&quot;http://www.newyorker.com/reporting/2009/05/11/090511fa_fact_gladwell?yrail&quot;&gt;article&lt;/a&gt;,
+ostensibly about how Davids can beat Goliaths, featured great praise for the
+full-court press as a method for less-skilled teams to beat more-skilled ones.
+He writes:
+
+&lt;blockquote&gt;In the world of basketball, there is one story after another like
+this about legendary games where David used the full-court press to beat
+Goliath. Yet the puzzle of the press is that it has never become popular.
+People look at upsets like Fordham over UMass and call them flukes. Basketball
+sages point out that the press can be beaten by a well-coached team with adept
+ball handlers and astute passers&amp;mdash;and that is true... Playing insurgent
+basketball did not guarantee victory. It was simply the best chance an underdog
+had of beating Goliath.&lt;/blockquote&gt;
+
+&lt;p&gt;After his piece was &lt;a
+href=&quot;http://galleyslaves.blogspot.com/2009/05/more-on-gladwell-press-etc.html&quot;&gt;rightly&lt;/a&gt;
+&lt;a
+href=&quot;http://deadspin.com/5239721/malcolm-gladwell-wants-to-know-why-your-team-doesnt-press-more&quot;&gt;criticized&lt;/a&gt; 
+&lt;a
+href=&quot;http://rivals.yahoo.com/ncaa/basketball/blog/the_dagger/post/Malcolm-Gladwell-still-talking-about-the-full-co?urn=ncaab,163209&quot;&gt;all&lt;/a&gt;
+&lt;a
+href=&quot;http://rushthecourt.net/2009/05/05/gladwells-theory-on-full-court-pressure-is-the-only-outlier-here/&quot;&gt;over&lt;/a&gt;
+&lt;a
+href=&quot;http://www.nbcnewyork.com/sports/basketball/Why-Dont-More-Basketball-Teams-Run-the-Press.html&quot;&gt;the&lt;/a&gt; 
+&lt;a
+href=&quot;http://nymag.com/daily/intel/2009/05/malcolm_gladwell_isnt_a_basket.html&quot;&gt;web&lt;/a&gt;,
+ESPN &lt;a
+href=&quot;http://sports.espn.go.com/espn/page2/story?page=simmons/090513&quot;&gt;published&lt;/a&gt;
+a long and interesting email conversation between him and Bill Simmons that
+addressed the criticism. In it, Gladwell defended his column:
+
+&lt;blockquote&gt;After my piece ran in &lt;em&gt;The New Yorker&lt;/em&gt;, one of the most common
+responses I got was people saying, well, the reason more people don't use the
+press is that it can be beaten with a well-coached team and a good point guard.
+That is (A) absolutely true and (B) beside the point. The press doesn't
+guarantee victory. It simply represents the underdog's best  chance of
+victory&amp;hellip; I went to see a Lakers-Warriors game earlier this season, and
+it was abundantly clear after five minutes that the Warriors' chances of
+winning were, oh, no better than 10 percent. Why wouldn't you have a special
+squad of trained pressers come in for five minutes a half and press Kobe and
+Fisher?&amp;hellip;  Best case is that you rattle the Lakers and force
+a half-dozen extra turnovers that turn out to be crucial. And if you lose, so
+what? You were going to lose anyway.&lt;/blockquote&gt;
+
+&lt;p&gt;Although lots of people have responded to this rebuttal, I haven't seen
+anyone mention what I consider to be an important reason that many teams have
+chosen not to implement full-court presses: &lt;strong&gt;Institutional
+Memory&lt;/strong&gt;.
+
+&lt;p&gt;Let's imagine that the Warriors had in fact, put on the press, and that it
+had worked. The Warriors won against the vaunted Lakers! How would the team
+respond? They would press more. When that worked to win some more games, they would
+probably trade some of their players who were less well suited to the press to
+make room for some younger, faster, fitter players. They would win a few more
+games than they had been before. Everything's going good, right?
+
+&lt;p&gt;Then they hit a snag; &lt;strong&gt;No team has won the NBA Championship by pressing
+&lt;/strong&gt;. The Warriors could optimize like crazy for the press, but
+they'd be training and working and trading and drafting to be, at best, a
+pretty good team. But no NBA team wants to be a pretty good team&amp;mdash;they all
+want to win championships.
+
+&lt;p&gt;The mental exercise reveals what Gladwell has missed: the Warriors aren't
+playing to win that game, or even the most games that season. They're playing
+to try and win an NBA championship,
+and to do so, they need to spend years trying to build up the institutional
+memory of how to win games in the traditional way so that they can eventually beat
+every team, not just to win more games than they did playing traditionally.
+
+&lt;p&gt;All of this leads to a simple admonishment when analyzing organizations:
+don't expect that the organization is optimizing for what you think they're
+optimizing for. And when an organization seems to be acting in ways that are surprising to
+you, look for metrics that may be more important to them than the ones you
+expect.
+</content>
+	</entry>
+	<entry>
+		<title>The Bill Mill NCAA Bracket Randomizer</title>
+		<link href="" />	
+		<id>http://billmill.org/ncaa_randomizer.html</id>
+		<updated>2009-03-18T16:00:00Z</updated>
+		<summary type="html">&lt;p&gt;Each year, when the NCAA basketball tournament comes around, I end up in
+four or five pools, with a separate bracket filled out for each. I love the
+games, and I love having teams to root for, but I really hate the process of
+guessing to fill out my brackets. I inevitably pick too many upsets, just
+because I want to have fun rooting for underdogs; instead I end up bored after
+the first two rounds.
+
+&lt;p&gt;This year, I thought I could write some software to help me pick out my
+brackets. If I let the computer pick reasonably but randomly for each pool, I figure that I
+stand a better chance of having &lt;em&gt;one&lt;/em&gt; decent bracket instead of the
+assortment of crappy ones I normally end up with.
+
+&lt;p&gt;So the last two nights, I &lt;a
+href=&quot;http://billmill.org/static/ncaa-bracket-randomizer/out.html&quot;&gt;wrote
+myself a bracket randomizer&lt;/a&gt;; just push the &quot;randomize&quot; button at the top and
+watch it go.
+
+&lt;p&gt;In order to pick what team will win a given game, it first calculates the
+chance each team will win by plugging &lt;a
+href=&quot;http://kenpom.com/rate.php&quot;&gt;Ken Pomeroy's&lt;/a&gt; ratings
+into the &lt;a
+href=&quot;http://www.diamond-mind.com/articles/playoff2002.htm&quot;&gt;log5&lt;/a&gt; formula.
+Then it picks a random number and compares it to the probability of the
+favorite winning; if the number is lower than that, it advances the favorite.
+Otherwise, it advances the underdog. Rinse and repeat, and you should have a
+reasonable random bracket for the whole tournament.
+
+&lt;h2&gt;The Output&lt;/h2&gt;
+
+&lt;p&gt;Next to each team in the bracket, you'll see three numbers in parentheses.
+These numbers represent, respectively, the team's Pythagorean rating, adjusted
+offensive efficiency, and adjusted defensive efficiency.
+
+&lt;p&gt;If that's Greek to you (&lt;em&gt;groan&lt;/em&gt;), go check out &lt;a
+href=&quot;http://www.kenpom.com/blog/index.php/weblog/ratings_explanation/&quot;&gt;Ken's
+explanation&lt;/a&gt; of what that means.
+
+&lt;p&gt;The color of each team, once you've randomized, represents their odds of
+winning. Brighter green is more of a favorite, deeper red more of an underdog.
+It should update the colors if you manually change the teams, but it won't; I
+just didn't have time to get everything done that I wanted to. Similarly, it
+won't update future games if you change the winner of an early one.
+
+&lt;h2&gt;The Code&lt;/h2&gt;
+
+&lt;p&gt;The surprisingly difficult part of this project was creating a simple HTML bracket that
+looked reasonable and allowed you to click to advance a team. I didn't get
+everything into the page that I wanted to, simply because I spent so much time
+just getting that done. (Keep in mind we're talking about a 2-night hack here).
+
+&lt;p&gt;The code to generate the bracket is contained in one super-ugly &lt;a
+href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/blob/1db753ce4f91fc84265efa6a27fa7ee00e84eaa2/bracket.py&quot;&gt;python
+file&lt;/a&gt;.
+
+&lt;p&gt;If you've got ideas for stuff to add, or want to generate a cooler looking
+bracket, or just check out the code, you can &lt;a
+href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/tree/master&quot;&gt;go get
+it&lt;/a&gt; at github. Feel free to fork and enjoy!
+</summary>
+		<content type="html">&lt;p&gt;Each year, when the NCAA basketball tournament comes around, I end up in
+four or five pools, with a separate bracket filled out for each. I love the
+games, and I love having teams to root for, but I really hate the process of
+guessing to fill out my brackets. I inevitably pick too many upsets, just
+because I want to have fun rooting for underdogs; instead I end up bored after
+the first two rounds.
+
+&lt;p&gt;This year, I thought I could write some software to help me pick out my
+brackets. If I let the computer pick reasonably but randomly for each pool, I figure that I
+stand a better chance of having &lt;em&gt;one&lt;/em&gt; decent bracket instead of the
+assortment of crappy ones I normally end up with.
+
+&lt;p&gt;So the last two nights, I &lt;a
+href=&quot;http://billmill.org/static/ncaa-bracket-randomizer/out.html&quot;&gt;wrote
+myself a bracket randomizer&lt;/a&gt;; just push the &quot;randomize&quot; button at the top and
+watch it go.
+
+&lt;p&gt;In order to pick what team will win a given game, it first calculates the
+chance each team will win by plugging &lt;a
+href=&quot;http://kenpom.com/rate.php&quot;&gt;Ken Pomeroy's&lt;/a&gt; ratings
+into the &lt;a
+href=&quot;http://www.diamond-mind.com/articles/playoff2002.htm&quot;&gt;log5&lt;/a&gt; formula.
+Then it picks a random number and compares it to the probability of the
+favorite winning; if the number is lower than that, it advances the favorite.
+Otherwise, it advances the underdog. Rinse and repeat, and you should have a
+reasonable random bracket for the whole tournament.
+
+&lt;h2&gt;The Output&lt;/h2&gt;
+
+&lt;p&gt;Next to each team in the bracket, you'll see three numbers in parentheses.
+These numbers represent, respectively, the team's Pythagorean rating, adjusted
+offensive efficiency, and adjusted defensive efficiency.
+
+&lt;p&gt;If that's Greek to you (&lt;em&gt;groan&lt;/em&gt;), go check out &lt;a
+href=&quot;http://www.kenpom.com/blog/index.php/weblog/ratings_explanation/&quot;&gt;Ken's
+explanation&lt;/a&gt; of what that means.
+
+&lt;p&gt;The color of each team, once you've randomized, represents their odds of
+winning. Brighter green is more of a favorite, deeper red more of an underdog.
+It should update the colors if you manually change the teams, but it won't; I
+just didn't have time to get everything done that I wanted to. Similarly, it
+won't update future games if you change the winner of an early one.
+
+&lt;h2&gt;The Code&lt;/h2&gt;
+
+&lt;p&gt;The surprisingly difficult part of this project was creating a simple HTML bracket that
+looked reasonable and allowed you to click to advance a team. I didn't get
+everything into the page that I wanted to, simply because I spent so much time
+just getting that done. (Keep in mind we're talking about a 2-night hack here).
+
+&lt;p&gt;The code to generate the bracket is contained in one super-ugly &lt;a
+href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/blob/1db753ce4f91fc84265efa6a27fa7ee00e84eaa2/bracket.py&quot;&gt;python
+file&lt;/a&gt;.
+
+&lt;p&gt;If you've got ideas for stuff to add, or want to generate a cooler looking
+bracket, or just check out the code, you can &lt;a
+href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/tree/master&quot;&gt;go get
+it&lt;/a&gt; at github. Feel free to fork and enjoy!
+</content>
+	</entry>
+</feed>
