@@ -4,13 +4,207 @@
 	<id>http://billmill.org/</id>
 	<title>My Name Rhymes</title>
 	<subtitle></subtitle>
-	<updated>2010-04-29T21:10:00Z</updated>
+	<updated>2012-08-26T23:14:00Z</updated>
 	<author>
 		<name>Bill Mill</name>
 		<email>bill.mill@gmail.com</email>
 		<uri>http://billmill.org/</uri>
 	</author>
 	<link href="http://billmill.org/" />
+	<entry>
+		<title>Debugging Redis with Xcode</title>
+		<link href="" />	
+		<id>http://billmill.org/xcode_redis.html</id>
+		<updated>2012-08-26T23:14:00Z</updated>
+		<summary type="html">&lt;p&gt;Recently I've been doing a bit of work on &lt;a
+href=&quot;http://redis.io&quot;&gt;Redis&lt;/a&gt;. While I code in vim, and that's not changing
+any time soon, I've found Xcode to be a handy debugger.
+It's not difficult to set up, but it is &lt;em&gt;extremely&lt;/em&gt; unintuitive, so
+I thought I'd write up a short visual guide.
+
+&lt;p&gt;In this article, I'll assume that &lt;code&gt;~/code/&lt;/code&gt; is your directory for
+storing code; substitute your own directory where required.
+
+&lt;p&gt;The first thing you'll want to do is check out a copy of redis. In your
+&lt;code&gt;~/code&lt;/code&gt; directory, clone the official redis repository:
+&lt;code&gt;git clone https://github.com/antirez/redis.git&lt;/code&gt;
+
+&lt;p&gt;Next, open up Xcode and go to &lt;code&gt;File-&gt;New-&gt;Project&lt;/code&gt; or click
+&lt;code&gt;Create a New
+Xcode Project&lt;/code&gt;. On the left-hand pane select &lt;code&gt;Other&lt;/code&gt;, and on
+the right, &lt;code&gt;Empty&lt;/code&gt;.
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/1.jpg&quot;&gt;
+
+&lt;p&gt;Enter &lt;code&gt;redis&lt;/code&gt; as the product name (or anything else if you so desire) in the
+next panel, and
+then choose a directory in which to store the xcode project. I recommend
+storing it in a directory separate from your redis git directory, so that you
+don't accidentally commit anything you don't intend.
+
+&lt;p&gt;On the file picker, make sure the &lt;code&gt;Create local git repository for this
+project&lt;/code&gt; box is unchecked, as we won't be needing it.
+
+&lt;p&gt;At this point, you should be looking at an empty project:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/2.jpg&quot;&gt;
+
+&lt;p&gt;Click on &lt;code&gt;File-&gt;Add Files to &quot;redis&quot;&lt;/code&gt;, and choose the directory into which you
+cloned redis. If you're following along, that should be
+&lt;code&gt;~/code/redis&lt;/code&gt;. After you do so, you should see the directory in
+xcode's Project Navigator.
+
+&lt;p&gt;Now we'll set up a build target, which tells Xcode how to build redis. Click
+on &lt;code&gt;Add Target&lt;/code&gt; towards the bottom of the Xcode window, and you should see
+something like this:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/3.jpg&quot;&gt;
+
+&lt;p&gt;Choose &lt;code&gt;Other&lt;/code&gt; under the OS X target types and
+&lt;code&gt;External Build System&lt;/code&gt; as
+the type of target. On the next pane, enter &lt;code&gt;redis&lt;/code&gt; as the product
+name and
+leave the rest of the values at their defaults, and click &lt;code&gt;finish&lt;/code&gt;.
+
+&lt;p&gt;Now, replace &lt;code&gt;$(ARGS)&lt;/code&gt; in the &lt;code&gt;Arguments&lt;/code&gt; input box
+with &lt;code&gt;clean noopt&lt;/code&gt; and enter the directory where you cloned redis in
+the &lt;code&gt;Directory&lt;/code&gt; input box. Mine looks like this:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/4.jpg&quot;&gt;
+
+&lt;p&gt;And now... you're almost there. Click the &lt;code&gt;Run&lt;/code&gt; button at the
+top left of the screen, and you should see a message saying &lt;code&gt;Build
+Succeeded&lt;/code&gt;.
+
+&lt;p&gt;Finally, at the top left of the window, click on
+&lt;code&gt;&quot;redis&quot;-&gt;Edit Scheme&lt;/code&gt;.
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/5.jpg&quot;&gt;
+
+&lt;p&gt;In the pane that drops down, click on the &lt;code&gt;Executable&lt;/code&gt; drop down
+and click on &lt;code&gt;other&lt;/code&gt;, then select &lt;code&gt;src/redis-server&lt;/code&gt; from
+your redis directory. When you're done, the pane should look like this:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/6.jpg&quot;&gt;
+
+&lt;p&gt;This tells Xcode to start the redis-server executable after it builds redis,
+so you can then connect to it via redis-cli, send commands, and debug them.
+
+&lt;p&gt;To see if it works, click on the &lt;code&gt;run&lt;/code&gt; button at the top left; redis should
+build and Xcode should start redis-server for you. If you go to a console and
+run &lt;code&gt;redis-cli&lt;/code&gt;, it should connect to your localhost. At this point, you can
+start adding breakpoints to dig in and see what redis is doing. Here's a
+screenshot of me debugging src/redis.c, showing off some of xcode's debugging
+features:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/7.jpg&quot;&gt;
+
+&lt;p&gt;Special thanks to Paul Smith, whose blog post &lt;a
+href=&quot;http://pauladamsmith.com/blog/2011/03/redis_get_set.html&quot;&gt;taught&lt;/a&gt; me
+how to build redis so that it can be debugged.
+
+&lt;p&gt;To learn a bit about the commands you can use to debug redis using the
+window on the bottom right, you can go read &lt;a
+href=&quot;https://www.hackerschool.com/blog/5-learning-c-with-gdb&quot;&gt;this post&lt;/a&gt;
+for a start (all the gdb commands are lldb commands too).
+
+&lt;p&gt;Coming up next, I'll show you how to add a new data type to redis.
+</summary>
+		<content type="html">&lt;p&gt;Recently I've been doing a bit of work on &lt;a
+href=&quot;http://redis.io&quot;&gt;Redis&lt;/a&gt;. While I code in vim, and that's not changing
+any time soon, I've found Xcode to be a handy debugger.
+It's not difficult to set up, but it is &lt;em&gt;extremely&lt;/em&gt; unintuitive, so
+I thought I'd write up a short visual guide.
+
+&lt;p&gt;In this article, I'll assume that &lt;code&gt;~/code/&lt;/code&gt; is your directory for
+storing code; substitute your own directory where required.
+
+&lt;p&gt;The first thing you'll want to do is check out a copy of redis. In your
+&lt;code&gt;~/code&lt;/code&gt; directory, clone the official redis repository:
+&lt;code&gt;git clone https://github.com/antirez/redis.git&lt;/code&gt;
+
+&lt;p&gt;Next, open up Xcode and go to &lt;code&gt;File-&gt;New-&gt;Project&lt;/code&gt; or click
+&lt;code&gt;Create a New
+Xcode Project&lt;/code&gt;. On the left-hand pane select &lt;code&gt;Other&lt;/code&gt;, and on
+the right, &lt;code&gt;Empty&lt;/code&gt;.
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/1.jpg&quot;&gt;
+
+&lt;p&gt;Enter &lt;code&gt;redis&lt;/code&gt; as the product name (or anything else if you so desire) in the
+next panel, and
+then choose a directory in which to store the xcode project. I recommend
+storing it in a directory separate from your redis git directory, so that you
+don't accidentally commit anything you don't intend.
+
+&lt;p&gt;On the file picker, make sure the &lt;code&gt;Create local git repository for this
+project&lt;/code&gt; box is unchecked, as we won't be needing it.
+
+&lt;p&gt;At this point, you should be looking at an empty project:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/2.jpg&quot;&gt;
+
+&lt;p&gt;Click on &lt;code&gt;File-&gt;Add Files to &quot;redis&quot;&lt;/code&gt;, and choose the directory into which you
+cloned redis. If you're following along, that should be
+&lt;code&gt;~/code/redis&lt;/code&gt;. After you do so, you should see the directory in
+xcode's Project Navigator.
+
+&lt;p&gt;Now we'll set up a build target, which tells Xcode how to build redis. Click
+on &lt;code&gt;Add Target&lt;/code&gt; towards the bottom of the Xcode window, and you should see
+something like this:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/3.jpg&quot;&gt;
+
+&lt;p&gt;Choose &lt;code&gt;Other&lt;/code&gt; under the OS X target types and
+&lt;code&gt;External Build System&lt;/code&gt; as
+the type of target. On the next pane, enter &lt;code&gt;redis&lt;/code&gt; as the product
+name and
+leave the rest of the values at their defaults, and click &lt;code&gt;finish&lt;/code&gt;.
+
+&lt;p&gt;Now, replace &lt;code&gt;$(ARGS)&lt;/code&gt; in the &lt;code&gt;Arguments&lt;/code&gt; input box
+with &lt;code&gt;clean noopt&lt;/code&gt; and enter the directory where you cloned redis in
+the &lt;code&gt;Directory&lt;/code&gt; input box. Mine looks like this:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/4.jpg&quot;&gt;
+
+&lt;p&gt;And now... you're almost there. Click the &lt;code&gt;Run&lt;/code&gt; button at the
+top left of the screen, and you should see a message saying &lt;code&gt;Build
+Succeeded&lt;/code&gt;.
+
+&lt;p&gt;Finally, at the top left of the window, click on
+&lt;code&gt;&quot;redis&quot;-&gt;Edit Scheme&lt;/code&gt;.
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/5.jpg&quot;&gt;
+
+&lt;p&gt;In the pane that drops down, click on the &lt;code&gt;Executable&lt;/code&gt; drop down
+and click on &lt;code&gt;other&lt;/code&gt;, then select &lt;code&gt;src/redis-server&lt;/code&gt; from
+your redis directory. When you're done, the pane should look like this:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/6.jpg&quot;&gt;
+
+&lt;p&gt;This tells Xcode to start the redis-server executable after it builds redis,
+so you can then connect to it via redis-cli, send commands, and debug them.
+
+&lt;p&gt;To see if it works, click on the &lt;code&gt;run&lt;/code&gt; button at the top left; redis should
+build and Xcode should start redis-server for you. If you go to a console and
+run &lt;code&gt;redis-cli&lt;/code&gt;, it should connect to your localhost. At this point, you can
+start adding breakpoints to dig in and see what redis is doing. Here's a
+screenshot of me debugging src/redis.c, showing off some of xcode's debugging
+features:
+
+&lt;p&gt;&lt;img src=&quot;images/xcode_redis/7.jpg&quot;&gt;
+
+&lt;p&gt;Special thanks to Paul Smith, whose blog post &lt;a
+href=&quot;http://pauladamsmith.com/blog/2011/03/redis_get_set.html&quot;&gt;taught&lt;/a&gt; me
+how to build redis so that it can be debugged.
+
+&lt;p&gt;To learn a bit about the commands you can use to debug redis using the
+window on the bottom right, you can go read &lt;a
+href=&quot;https://www.hackerschool.com/blog/5-learning-c-with-gdb&quot;&gt;this post&lt;/a&gt;
+for a start (all the gdb commands are lldb commands too).
+
+&lt;p&gt;Coming up next, I'll show you how to add a new data type to redis.
+</content>
+	</entry>
 	<entry>
 		<title>Visualizing Permutations</title>
 		<link href="" />	
@@ -1025,130 +1219,6 @@ don't expect that the organization is optimizing for what you think they're
 optimizing for. And when an organization seems to be acting in ways that are surprising to
 you, look for metrics that may be more important to them than the ones you
 expect.
-</content>
-	</entry>
-	<entry>
-		<title>The Bill Mill NCAA Bracket Randomizer</title>
-		<link href="" />	
-		<id>http://billmill.org/ncaa_randomizer.html</id>
-		<updated>2009-03-18T16:00:00Z</updated>
-		<summary type="html">&lt;p&gt;Each year, when the NCAA basketball tournament comes around, I end up in
-four or five pools, with a separate bracket filled out for each. I love the
-games, and I love having teams to root for, but I really hate the process of
-guessing to fill out my brackets. I inevitably pick too many upsets, just
-because I want to have fun rooting for underdogs; instead I end up bored after
-the first two rounds.
-
-&lt;p&gt;This year, I thought I could write some software to help me pick out my
-brackets. If I let the computer pick reasonably but randomly for each pool, I figure that I
-stand a better chance of having &lt;em&gt;one&lt;/em&gt; decent bracket instead of the
-assortment of crappy ones I normally end up with.
-
-&lt;p&gt;So the last two nights, I &lt;a
-href=&quot;http://billmill.org/static/ncaa-bracket-randomizer/out.html&quot;&gt;wrote
-myself a bracket randomizer&lt;/a&gt;; just push the &quot;randomize&quot; button at the top and
-watch it go.
-
-&lt;p&gt;In order to pick what team will win a given game, it first calculates the
-chance each team will win by plugging &lt;a
-href=&quot;http://kenpom.com/rate.php&quot;&gt;Ken Pomeroy's&lt;/a&gt; ratings
-into the &lt;a
-href=&quot;http://www.diamond-mind.com/articles/playoff2002.htm&quot;&gt;log5&lt;/a&gt; formula.
-Then it picks a random number and compares it to the probability of the
-favorite winning; if the number is lower than that, it advances the favorite.
-Otherwise, it advances the underdog. Rinse and repeat, and you should have a
-reasonable random bracket for the whole tournament.
-
-&lt;h2&gt;The Output&lt;/h2&gt;
-
-&lt;p&gt;Next to each team in the bracket, you'll see three numbers in parentheses.
-These numbers represent, respectively, the team's Pythagorean rating, adjusted
-offensive efficiency, and adjusted defensive efficiency.
-
-&lt;p&gt;If that's Greek to you (&lt;em&gt;groan&lt;/em&gt;), go check out &lt;a
-href=&quot;http://www.kenpom.com/blog/index.php/weblog/ratings_explanation/&quot;&gt;Ken's
-explanation&lt;/a&gt; of what that means.
-
-&lt;p&gt;The color of each team, once you've randomized, represents their odds of
-winning. Brighter green is more of a favorite, deeper red more of an underdog.
-It should update the colors if you manually change the teams, but it won't; I
-just didn't have time to get everything done that I wanted to. Similarly, it
-won't update future games if you change the winner of an early one.
-
-&lt;h2&gt;The Code&lt;/h2&gt;
-
-&lt;p&gt;The surprisingly difficult part of this project was creating a simple HTML bracket that
-looked reasonable and allowed you to click to advance a team. I didn't get
-everything into the page that I wanted to, simply because I spent so much time
-just getting that done. (Keep in mind we're talking about a 2-night hack here).
-
-&lt;p&gt;The code to generate the bracket is contained in one super-ugly &lt;a
-href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/blob/1db753ce4f91fc84265efa6a27fa7ee00e84eaa2/bracket.py&quot;&gt;python
-file&lt;/a&gt;.
-
-&lt;p&gt;If you've got ideas for stuff to add, or want to generate a cooler looking
-bracket, or just check out the code, you can &lt;a
-href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/tree/master&quot;&gt;go get
-it&lt;/a&gt; at github. Feel free to fork and enjoy!
-</summary>
-		<content type="html">&lt;p&gt;Each year, when the NCAA basketball tournament comes around, I end up in
-four or five pools, with a separate bracket filled out for each. I love the
-games, and I love having teams to root for, but I really hate the process of
-guessing to fill out my brackets. I inevitably pick too many upsets, just
-because I want to have fun rooting for underdogs; instead I end up bored after
-the first two rounds.
-
-&lt;p&gt;This year, I thought I could write some software to help me pick out my
-brackets. If I let the computer pick reasonably but randomly for each pool, I figure that I
-stand a better chance of having &lt;em&gt;one&lt;/em&gt; decent bracket instead of the
-assortment of crappy ones I normally end up with.
-
-&lt;p&gt;So the last two nights, I &lt;a
-href=&quot;http://billmill.org/static/ncaa-bracket-randomizer/out.html&quot;&gt;wrote
-myself a bracket randomizer&lt;/a&gt;; just push the &quot;randomize&quot; button at the top and
-watch it go.
-
-&lt;p&gt;In order to pick what team will win a given game, it first calculates the
-chance each team will win by plugging &lt;a
-href=&quot;http://kenpom.com/rate.php&quot;&gt;Ken Pomeroy's&lt;/a&gt; ratings
-into the &lt;a
-href=&quot;http://www.diamond-mind.com/articles/playoff2002.htm&quot;&gt;log5&lt;/a&gt; formula.
-Then it picks a random number and compares it to the probability of the
-favorite winning; if the number is lower than that, it advances the favorite.
-Otherwise, it advances the underdog. Rinse and repeat, and you should have a
-reasonable random bracket for the whole tournament.
-
-&lt;h2&gt;The Output&lt;/h2&gt;
-
-&lt;p&gt;Next to each team in the bracket, you'll see three numbers in parentheses.
-These numbers represent, respectively, the team's Pythagorean rating, adjusted
-offensive efficiency, and adjusted defensive efficiency.
-
-&lt;p&gt;If that's Greek to you (&lt;em&gt;groan&lt;/em&gt;), go check out &lt;a
-href=&quot;http://www.kenpom.com/blog/index.php/weblog/ratings_explanation/&quot;&gt;Ken's
-explanation&lt;/a&gt; of what that means.
-
-&lt;p&gt;The color of each team, once you've randomized, represents their odds of
-winning. Brighter green is more of a favorite, deeper red more of an underdog.
-It should update the colors if you manually change the teams, but it won't; I
-just didn't have time to get everything done that I wanted to. Similarly, it
-won't update future games if you change the winner of an early one.
-
-&lt;h2&gt;The Code&lt;/h2&gt;
-
-&lt;p&gt;The surprisingly difficult part of this project was creating a simple HTML bracket that
-looked reasonable and allowed you to click to advance a team. I didn't get
-everything into the page that I wanted to, simply because I spent so much time
-just getting that done. (Keep in mind we're talking about a 2-night hack here).
-
-&lt;p&gt;The code to generate the bracket is contained in one super-ugly &lt;a
-href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/blob/1db753ce4f91fc84265efa6a27fa7ee00e84eaa2/bracket.py&quot;&gt;python
-file&lt;/a&gt;.
-
-&lt;p&gt;If you've got ideas for stuff to add, or want to generate a cooler looking
-bracket, or just check out the code, you can &lt;a
-href=&quot;http://github.com/llimllib/ncaa-bracket-randomizer/tree/master&quot;&gt;go get
-it&lt;/a&gt; at github. Feel free to fork and enjoy!
 </content>
 	</entry>
 </feed>

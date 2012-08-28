@@ -7,6 +7,106 @@
         <language>en-us</language>
         <atom:link href="http://billmill.org/Rss" rel="self" type="application/rss+xml" />
         <item>
+            <title>Debugging Redis with Xcode</title>
+            <guid isPermaLink="true">http://billmill.org/xcode_redis.html</guid>
+            <link>http://billmill.org/xcode_redis.html</link>
+            <description><![CDATA[<p>Recently I've been doing a bit of work on <a
+href="http://redis.io">Redis</a>. While I code in vim, and that's not changing
+any time soon, I've found Xcode to be a handy debugger.
+It's not difficult to set up, but it is <em>extremely</em> unintuitive, so
+I thought I'd write up a short visual guide.
+
+<p>In this article, I'll assume that <code>~/code/</code> is your directory for
+storing code; substitute your own directory where required.
+
+<p>The first thing you'll want to do is check out a copy of redis. In your
+<code>~/code</code> directory, clone the official redis repository:
+<code>git clone https://github.com/antirez/redis.git</code>
+
+<p>Next, open up Xcode and go to <code>File->New->Project</code> or click
+<code>Create a New
+Xcode Project</code>. On the left-hand pane select <code>Other</code>, and on
+the right, <code>Empty</code>.
+
+<p><img src="images/xcode_redis/1.jpg">
+
+<p>Enter <code>redis</code> as the product name (or anything else if you so desire) in the
+next panel, and
+then choose a directory in which to store the xcode project. I recommend
+storing it in a directory separate from your redis git directory, so that you
+don't accidentally commit anything you don't intend.
+
+<p>On the file picker, make sure the <code>Create local git repository for this
+project</code> box is unchecked, as we won't be needing it.
+
+<p>At this point, you should be looking at an empty project:
+
+<p><img src="images/xcode_redis/2.jpg">
+
+<p>Click on <code>File->Add Files to "redis"</code>, and choose the directory into which you
+cloned redis. If you're following along, that should be
+<code>~/code/redis</code>. After you do so, you should see the directory in
+xcode's Project Navigator.
+
+<p>Now we'll set up a build target, which tells Xcode how to build redis. Click
+on <code>Add Target</code> towards the bottom of the Xcode window, and you should see
+something like this:
+
+<p><img src="images/xcode_redis/3.jpg">
+
+<p>Choose <code>Other</code> under the OS X target types and
+<code>External Build System</code> as
+the type of target. On the next pane, enter <code>redis</code> as the product
+name and
+leave the rest of the values at their defaults, and click <code>finish</code>.
+
+<p>Now, replace <code>$(ARGS)</code> in the <code>Arguments</code> input box
+with <code>clean noopt</code> and enter the directory where you cloned redis in
+the <code>Directory</code> input box. Mine looks like this:
+
+<p><img src="images/xcode_redis/4.jpg">
+
+<p>And now... you're almost there. Click the <code>Run</code> button at the
+top left of the screen, and you should see a message saying <code>Build
+Succeeded</code>.
+
+<p>Finally, at the top left of the window, click on
+<code>"redis"->Edit Scheme</code>.
+
+<p><img src="images/xcode_redis/5.jpg">
+
+<p>In the pane that drops down, click on the <code>Executable</code> drop down
+and click on <code>other</code>, then select <code>src/redis-server</code> from
+your redis directory. When you're done, the pane should look like this:
+
+<p><img src="images/xcode_redis/6.jpg">
+
+<p>This tells Xcode to start the redis-server executable after it builds redis,
+so you can then connect to it via redis-cli, send commands, and debug them.
+
+<p>To see if it works, click on the <code>run</code> button at the top left; redis should
+build and Xcode should start redis-server for you. If you go to a console and
+run <code>redis-cli</code>, it should connect to your localhost. At this point, you can
+start adding breakpoints to dig in and see what redis is doing. Here's a
+screenshot of me debugging src/redis.c, showing off some of xcode's debugging
+features:
+
+<p><img src="images/xcode_redis/7.jpg">
+
+<p>Special thanks to Paul Smith, whose blog post <a
+href="http://pauladamsmith.com/blog/2011/03/redis_get_set.html">taught</a> me
+how to build redis so that it can be debugged.
+
+<p>To learn a bit about the commands you can use to debug redis using the
+window on the bottom right, you can go read <a
+href="https://www.hackerschool.com/blog/5-learning-c-with-gdb">this post</a>
+for a start (all the gdb commands are lldb commands too).
+
+<p>Coming up next, I'll show you how to add a new data type to redis.
+]]></description>
+            <pubDate>Sun, 26 Aug 2012 23:14:00 +0000</pubDate>
+        </item>
+        <item>
             <title>Visualizing Permutations</title>
             <guid isPermaLink="true">http://billmill.org/permvis.html</guid>
             <link>http://billmill.org/permvis.html</link>
@@ -525,71 +625,6 @@ you, look for metrics that may be more important to them than the ones you
 expect.
 ]]></description>
             <pubDate>Sun, 31 May 2009 16:50:00 +0000</pubDate>
-        </item>
-        <item>
-            <title>The Bill Mill NCAA Bracket Randomizer</title>
-            <guid isPermaLink="true">http://billmill.org/ncaa_randomizer.html</guid>
-            <link>http://billmill.org/ncaa_randomizer.html</link>
-            <description><![CDATA[<p>Each year, when the NCAA basketball tournament comes around, I end up in
-four or five pools, with a separate bracket filled out for each. I love the
-games, and I love having teams to root for, but I really hate the process of
-guessing to fill out my brackets. I inevitably pick too many upsets, just
-because I want to have fun rooting for underdogs; instead I end up bored after
-the first two rounds.
-
-<p>This year, I thought I could write some software to help me pick out my
-brackets. If I let the computer pick reasonably but randomly for each pool, I figure that I
-stand a better chance of having <em>one</em> decent bracket instead of the
-assortment of crappy ones I normally end up with.
-
-<p>So the last two nights, I <a
-href="http://billmill.org/static/ncaa-bracket-randomizer/out.html">wrote
-myself a bracket randomizer</a>; just push the "randomize" button at the top and
-watch it go.
-
-<p>In order to pick what team will win a given game, it first calculates the
-chance each team will win by plugging <a
-href="http://kenpom.com/rate.php">Ken Pomeroy's</a> ratings
-into the <a
-href="http://www.diamond-mind.com/articles/playoff2002.htm">log5</a> formula.
-Then it picks a random number and compares it to the probability of the
-favorite winning; if the number is lower than that, it advances the favorite.
-Otherwise, it advances the underdog. Rinse and repeat, and you should have a
-reasonable random bracket for the whole tournament.
-
-<h2>The Output</h2>
-
-<p>Next to each team in the bracket, you'll see three numbers in parentheses.
-These numbers represent, respectively, the team's Pythagorean rating, adjusted
-offensive efficiency, and adjusted defensive efficiency.
-
-<p>If that's Greek to you (<em>groan</em>), go check out <a
-href="http://www.kenpom.com/blog/index.php/weblog/ratings_explanation/">Ken's
-explanation</a> of what that means.
-
-<p>The color of each team, once you've randomized, represents their odds of
-winning. Brighter green is more of a favorite, deeper red more of an underdog.
-It should update the colors if you manually change the teams, but it won't; I
-just didn't have time to get everything done that I wanted to. Similarly, it
-won't update future games if you change the winner of an early one.
-
-<h2>The Code</h2>
-
-<p>The surprisingly difficult part of this project was creating a simple HTML bracket that
-looked reasonable and allowed you to click to advance a team. I didn't get
-everything into the page that I wanted to, simply because I spent so much time
-just getting that done. (Keep in mind we're talking about a 2-night hack here).
-
-<p>The code to generate the bracket is contained in one super-ugly <a
-href="http://github.com/llimllib/ncaa-bracket-randomizer/blob/1db753ce4f91fc84265efa6a27fa7ee00e84eaa2/bracket.py">python
-file</a>.
-
-<p>If you've got ideas for stuff to add, or want to generate a cooler looking
-bracket, or just check out the code, you can <a
-href="http://github.com/llimllib/ncaa-bracket-randomizer/tree/master">go get
-it</a> at github. Feel free to fork and enjoy!
-]]></description>
-            <pubDate>Wed, 18 Mar 2009 16:00:00 +0000</pubDate>
         </item>
 </channel>
 </rss>
