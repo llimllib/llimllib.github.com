@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<link rel="self" href="http://billmill.org/Atom/" />
+	<link rel="self" href="http://billmill.org/Atom" />
 	<id>http://billmill.org/</id>
 	<title>My Name Rhymes</title>
 	<subtitle></subtitle>
