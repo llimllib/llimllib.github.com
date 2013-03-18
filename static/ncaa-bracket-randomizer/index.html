@@ -1,7 +1,5 @@
 <html><head><title>The 2012 Bill Mill NCAA Bracket Randomizer</title>
-<link type="text/css" href="http://code.jquery.com/ui/1.10.1/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
 <!-- <script src="js/jquery.ezpz_tooltip.js" type="text/javascript"></script> -->
 <style>
 table { border-collapse:collapse; table-layout:fixed; }
@@ -46,9 +44,6 @@ td a:hover   { color: black; }
 //a dummy console function so console.log doesn't kill shitty browsers
 if(typeof console === "undefined") { console = { log: function() { } }; }
 
-//the amount of randomness
-var amount_of_randomness = 2;
-
 var kenpom = {1: [67.2, 112.0, 114.6, 15.0, 81.0, 1.0, 0.9721, 2.0, 'Louisville'], 2: [66.8, 127.0, 89.6, 317.0, 95.3, 81.0, 0.3461, 226.0, 'North Carolina A&T'], 3: [65.9, 171.0, 99.6, 184.0, 109.0, 303.0, 0.2841, 251.0, 'Liberty'], 4: [65.0, 214.0, 117.8, 7.0, 96.5, 98.0, 0.8851, 24.0, 'Colorado St.'], 5: [67.4, 103.0, 115.0, 13.0, 93.1, 48.0, 0.8968, 18.0, 'Missouri'], 6: [67.7, 94.0, 108.4, 56.0, 88.1, 9.0, 0.8936, 20.0, 'Oklahoma St.'], 7: [68.9, 46.0, 104.1, 121.0, 88.6, 16.0, 0.8395, 43.0, 'Oregon'], 8: [65.1, 207.0, 108.2, 58.0, 87.0, 7.0, 0.9039, 16.0, 'St. Louis'], 9: [65.1, 208.0, 104.0, 122.0, 94.6, 74.0, 0.7246, 80.0, 'New Mexico St.'], 10: [69.7, 28.0, 107.8, 64.0, 90.7, 26.0, 0.855, 39.0, 'Memphis'], 11: [65.1, 210.0, 106.9, 73.0, 89.1, 20.0, 0.8665, 32.0, 'Middle Tennessee'], 12: [64.8, 223.0, 115.6, 11.0, 94.6, 68.0, 0.8866, 22.0, "St. Mary's"], 13: [64.4, 244.0, 112.8, 24.0, 87.3, 8.0, 0.9325, 10.0, 'Michigan St.'], 14: [65.9, 170.0, 109.8, 44.0, 97.3, 106.0, 0.7761, 66.0, 'Valparaiso'], 15: [65.0, 213.0, 118.3, 6.0, 94.8, 78.0, 0.9059, 15.0, 'Creighton'], 16: [64.3, 250.0, 104.4, 117.0, 88.4, 15.0, 0.8462, 40.0, 'Cincinnati'], 17: [67.9, 81.0, 119.6, 4.0, 90.6, 25.0, 0.9454, 6.0, 'Duke'], 18: [63.1, 287.0, 100.7, 170.0, 99.0, 134.0, 0.543, 147.0, 'Albany'], 19: [64.6, 231.0, 119.8, 3.0, 88.4, 14.0, 0.9578, 4.0, 'Gonzaga'], 20: [64.9, 219.0, 95.7, 252.0, 96.6, 100.0, 0.4765, 170.0, 'Southern'], 21: [60.2, 339.0, 116.5, 9.0, 88.7, 17.0, 0.9426, 7.0, 'Pittsburgh'], 22: [64.6, 233.0, 109.1, 50.0, 91.3, 30.0, 0.8618, 33.0, 'Wichita St.'], 23: [62.0, 310.0, 108.8, 52.0, 83.6, 3.0, 0.9374, 9.0, 'Wisconsin'], 24: [70.8, 12.0, 111.8, 28.0, 93.6, 55.0, 0.8609, 34.0, 'Mississippi'], 25: [62.8, 293.0, 113.2, 21.0, 94.2, 64.0, 0.8677, 30.0, 'Kansas St.'], 26: [66.4, 153.0, 111.6, 30.0, 95.6, 86.0, 0.8291, 49.0, 'Boise St.'], 27: [66.5, 141.0, 109.8, 43.0, 95.5, 83.0, 0.807, 57.0, 'La Salle'], 28: [67.0, 123.0, 113.3, 18.0, 92.0, 36.0, 0.8946, 19.0, 'Arizona'], 29: [67.3, 107.0, 109.9, 42.0, 93.9, 59.0, 0.8331, 46.0, 'Belmont'], 30: [64.8, 220.0, 109.7, 45.0, 88.2, 11.0, 0.9035, 17.0, 'New Mexico'], 31: [64.4, 245.0, 106.1, 83.0, 99.8, 147.0, 0.6504, 108.0, 'Harvard'], 32: [61.6, 320.0, 115.3, 12.0, 95.9, 90.0, 0.8676, 31.0, 'Notre Dame'], 33: [69.3, 34.0, 116.9, 8.0, 98.2, 121.0, 0.8567, 37.0, 'Iowa St.'], 34: [64.3, 248.0, 114.7, 14.0, 86.5, 6.0, 0.9475, 5.0, 'Ohio St.'], 35: [70.6, 17.0, 113.1, 22.0, 105.5, 257.0, 0.6722, 96.0, 'Iona'], 36: [67.7, 91.0, 112.7, 25.0, 85.9, 5.0, 0.9418, 8.0, 'Kansas'], 37: [65.7, 182.0, 100.1, 177.0, 101.8, 182.0, 0.456, 183.0, 'Western Kentucky'], 38: [70.6, 16.0, 112.3, 27.0, 93.0, 47.0, 0.8739, 28.0, 'North Carolina'], 39: [67.7, 93.0, 105.4, 94.0, 90.0, 24.0, 0.8341, 45.0, 'Villanova'], 40: [68.4, 63.0, 113.3, 19.0, 92.2, 43.0, 0.8917, 21.0, 'VCU'], 41: [66.6, 135.0, 105.6, 89.0, 91.7, 33.0, 0.8107, 54.0, 'Akron'], 42: [65.0, 215.0, 120.6, 2.0, 93.9, 58.0, 0.9283, 11.0, 'Michigan'], 43: [64.1, 258.0, 110.4, 39.0, 103.1, 209.0, 0.6675, 102.0, 'South Dakota St.'], 44: [69.3, 35.0, 110.4, 38.0, 94.3, 65.0, 0.8353, 44.0, 'UCLA'], 45: [63.0, 288.0, 112.6, 26.0, 92.2, 42.0, 0.8857, 23.0, 'Minnesota'], 46: [62.5, 299.0, 118.4, 5.0, 83.4, 2.0, 0.9731, 1.0, 'Florida'], 47: [72.9, 1.0, 105.3, 97.0, 102.3, 194.0, 0.5729, 133.0, 'Northwestern St.'], 48: [66.8, 126.0, 106.7, 76.0, 88.2, 10.0, 0.8764, 26.0, 'San Diego St.'], 49: [66.8, 129.0, 110.6, 36.0, 95.4, 82.0, 0.8196, 51.0, 'Oklahoma'], 50: [61.9, 313.0, 108.0, 62.0, 84.4, 4.0, 0.9263, 12.0, 'Georgetown'], 51: [68.7, 54.0, 101.5, 151.0, 97.9, 117.0, 0.593, 126.0, 'Florida Gulf Coast'], 52: [67.8, 86.0, 123.2, 1.0, 89.0, 19.0, 0.9655, 3.0, 'Indiana'], 53: [69.6, 29.0, 109.0, 51.0, 111.0, 319.0, 0.4522, 185.0, 'Long Island'], 54: [64.5, 239.0, 97.3, 224.0, 98.9, 132.0, 0.4602, 179.0, 'James Madison'], 55: [68.2, 74.0, 116.1, 10.0, 97.2, 105.0, 0.8605, 35.0, 'NC State'], 56: [67.0, 120.0, 110.6, 35.0, 98.3, 124.0, 0.7708, 68.0, 'Temple'], 57: [68.8, 53.0, 105.3, 99.0, 88.3, 13.0, 0.859, 36.0, 'UNLV'], 58: [65.9, 175.0, 105.8, 86.0, 92.9, 46.0, 0.7929, 58.0, 'California'], 59: [64.5, 235.0, 114.2, 16.0, 89.8, 23.0, 0.9213, 13.0, 'Syracuse'], 60: [63.8, 266.0, 103.5, 129.0, 101.6, 175.0, 0.5473, 145.0, 'Montana'], 61: [64.4, 242.0, 108.0, 60.0, 93.5, 53.0, 0.8146, 52.0, 'Butler'], 62: [63.2, 285.0, 105.3, 95.0, 92.7, 45.0, 0.7879, 62.0, 'Bucknell'], 63: [64.9, 217.0, 113.4, 17.0, 93.3, 50.0, 0.8805, 25.0, 'Marquette'], 64: [65.2, 205.0, 110.4, 40.0, 96.8, 103.0, 0.7929, 59.0, 'Davidson'], 65: [66.0, 166.0, 109.7, 47.0, 93.2, 49.0, 0.8408, 42.0, 'Illinois'], 66: [65.0, 216.0, 105.8, 85.0, 90.8, 28.0, 0.8278, 50.0, 'Colorado'], 67: [63.3, 282.0, 113.3, 20.0, 89.7, 22.0, 0.9164, 14.0, 'Miami'], 68: [63.2, 283.0, 105.0, 104.0, 100.5, 159.0, 0.6104, 121.0, 'Pacific']}
 
 function color(favorite, dog, log5) {
@@ -82,6 +77,8 @@ function calc_fav(teama, teamb) {
 }
 
 function randomize() {
+    var amount_of_randomness = parseInt($("option:selected").attr("value"));
+
     //for each round
     for (i=0; i<7; i++) {
         //sort each rounds games by game #, then pick a random team
@@ -113,7 +110,7 @@ function randomize() {
     }
 }
 
-function selector(name, value) { return "[" + name + "='" + value + "']" } 
+function selector(name, value) { return "[" + name + "='" + value + "']" }
 
 /* given ints for round and game, return an array
 [next round int, next game int, "u" or "l"] */
@@ -138,7 +135,7 @@ function clearForwardInvalid(opp, round) {
 
 function teamClick(evt) {
     var link = $(evt.target);
-    
+
     var dest = evt.target.attributes.href.value.substr(1).split("-");
 
     var roundsel    = selector("round", dest[0]);
@@ -192,20 +189,6 @@ function teamClick(evt) {
 $(document).ready(function() {
     $("a[team]").click(teamClick);
     $("#randomize").click(randomize);
-
-    $('#slider').slider({
-      min: 0,
-      max: 3,
-      step: 1,
-      value: amount_of_randomness,
-      slide: function(event, ui) {
-        var val = parseInt(ui.value);
-        amount_of_randomness = val == 0 ? 0 : 4-val;
-        var labels = ["None", "Almost None", "Some", "Lots"];
-        $("#desc").html(labels[val])
-      }
-    });
-    
 });
 </script>
 </head>
@@ -214,7 +197,12 @@ $(document).ready(function() {
 
 <p><table><tr>
 <td><input type="button" id="randomize" value="randomize"></td>
-<td id="text">Randomness:</td><td><div id="slider" style="width: 50px; margin-right: 10px; margin-left: 10px;"></div></td><td id="text"><span id="desc">Some</span></td>
+<td id="text" style="padding-left: 20px">Amount of randomness:</td><td><select>
+  <option value="0">None</option>
+  <option value="3" selected>A Little</option>
+  <option value="2">Some</option>
+  <option value="1">Lots</option>
+</select></td>
 </tr></table>
 
 <p>
@@ -1118,7 +1106,6 @@ $(document).ready(function() {
 <p style="margin-top:20px; font-size: 12px;">Please <a href="mailto:bill.mill@gmail.com">email me</a> or tell me <a href="http://twitter.com/llimllib">@llimllib on twitter</a> if there are any problems with this page.
 
 </body>
-
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
