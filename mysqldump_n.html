@@ -68,7 +68,7 @@ And then pieces together an insert string manually:<p>
         <span style="color: #60a0b0; font-style: italic">/* change any strings (&quot;inf&quot;, &quot;-inf&quot;, &quot;nan&quot;) into NULL */</span>
         <span style="color: #902000">char</span> <span style="color: #666666">*</span>ptr<span style="color: #666666">=</span> row[i];
         <span style="color: #60a0b0; font-style: italic">/* snip */</span>
-        <span style="color: #007020; font-weight: bold">else</span> <span style="color: #007020; font-weight: bold">if</span> (my_isalpha(charset_info, <span style="color: #666666">*</span>ptr) <span style="color: #666666">||</span>
+        <span style="color: #007020; font-weight: bold">else</span> <span style="color: #06287e">if</span> (my_isalpha(charset_info, <span style="color: #666666">*</span>ptr) <span style="color: #666666">||</span>
                  (<span style="color: #666666">*</span>ptr <span style="color: #666666">==</span> <span style="color: #4070a0">&#39;-&#39;</span> <span style="color: #666666">&amp;&amp;</span> my_isalpha(charset_info, ptr[<span style="color: #40a070">1</span>])))
           fputs(<span style="color: #4070a0">&quot;NULL&quot;</span>, md_result_file);
         <span style="color: #007020; font-weight: bold">else</span> <span style="color: #06287e">if</span> (field<span style="color: #666666">-&gt;</span>type <span style="color: #666666">==</span> MYSQL_TYPE_DECIMAL)
@@ -79,7 +79,7 @@ And then pieces together an insert string manually:<p>
           fputc(<span style="color: #4070a0">&#39;\&#39;&#39;</span>, md_result_file);
         }
         <span style="color: #007020; font-weight: bold">else</span>
-          fputs(ptr, md_result_file);
+          <span style="color: #06287e">fputs</span>(ptr, md_result_file);
       }
     }
   }
