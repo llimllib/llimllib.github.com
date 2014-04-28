@@ -1,0 +1,41 @@
+<html><head><title>Edge Detection Demo</title>
+<script src="jquery-1.3.2.min.js"></script>
+<script src="../pixastic.core.js"></script>
+<script src="../pixastic.jquery.js"></script>
+<script src="../actions/weighted_desaturate.js"></script>
+<script src="../actions/edgex.js"></script>
+<script src="../actions/edgey.js"></script>
+<script src="../actions/edge.js"></script>
+<script src="../actions/edges.js"></script>
+<script>
+$(document).ready(function(){
+});
+
+function edgex() {
+  $("#Gx").pixastic("weighted_desaturate", {r:1, g:0, b:1}).pixastic("edgex");
+}
+
+function edgey() {
+  $("#Gy").pixastic("weighted_desaturate", {r:1, g:0, b:1}).pixastic("edgey");
+}
+
+function edge() {
+  $("#gradient").pixastic("weighted_desaturate", {r:1, g:0, b:1}).pixastic("edge");
+}
+
+function pix_edge() {
+  $("#testpix").pixastic("edges", {mono:true, invert:false});
+}
+</script>
+</head>
+<body>
+<div>
+  <img id="testimg" src="jump.jpg">
+  <img id="Gx" src="jump.jpg" onload="edgex()">
+  <img id="Gy" src="jump.jpg" onload="edgey()">
+  <img id="gradient" src="jump.jpg" onload="edge()">
+  <br>
+  <img id="testpix" src="jump.jpg" onload="pix_edge()" style="margin-left:685">
+</div>
+</body>
+</html>
