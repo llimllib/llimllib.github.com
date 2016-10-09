@@ -141,7 +141,7 @@ point editor to get a feel for the slow, painful process of editing the curve
 to match LeWitt.
 
 <p>Once I got that looking as close as I felt like getting it, even though
-there are still some srerious warts with the curve, I copied the paths out of
+there are still some serious warts with the curve, I copied the paths out of
 the SVG using the Chrome inspector, and used those as the magic paths <a
 href="https://github.com/llimllib/solving-sol/blob/d822e18809731e6673cc2de796f32446712631b0/1136/llimllib/index.html#L113">you
 can see in the source</a>.
@@ -166,7 +166,7 @@ href="https://github.com/wholepixel/solving-sol">check out the repo</a> and
 have at it. Many of them can be completed in just an hour or two, but others
 might lead you on a a bit of a journey.
 ]]></description>
-            <pubDate>Sat, 08 Oct 2016 21:30:25 +0000</pubDate>
+            <pubDate>Sun, 09 Oct 2016 16:22:57 +0000</pubDate>
         </item>
         <item>
             <title>Debugging Redis with Xcode</title>
