@@ -16,7 +16,7 @@
         <p>At my job, we use what is essentially a custom C# ORM. Soon after I arrived, 
 we adopted this idiom to pull a DB connection from the pool and run a query:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"> <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Something</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span> <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Something</span>
 {
     <span style="color: #007020; font-weight: bold">public</span> <span style="color: #902000">int</span> <span style="color: #06287e">ourIdiom</span>(<span style="color: #902000">long</span> identifier)
     {
@@ -50,7 +50,7 @@ we stuck with the using<sup>2</sup> idiom.
 make this idiom more concise and remove some boilerplate that I didn't get a 
 chance to try until this week. Using 2.0's iterators, which seem awfully 
 familiar from my python work, that can be reduced to:
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Something</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Something</span>
 {
     <span style="color: #007020; font-weight: bold">public</span> <span style="color: #902000">int</span> <span style="color: #06287e">ourIdiom</span>(<span style="color: #902000">long</span> identifier)
     {
@@ -69,7 +69,7 @@ familiar from my python work, that can be reduced to:
 </pre></div>
 
 <p>With some fairly simple code:
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">public</span> <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">SQL</span> : 
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">public</span> <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">SQL</span> : 
     System.Collections.Generic.IEnumerable&lt;IDataReader&gt;
     {
         <span style="color: #902000">string</span> m_sql;
@@ -111,7 +111,7 @@ stored conveniently in one place.
 href="http://en.wikipedia.org/wiki/Thunk">thunk</a>: a bit of code representing 
 a future computation that can then be passed around to be performed later. An 
 example:
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">void</span> <span style="color: #06287e">setUpQueries</span>(nameId, addressId, custId)
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">void</span> <span style="color: #06287e">setUpQueries</span>(nameId, addressId, custId)
 {
     List&lt;SQL&gt; stringsWeNeed = <span style="color: #007020; font-weight: bold">new</span> List(<span style="color: #007020; font-weight: bold">new</span> <span style="color: #902000">object</span>[]{
         <span style="color: #007020; font-weight: bold">new</span> <span style="color: #06287e">SQL</span>().query(<span style="color: #4070a0">&quot;SELECT name FROM names WHERE id=?&quot;</span>, nameId),

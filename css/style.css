@@ -1,6 +1,10 @@
 body {
-    font: 16px Georgia,'Times New Roman',serif;
+    font: 20px Georgia,'Times New Roman',serif;
     margin-top: 20px;
+}
+
+body.index {
+    font-size: 16px;
 }
 
 code {
@@ -9,8 +13,19 @@ code {
     font-size: 14px;
 }
 
+blockquote {
+    padding: 10px;
+    background-color: #f0f0fc;
+    border-left: 3px solid #666;
+    line-height: 1.4em;
+}
+
 a, a:visited {
     color: black;
+}
+
+p a {
+    background-color: rgba(236, 236, 236, 0.52);;
 }
 
 h1 {
@@ -20,8 +35,8 @@ h1 {
 
 h2 {
     display: block;
-    font: bold 18px Georgia,'Times New Roman',serif;
-    margin-top: 20px;
+    font: bold 22px Georgia,'Times New Roman',serif;
+    margin-top: 30px;
     margin-bottom: 20px;
 }
 
@@ -49,8 +64,7 @@ p img {
 p {
     margin-top: 10px;
     margin-bottom: 10px;
-    font: 16px Georgia,'Times New Roman',serif;
-    line-height: 140%;
+    line-height: 1.6em;
 }
 
 .content {
@@ -76,4 +90,11 @@ p {
 
 .footer a, .footer a:visited {
     color: #777;
+}
+
+em.caption {
+    font-size: 18px;
+    position: relative;
+    top: -20px;
+    left: 20px;
 }

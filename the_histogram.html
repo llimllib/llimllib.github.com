@@ -109,7 +109,7 @@ drawing the histogram. To gather the data, we'll initialize three arrays with
 through each pixel in the image and add one in the appropriate histogram slot 
 for each color. That's it!
 
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">function</span> array256(default_value) {
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">function</span> array256(default_value) {
   arr <span style="color: #666666">=</span> [];
   <span style="color: #007020; font-weight: bold">for</span> (<span style="color: #007020; font-weight: bold">var</span> i<span style="color: #666666">=</span><span style="color: #40a070">0</span>; i<span style="color: #666666">&lt;</span><span style="color: #40a070">256</span>; i<span style="color: #666666">++</span>) { arr[i] <span style="color: #666666">=</span> default_value; }
   <span style="color: #007020; font-weight: bold">return</span> arr;
@@ -139,7 +139,7 @@ canvas is only 100 pixels tall, and any histogram value could be greater than
 100, we'll scale each value as the percentage of the maximum value in the 
 histogram.
 
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #60a0b0; font-style: italic">//get a reference to the canvas to draw on</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">//get a reference to the canvas to draw on</span>
 <span style="color: #007020; font-weight: bold">var</span> ctx <span style="color: #666666">=</span> $(<span style="color: #4070a0">&quot;#colorhistcanvas&quot;</span>)[<span style="color: #40a070">0</span>].getContext(<span style="color: #4070a0">&quot;2d&quot;</span>);
 <span style="color: #007020; font-weight: bold">var</span> rmax <span style="color: #666666">=</span> <span style="color: #007020">Math</span>.max.apply(<span style="color: #007020; font-weight: bold">null</span>, rvals);
 <span style="color: #007020; font-weight: bold">var</span> bmax <span style="color: #666666">=</span> <span style="color: #007020">Math</span>.max.apply(<span style="color: #007020; font-weight: bold">null</span>, bvals);

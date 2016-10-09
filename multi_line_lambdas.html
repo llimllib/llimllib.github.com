@@ -18,7 +18,7 @@ href="http://www.artima.com/weblogs/viewpost.jsp?thread=147358">does not have
 multi-line lambdas</a> because Guido dislikes them aesthetically. However, with 
 just a bit of introspection, code like this is possible:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #666666">&gt;&gt;&gt;</span> <span style="color: #007020; font-weight: bold">with</span> each([<span style="color: #40a070">12</span>, <span style="color: #40a070">14</span>, <span style="color: #40a070">16</span>]):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #666666">&gt;&gt;&gt;</span> <span style="color: #007020; font-weight: bold">with</span> each([<span style="color: #40a070">12</span>, <span style="color: #40a070">14</span>, <span style="color: #40a070">16</span>]):
 <span style="color: #666666">...</span>   <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">_</span>(x):
 <span style="color: #666666">...</span>     <span style="color: #007020; font-weight: bold">print</span> x
 <span style="color: #666666">...</span>     <span style="color: #007020; font-weight: bold">print</span> x<span style="color: #666666">+</span><span style="color: #40a070">1</span>
@@ -73,7 +73,7 @@ surely wouldn't have come up with one as complete as his.
 what I'd had in my head so long ago. In about an hour, I was able to write code 
 that looks like this:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #555555; font-weight: bold">@accepts_block</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #555555; font-weight: bold">@accepts_block</span>
 <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">each</span>(iterable, block):
   <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #007020; font-weight: bold">in</span> iterable:
       block(i)
@@ -110,7 +110,7 @@ upon exiting, just as you'd expect.
 differences between them. These differences will be all the variables that were 
 defined in the <code>with</code> block. A sketch:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">FindInteresting</span>(<span style="color: #007020">object</span>):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">FindInteresting</span>(<span style="color: #007020">object</span>):
   <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__enter__</span>(<span style="color: #007020">self</span>):
     f <span style="color: #666666">=</span> inspect<span style="color: #666666">.</span>currentframe(<span style="color: #40a070">1</span>)
     <span style="color: #007020">self</span><span style="color: #666666">.</span>already_defined <span style="color: #666666">=</span> <span style="color: #007020">dict</span>(f<span style="color: #666666">.</span>f_locals)
@@ -125,7 +125,7 @@ defined in the <code>with</code> block. A sketch:
 check for names that have been redefined so that we don't miss out on new 
 functions that reuse old names.
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__exit__</span>(<span style="color: #007020">self</span>):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__exit__</span>(<span style="color: #007020">self</span>):
   f <span style="color: #666666">=</span> inspect<span style="color: #666666">.</span>currentframe(<span style="color: #40a070">1</span>)
   interesting <span style="color: #666666">=</span> {}
   <span style="color: #007020; font-weight: bold">for</span> n <span style="color: #007020; font-weight: bold">in</span> f<span style="color: #666666">.</span>f_locals:
@@ -149,7 +149,7 @@ be fooled. In this case, <code>interesting</code> will not detect
 <code>x</code> because it's being redefined and cpython caches the low 
 integers, so <code>id(x)</code> will be the same for both <code>x</code>s.
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%">x <span style="color: #666666">=</span> <span style="color: #40a070">1</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>x <span style="color: #666666">=</span> <span style="color: #40a070">1</span>
 <span style="color: #007020; font-weight: bold">with</span> FindInteresting:
   x <span style="color: #666666">=</span> <span style="color: #40a070">1</span>
 </pre></div>
@@ -167,7 +167,7 @@ function being decorated with the definitions that we found in the
 <code>__call__</code> function gets overridden to allow you to pass in 
 arguments for the function being decorated.
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">accepts_block</span>(f):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">accepts_block</span>(f):
   <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">BlockContextManager</span>(<span style="color: #007020">object</span>):
     <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__call__</span>(<span style="color: #007020">self</span>, <span style="color: #666666">*</span>args, <span style="color: #666666">**</span>kwargs):
       <span style="color: #007020">self</span><span style="color: #666666">.</span>thefunction <span style="color: #666666">=</span> functools<span style="color: #666666">.</span>partial(f, <span style="color: #666666">*</span>args, <span style="color: #666666">**</span>kwargs)
@@ -196,7 +196,7 @@ end of the arguments list for the function and calling it. Phew.
 <p>The code above handles the case where you don't need to store the result of
 the function being decorated:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #555555; font-weight: bold">@accepts_block</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #555555; font-weight: bold">@accepts_block</span>
 <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">each</span>(iterable, block):
   <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #007020; font-weight: bold">in</span> iterable:
     block(i)
@@ -212,7 +212,7 @@ it reflects the result of our computation.
 <p>First we check to see if we probably have a block and a variable in the as 
 statement, then we reach in and store our result there if we are in that case:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__exit__</span>(<span style="color: #007020">self</span>):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__exit__</span>(<span style="color: #007020">self</span>):
   <span style="color: #60a0b0; font-style: italic">#exactly as before; frame = inspect.currentframe(1)</span>
 
   <span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020">len</span>(interesting) <span style="color: #666666">==</span> <span style="color: #40a070">1</span>:
@@ -232,7 +232,7 @@ statement, then we reach in and store our result there if we are in that case:
 
 <p>Which lets us do this:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #555555; font-weight: bold">@accepts_block</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #555555; font-weight: bold">@accepts_block</span>
 <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">bmap</span>(iterable, block):
   <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020">map</span>(block, iterable)
   
@@ -248,7 +248,7 @@ statement, then we reach in and store our result there if we are in that case:
 and any other variable, that the variable is where we want to store our 
 results. This can lead to somewhat unexpected results:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">with</span> bmap([<span style="color: #40a070">1</span>,<span style="color: #40a070">2</span>,<span style="color: #40a070">3</span>]):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">with</span> bmap([<span style="color: #40a070">1</span>,<span style="color: #40a070">2</span>,<span style="color: #40a070">3</span>]):
   not_a_result <span style="color: #666666">=</span> <span style="color: #40a070">12</span>
   <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">_</span>(x):
     <span style="color: #007020; font-weight: bold">return</span> x<span style="color: #666666">**</span><span style="color: #40a070">2</span>
@@ -275,7 +275,7 @@ difficulties of putting it into the language.
 <a href="http://www.python.org/dev/peps/pep-0318/">the relevant PEP</a>. It 
 argues that this code:
 
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">foo</span>(cls):
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">foo</span>(cls):
   <span style="color: #007020; font-weight: bold">pass</span>
 foo <span style="color: #666666">=</span> synchronized(lock)(foo)
 foo <span style="color: #666666">=</span> <span style="color: #007020">classmethod</span>(foo)
@@ -284,7 +284,7 @@ foo <span style="color: #666666">=</span> <span style="color: #007020">classmeth
 
 is not nearly as readable as this code:
 
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #555555; font-weight: bold">@classmethod</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #555555; font-weight: bold">@classmethod</span>
 <span style="color: #555555; font-weight: bold">@synchronized</span>(lock)
 <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">foo</span>(cls):
   <span style="color: #007020; font-weight: bold">pass</span>
@@ -300,7 +300,7 @@ function body ahead of the declarations that are required to understand it.
 required to define the function body before the place where it will be actually 
 used. Often, we see:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">handle_click</span>(<span style="color: #007020">self</span>):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">handle_click</span>(<span style="color: #007020">self</span>):
   foo <span style="color: #666666">=</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>flim()
   <span style="color: #007020; font-weight: bold">if</span> foo:
     <span style="color: #007020">self</span><span style="color: #666666">.</span>flam(foo)
@@ -311,7 +311,7 @@ onClick(handle_click)
 
 <p>When it would be clearer to write:
 
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">with</span> onClick():
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">with</span> onClick():
   <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">_</span>(<span style="color: #007020">self</span>):
     foo <span style="color: #666666">=</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>flim()
     <span style="color: #007020; font-weight: bold">if</span> foo:

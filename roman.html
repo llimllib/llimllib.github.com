@@ -20,7 +20,7 @@ on reddit, and I found it so alarmingly pretty that I'm going to spend some
 time to break it down.  This exercise is largely for my own edification, but 
 perhaps somebody else will learn a bit along the way. Here's the code:
 
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">List</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">List</span>
 <span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">Control.Arrow</span>
 
 <span style="color: #06287e">romanize</span> <span style="color: #007020; font-weight: bold">=</span> concat <span style="color: #666666">.</span> unfoldr next
@@ -37,7 +37,7 @@ blocks like this, so we'll look first at the "numerals" list. It is, simply, a
 list of tuples matching Roman numerals to their value. Importantly, it's 
 ordered from largest to smallest; we'll see why shortly.</p>
 <p>The meat of this snippet comes in the "next" function:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #06287e">next</span> <span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Nothing</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #06287e">next</span> <span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Nothing</span>
 <span style="color: #06287e">next</span> x <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Just</span> <span style="color: #666666">$</span> second (x<span style="color: #666666">-</span>) <span style="color: #666666">$</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span>x) <span style="color: #666666">.</span> snd) numerals
 </pre></div>
 
@@ -47,20 +47,20 @@ that's smaller than x and the int is the difference between x and the value of
 that roman numeral.
 <p>The first thing we do is filter out the numerals larger than x; we can run 
 some quick tests at the interactive console to see how this works:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> <span style="color: #007020; font-weight: bold">let</span> numerals <span style="color: #007020; font-weight: bold">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>)]
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> <span style="color: #007020; font-weight: bold">let</span> numerals <span style="color: #007020; font-weight: bold">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>)]
 <span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> filter ((<span style="color: #666666">&lt;=</span><span style="color: #40a070">900</span>) <span style="color: #666666">.</span> snd) numerals
 [(<span style="color: #4070a0">&quot;CM&quot;</span>,<span style="color: #40a070">900</span>),(<span style="color: #4070a0">&quot;D&quot;</span>,<span style="color: #40a070">500</span>)]
 </pre></div>
 
 <p>We use head to grab the largest numeral we can squeeze into the current 
 value:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span><span style="color: #40a070">900</span>) <span style="color: #666666">.</span> snd) numerals 
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span><span style="color: #40a070">900</span>) <span style="color: #666666">.</span> snd) numerals 
 (<span style="color: #4070a0">&quot;CM&quot;</span>,<span style="color: #40a070">900</span>)
 </pre></div>
 
 <p>Then we subtract the value of the roman numeral from the current value of x, 
 in order to return the remainder to be operated on next:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>m <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>m <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span>
 <span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span><span style="color: #666666">&gt;</span> second (<span style="color: #40a070">900</span><span style="color: #666666">-</span>) <span style="color: #666666">$</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span><span style="color: #40a070">900</span>) <span style="color: #666666">.</span> snd) numerals
 (<span style="color: #4070a0">&quot;CM&quot;</span>,<span style="color: #40a070">0</span>)
 <span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span><span style="color: #666666">&gt;</span> second (<span style="color: #40a070">915</span><span style="color: #666666">-</span>) <span style="color: #666666">$</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span><span style="color: #40a070">915</span>) <span style="color: #666666">.</span> snd) numerals
@@ -69,7 +69,7 @@ in order to return the remainder to be operated on next:
 
 <p>And, finally, we wrap it up in a Maybe monad, so that the main function can 
 handle the base case transparently:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span><span style="color: #666666">&gt;</span> <span style="color: #902000">Just</span> <span style="color: #666666">$</span> second (<span style="color: #40a070">915</span><span style="color: #666666">-</span>)  <span style="color: #666666">$</span> head <span style="color: #666666">$</span> 
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span><span style="color: #666666">&gt;</span> <span style="color: #902000">Just</span> <span style="color: #666666">$</span> second (<span style="color: #40a070">915</span><span style="color: #666666">-</span>)  <span style="color: #666666">$</span> head <span style="color: #666666">$</span> 
     filter ((<span style="color: #666666">&lt;=</span><span style="color: #40a070">915</span>) <span style="color: #666666">.</span>  snd) numerals
 <span style="color: #902000">Just</span> (<span style="color: #4070a0">&quot;CM&quot;</span>,<span style="color: #40a070">15</span>)
 </pre></div>
@@ -78,12 +78,12 @@ handle the base case transparently:
 either Nothing or a tuple containing a letter to add to our roman numeral and 
 the next value to operate on. All we have left is the code to drive the 
 operation:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #06287e">romanize</span> <span style="color: #007020; font-weight: bold">=</span> concat <span style="color: #666666">.</span> unfoldr next
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #06287e">romanize</span> <span style="color: #007020; font-weight: bold">=</span> concat <span style="color: #666666">.</span> unfoldr next
 </pre></div>
 
 <p>The use of unfoldr helps explain why we've wrapped next up in Maybe; here's 
 its type:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>m <span style="color: #902000">List</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>m <span style="color: #902000">List</span>
 <span style="color: #902000">Prelude</span> <span style="color: #902000">List</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>t unfoldr
 <span style="color: #06287e">unfoldr</span> <span style="color: #007020; font-weight: bold">::</span> (b <span style="color: #007020; font-weight: bold">-&gt;</span> <span style="color: #902000">Maybe</span> (a, b)) <span style="color: #007020; font-weight: bold">-&gt;</span> b <span style="color: #007020; font-weight: bold">-&gt;</span> [a]
 </pre></div>
@@ -96,7 +96,7 @@ list and calls the same function with the second element. If it's Nothing, it
 returns the list it's built up to this point.
 <p>As we can see, that matches up perfectly with the "next" function we've 
 already defined, and the unfoldr will build up a list of roman numeral strings:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>m <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span> <span style="color: #902000">List</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span><span style="color: #666666">&gt;</span> <span style="color: #902000">:</span>m <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span> <span style="color: #902000">List</span>
 <span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span> <span style="color: #902000">List</span><span style="color: #666666">&gt;</span> <span style="color: #007020; font-weight: bold">let</span> numerals <span style="color: #007020; font-weight: bold">=</span> [(<span style="color: #4070a0">&quot;X&quot;</span>, <span style="color: #40a070">10</span>), (<span style="color: #4070a0">&quot;IX&quot;</span>, <span style="color: #40a070">9</span>), (<span style="color: #4070a0">&quot;V&quot;</span>, <span style="color: #40a070">5</span>), 
 (<span style="color: #4070a0">&quot;IV&quot;</span>, <span style="color: #40a070">4</span>), (<span style="color: #4070a0">&quot;I&quot;</span>, <span style="color: #40a070">1</span>)]
 <span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span> <span style="color: #902000">List</span><span style="color: #666666">&gt;</span> <span style="color: #007020; font-weight: bold">let</span> next x <span style="color: #007020; font-weight: bold">=</span> <span style="color: #007020; font-weight: bold">if</span> x<span style="color: #666666">==</span><span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">then</span> <span style="color: #902000">Nothing</span>               
@@ -110,7 +110,7 @@ already defined, and the unfoldr will build up a list of roman numeral strings:
 <p>(We had to mangle the definition of next a bit to fit into the interactive 
 interpreter, but we haven't changed anything fundamental about it.)
 <p>Finally, all we have to do is concatenate the strings into our final result:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span> <span style="color: #902000">List</span><span style="color: #666666">&gt;</span> (concat <span style="color: #666666">.</span> unfoldr next) <span style="color: #40a070">8</span>
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #902000">Prelude</span> <span style="color: #902000">Control</span><span style="color: #666666">.</span><span style="color: #902000">Arrow</span> <span style="color: #902000">List</span><span style="color: #666666">&gt;</span> (concat <span style="color: #666666">.</span> unfoldr next) <span style="color: #40a070">8</span>
 <span style="color: #4070a0">&quot;VIII&quot;</span>
 </pre></div>
 

@@ -18,7 +18,7 @@ with to solve the <a href="http://billmill.org/roman.html">roman numerals</a>
 problem I discussed earlier. It tries to use a functional style while actually 
 avoiding recursion. To do so, I wrote an iterative python unfold:
 
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">unfold</span>(f, x):
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">unfold</span>(f, x):
     res <span style="color: #666666">=</span> []                       
     <span style="color: #007020; font-weight: bold">while</span> <span style="color: #40a070">1</span>:
         <span style="color: #007020; font-weight: bold">try</span>:
@@ -29,7 +29,7 @@ avoiding recursion. To do so, I wrote an iterative python unfold:
 </pre></div>
 
 <p>And then the answer becomes:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%">numerals <span style="color: #666666">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>numerals <span style="color: #666666">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
     (<span style="color: #4070a0">&quot;C&quot;</span>, <span style="color: #40a070">100</span>),  (<span style="color: #4070a0">&quot;XC&quot;</span>, <span style="color: #40a070">90</span>),  (<span style="color: #4070a0">&quot;L&quot;</span>, <span style="color: #40a070">50</span>),  (<span style="color: #4070a0">&quot;XL&quot;</span>, <span style="color: #40a070">40</span>),
     (<span style="color: #4070a0">&quot;X&quot;</span>, <span style="color: #40a070">10</span>),   (<span style="color: #4070a0">&quot;IX&quot;</span>, <span style="color: #40a070">9</span>),   (<span style="color: #4070a0">&quot;V&quot;</span>, <span style="color: #40a070">5</span>),   (<span style="color: #4070a0">&quot;IV&quot;</span>, <span style="color: #40a070">4</span>),
     (<span style="color: #4070a0">&quot;I&quot;</span>, <span style="color: #40a070">1</span>)]
@@ -43,7 +43,7 @@ avoiding recursion. To do so, I wrote an iterative python unfold:
 </pre></div>
 
 <p>Compare to the haskell I posted before:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #06287e">romanize</span> <span style="color: #007020; font-weight: bold">=</span> concat <span style="color: #666666">.</span> unfoldr next
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #06287e">romanize</span> <span style="color: #007020; font-weight: bold">=</span> concat <span style="color: #666666">.</span> unfoldr next
     <span style="color: #007020; font-weight: bold">where</span> next <span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Nothing</span>
           next x <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Just</span> <span style="color: #666666">$</span> second (x<span style="color: #666666">-</span>) <span style="color: #666666">$</span> head <span style="color: #666666">$</span> filter ((<span style="color: #666666">&lt;=</span>x) <span style="color: #666666">.</span> snd) numerals
           numerals <span style="color: #007020; font-weight: bold">=</span> [(<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
@@ -66,7 +66,7 @@ itertools.)
 with its constructive instead of declarative approach. It's a less generic 
 solution that's intuitively simpler (for me, still an imperative thinker).  
 <p>You could match the haskell more exactly:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">itertools</span> <span style="color: #007020; font-weight: bold">import</span> ifilter
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">itertools</span> <span style="color: #007020; font-weight: bold">import</span> ifilter
 
 <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">second</span>(f, (a, b)): <span style="color: #007020; font-weight: bold">return</span> (a, f(b))
 
@@ -78,7 +78,7 @@ solution that's intuitively simpler (for me, still an imperative thinker).
 results in a lot of boilerplate, and in having to pick a lot of meaningless 
 variable names that obscure what's going on. We could move the lambdas out of
 the call and give them names:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">next</span>(x):
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">next</span>(x):
     subx <span style="color: #666666">=</span> <span style="color: #007020; font-weight: bold">lambda</span> a: x<span style="color: #666666">-</span>a
     ltx <span style="color: #666666">=</span> <span style="color: #007020; font-weight: bold">lambda</span> (y, z): z <span style="color: #666666">&lt;=</span> x
 
@@ -96,14 +96,14 @@ abilities.
 <p><h2>Updates</h2>
 <p>In the <a href="http://programming.reddit.com/info/65bpf/comments/">comments</a>
 at reddit, nostrademons posts a nicer unfold function:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">unfold</span>(f, x):
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">unfold</span>(f, x):
     <span style="color: #007020; font-weight: bold">while</span> <span style="color: #007020">True</span>:
         w, x <span style="color: #666666">=</span> f(x)
         <span style="color: #007020; font-weight: bold">yield</span> w
 </pre></div>
 
 <p>And Kay Schluehr prefers the iterative solution:
-<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"> numerals <span style="color: #666666">=</span> ((<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
+<p><div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span> numerals <span style="color: #666666">=</span> ((<span style="color: #4070a0">&quot;M&quot;</span>, <span style="color: #40a070">1000</span>), (<span style="color: #4070a0">&quot;CM&quot;</span>, <span style="color: #40a070">900</span>), (<span style="color: #4070a0">&quot;D&quot;</span>, <span style="color: #40a070">500</span>), (<span style="color: #4070a0">&quot;CD&quot;</span>, <span style="color: #40a070">400</span>),
 (<span style="color: #4070a0">&quot;C&quot;</span>, <span style="color: #40a070">100</span>),(<span style="color: #4070a0">&quot;XC&quot;</span>, <span style="color: #40a070">90</span>),(<span style="color: #4070a0">&quot;L&quot;</span>, <span style="color: #40a070">50</span>),(<span style="color: #4070a0">&quot;XL&quot;</span>, <span style="color: #40a070">40</span>), (<span style="color: #4070a0">&quot;X&quot;</span>, <span style="color: #40a070">10</span>), (<span style="color: #4070a0">&quot;IX&quot;</span>, <span style="color: #40a070">9</span>), (<span style="color: #4070a0">&quot;V&quot;</span>, <span style="color: #40a070">5</span>), 
 (<span style="color: #4070a0">&quot;IV&quot;</span>, <span style="color: #40a070">4</span>), (<span style="color: #4070a0">&quot;I&quot;</span>, <span style="color: #40a070">1</span>))
 

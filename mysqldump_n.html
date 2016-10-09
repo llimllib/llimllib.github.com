@@ -30,7 +30,7 @@ Indeed, a quick look look at the mysqldump <a
 href="http://mysql.bkbits.net:8080/mysql-5.2/client/mysqldump.c?PAGE=anno&REV=%2b">source 
 code</a> shows that it just constructs a query of the form: "SELECT * FROM 
 <em>table</em> [WHERE <em>condition</em>] [ORDER BY <em>field</em>]":<p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%">dynstr_append_checked(<span style="color: #666666">&amp;</span>query_string, 
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>dynstr_append_checked(<span style="color: #666666">&amp;</span>query_string, 
     <span style="color: #4070a0">&quot;SELECT /*!40001 SQL_NO_CACHE */ * FROM &quot;</span>);
 dynstr_append_checked(<span style="color: #666666">&amp;</span>query_string, result_table);
 
@@ -49,7 +49,7 @@ dynstr_append_checked(<span style="color: #666666">&amp;</span>query_string, res
 </pre></div>
 <p>
 And then pieces together an insert string manually:<p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">while</span> ((row<span style="color: #666666">=</span> mysql_fetch_row(res)))
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">while</span> ((row<span style="color: #666666">=</span> mysql_fetch_row(res)))
 {
 <span style="color: #60a0b0; font-style: italic">/* snip */</span>
   <span style="color: #007020; font-weight: bold">for</span> (i<span style="color: #666666">=</span> <span style="color: #40a070">0</span>; i <span style="color: #666666">&lt;</span> mysql_num_fields(res); i<span style="color: #666666">++</span>)
@@ -91,7 +91,7 @@ source control that I've never used, no less) to add another option to
 limit output rows, I threw together a little python function that uses <a 
 href="http://sourceforge.net/projects/mysql-python">MySQLdb</a> to do what 
 I want:
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #4070a0; font-style: italic">&quot;&quot;&quot;</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #4070a0; font-style: italic">&quot;&quot;&quot;</span>
 <span style="color: #4070a0; font-style: italic">get_n_rows retrieves n rows from a given table on MySQLdb connection conn</span>
 
 <span style="color: #4070a0; font-style: italic">conn:  open MySQLdb connection object</span>

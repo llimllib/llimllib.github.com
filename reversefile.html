@@ -26,7 +26,7 @@ for some inspiration. Surely the unix hackers had figured this problem out long
 ago? In <a 
 href="http://ftp.bg.openbsd.org/OpenBSD/src/usr.bin/tail/reverse.c">reverse.c</a>, 
 I found the inspiration I needed:<p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%">    <span style="color: #007020; font-weight: bold">for</span> (; pos <span style="color: #666666">&gt;=</span> start; pos<span style="color: #666666">--</span>) {
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>    <span style="color: #007020; font-weight: bold">for</span> (; pos <span style="color: #666666">&gt;=</span> start; pos<span style="color: #666666">--</span>) {
         <span style="color: #60a0b0; font-style: italic">/* A seek per char isn&#39;t a problem with a smart stdio */</span>
         <span style="color: #007020; font-weight: bold">if</span> (fseeko(fp, pos, SEEK_SET) <span style="color: #666666">!=</span> <span style="color: #40a070">0</span>) {
         <span style="color: #60a0b0; font-style: italic">//snip</span>
@@ -39,7 +39,7 @@ buried deep down in my lizard brain the idea that an fseek per character was
 "slow". In pure python, for chrissake!<p>
 Properly reminded of the fact that premature optimization can sneak up 
 anywhere, I ended up with this code:<p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">os</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">os</span>
 
 <span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">reversefile</span>(<span style="color: #007020">object</span>):
     <span style="color: #4070a0; font-style: italic">&quot;&quot;&quot;Iterate backwards through a file. f should be an open file handle&quot;&quot;&quot;</span>
